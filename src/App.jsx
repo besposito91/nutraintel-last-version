@@ -19,10 +19,12 @@ gsap.registerPlugin(ScrollTrigger);
 export default function App() {
   useLayoutEffect(() => {
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const touchInput = matchMedia('(pointer: coarse)').matches;
     const lenis = new Lenis({
-      lerp: .12,
+      lerp: touchInput ? .095 : .12,
       smoothWheel: true,
       wheelMultiplier: 1,
+      touchMultiplier: .92,
       virtualScroll: (data) => {
         const amount = Math.abs(data.deltaY);
         const trackpad = data.event.deltaMode === 0 && amount < 80;
@@ -31,7 +33,9 @@ export default function App() {
         data.deltaY = Math.sign(data.deltaY) * Math.min(58, amount * factor);
         return true;
       },
-      syncTouch: false,
+      syncTouch: touchInput,
+      syncTouchLerp: .075,
+      touchInertiaMultiplier: 12,
       anchors: { offset: -64 },
       stopInertiaOnNavigate: true,
       respectReducedMotion: true,

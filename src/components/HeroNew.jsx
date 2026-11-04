@@ -54,7 +54,7 @@ export default function Hero() {
             </div>
           </div>
         </div>
-        <div className="hero-hint" aria-hidden="true"><span>Scorri per scoprire</span><i /></div>
+        <div className="hero-hint" aria-hidden="true"><span>Scorri per scoprire</span><i><b /></i></div>
       </div>
     </section>
   );

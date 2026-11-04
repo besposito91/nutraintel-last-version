@@ -29,8 +29,8 @@ export default function NarrativeEnergy() {
     const ctx = gsap.context(() => {
       gsap.set(core, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: .14, rotation: 0, autoAlpha: 0 });
       gsap.set(pair, { xPercent: -50, yPercent: -50, rotation: 0, autoAlpha: 1 });
-      gsap.set(doctor, { x: -78, y: 0, scale: 1, autoAlpha: 1 });
-      gsap.set(patient, { x: 78, y: 0, scale: 1, autoAlpha: 1 });
+      gsap.set(doctor, { x: -78, y: 0, scale: .29, autoAlpha: 1, force3D: true });
+      gsap.set(patient, { x: 78, y: 0, scale: .29, autoAlpha: 1, force3D: true });
       gsap.set(rings, { scale: .5, autoAlpha: 0 });
       gsap.set(shade, { autoAlpha: 0 });
       gsap.set(fracture, { xPercent: -50, yPercent: -50, scale: .45, rotation: -16, autoAlpha: 0 });
@@ -46,10 +46,10 @@ export default function NarrativeEnergy() {
       gsap.timeline({
         scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true },
       })
-        .to(doctor, { x: -13, y: -4, scale: .86, duration: .16, ease: 'power2.inOut' }, .04)
-        .to(patient, { x: 13, y: 4, scale: .86, duration: .16, ease: 'power2.inOut' }, .04)
+        .to(doctor, { x: -13, y: -4, scale: .25, duration: .16, ease: 'power2.inOut' }, .04)
+        .to(patient, { x: 13, y: 4, scale: .25, duration: .16, ease: 'power2.inOut' }, .04)
         .to(core, { autoAlpha: .58, scale: .18, duration: .14, ease: 'power2.out' }, .11)
-        .to(particles, { x: 0, y: 0, scale: .2, autoAlpha: 0, duration: .1, ease: 'power2.in' }, .18)
+        .to(particles, { x: 0, y: 0, scale: .06, autoAlpha: 0, duration: .1, ease: 'power2.in' }, .18)
         .to(core, { scale: .48, rotation: 24, duration: .24, ease: 'power2.inOut' }, .23)
         .to(core, { scale: 4.4, autoAlpha: .96, rotation: 78, duration: .28, ease: 'power2.inOut' }, .43)
         .to(core, { scale: 4.4, autoAlpha: .96, rotation: 96, duration: .24, ease: 'none' }, .56)
@@ -73,17 +73,17 @@ export default function NarrativeEnergy() {
         .to(rings, { autoAlpha: 0, scale: 2.25, duration: .07, ease: 'power2.in' }, .10)
         .to(core, { autoAlpha: 0, scale: .08, duration: .08, ease: 'power2.in' }, .10)
         .set(pair, { rotation: 0 }, .11)
-        .fromTo(doctor, { x: 0, y: 0, scale: .35, autoAlpha: 0 }, { x: () => -Math.min(innerWidth * .39, 620), y: () => innerHeight * .14, scale: 3.4, autoAlpha: 1, duration: .35, ease: 'power2.out', immediateRender: false }, .11)
-        .fromTo(patient, { x: 0, y: 0, scale: .35, autoAlpha: 0 }, { x: () => Math.min(innerWidth * .39, 620), y: () => innerHeight * .21, scale: 3.4, autoAlpha: 1, duration: .35, ease: 'power2.out', immediateRender: false }, .11)
-        .to(doctor, { x: () => -Math.min(innerWidth * .32, 520), y: () => innerHeight * .28, scale: 2.8, duration: .48, ease: 'power1.inOut' }, .50)
-        .to(patient, { x: () => Math.min(innerWidth * .32, 520), y: () => innerHeight * .28, scale: 2.8, duration: .48, ease: 'power1.inOut' }, .50);
+        .fromTo(doctor, { x: 0, y: 0, scale: .1, autoAlpha: 0 }, { x: () => -Math.min(innerWidth * .39, 620), y: () => innerHeight * .14, scale: 1.06, autoAlpha: 1, duration: .35, ease: 'power2.out', immediateRender: false }, .11)
+        .fromTo(patient, { x: 0, y: 0, scale: .1, autoAlpha: 0 }, { x: () => Math.min(innerWidth * .39, 620), y: () => innerHeight * .21, scale: 1.06, autoAlpha: 1, duration: .35, ease: 'power2.out', immediateRender: false }, .11)
+        .to(doctor, { x: () => -Math.min(innerWidth * .32, 520), y: () => innerHeight * .28, scale: .88, duration: .48, ease: 'power1.inOut' }, .50)
+        .to(patient, { x: () => Math.min(innerWidth * .32, 520), y: () => innerHeight * .28, scale: .88, duration: .48, ease: 'power1.inOut' }, .50);
 
       gsap.timeline({
         scrollTrigger: { trigger: solution, start: 'top bottom', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true },
       })
-        .to(particles, { x: 0, y: 0, scale: 2.2, duration: .16, ease: 'power2.inOut' }, 0)
+        .to(particles, { x: 0, y: 0, scale: .68, duration: .16, ease: 'power2.inOut' }, 0)
         .to(core, { autoAlpha: 1, scale: .17, rotation: 160, duration: .12, ease: 'power2.out' }, .11)
-        .to(particles, { autoAlpha: 0, scale: .2, duration: .08, ease: 'power2.in' }, .15)
+        .to(particles, { autoAlpha: 0, scale: .06, duration: .08, ease: 'power2.in' }, .15)
         .to(core, { scale: .92, autoAlpha: .18, rotation: 215, duration: .42, ease: 'power2.inOut' }, .23)
         .to(core, { scale: .98, autoAlpha: .14, rotation: 246, duration: .2, ease: 'none' }, .65)
         .to(core, { x: () => -innerWidth * .415, y: () => innerHeight * .40, scale: .038, autoAlpha: 1, rotation: 292, duration: .2, ease: 'power2.inOut' }, .80);
