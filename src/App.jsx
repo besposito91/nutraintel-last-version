@@ -21,10 +21,10 @@ export default function App() {
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const touchInput = matchMedia('(pointer: coarse)').matches;
     const lenis = new Lenis({
-      lerp: touchInput ? .095 : .12,
+      lerp: touchInput ? .078 : .12,
       smoothWheel: true,
       wheelMultiplier: 1,
-      touchMultiplier: .92,
+      touchMultiplier: .86,
       virtualScroll: (data) => {
         const amount = Math.abs(data.deltaY);
         const trackpad = data.event.deltaMode === 0 && amount < 80;
@@ -34,8 +34,10 @@ export default function App() {
         return true;
       },
       syncTouch: touchInput,
-      syncTouchLerp: .075,
-      touchInertiaMultiplier: 12,
+      syncTouchLerp: .06,
+      touchInertiaMultiplier: 15,
+      gestureOrientation: 'vertical',
+      overscroll: false,
       anchors: { offset: -64 },
       stopInertiaOnNavigate: true,
       respectReducedMotion: true,

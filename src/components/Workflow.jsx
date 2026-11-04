@@ -63,11 +63,13 @@ export default function Workflow() {
     let activeStep = -1;
     let scheduledStep = -1;
     let revealTimer;
+    const compactInput = matchMedia('(max-width: 720px), (pointer: coarse)').matches;
+    const revealDelay = compactInput ? 650 : 1100;
     const queueReveal = (next) => {
       window.clearTimeout(revealTimer);
       scheduledStep = next;
       setRevealedStep(-1);
-      revealTimer = window.setTimeout(() => setRevealedStep(next), 1100);
+      revealTimer = window.setTimeout(() => setRevealedStep(next), revealDelay);
     };
     const syncStep = (state) => {
       const next = Math.min(cases.length - 1, Math.floor(state.progress * cases.length * .999));
@@ -111,11 +113,15 @@ export default function Workflow() {
           <h2 id="usecase-title">{item.title}</h2>
           <p>{item.description}</p>
         </header>
-        <div className="usecases-scene" key={step}>
-          <div className="usecases-stage">
-            <ActorPanel side={item.left} index={step} position="left" />
-            <ActorPanel side={item.right} index={step} position="right" visible={revealedStep === step} />
-          </div>
+        <div className="usecases-scenes">
+          {cases.map((caseItem, index) => (
+            <div className={`usecases-scene ${index === step ? 'is-active' : ''}`} key={caseItem.title} aria-hidden={index !== step}>
+              <div className="usecases-stage">
+                <ActorPanel side={caseItem.left} index={index} position="left" />
+                <ActorPanel side={caseItem.right} index={index} position="right" visible={index === step && revealedStep === step} />
+              </div>
+            </div>
+          ))}
         </div>
         <div className="usecases-progress" aria-hidden="true">
           {cases.map((caseItem, index) => <i key={caseItem.title} className={index === step ? 'on' : ''} />)}
