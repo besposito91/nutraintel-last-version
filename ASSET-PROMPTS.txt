@@ -1,0 +1,9 @@
+# Immagini della versione narrativa
+
+Generate con lo strumento integrato ImageGen. I testi delle notifiche sono HTML e non fanno parte delle immagini.
+
+## patient.png — prompt
+Use case: photorealistic-natural. Create a premium editorial lifestyle photograph for the Italian NutraIntel nutrition follow-up website. A woman about 35 years old, everyday appearance, seated on a warm cream sofa in a bright contemporary home, holding a smartphone naturally in one hand and reading a message with a subtle reassured smile. Waist-up portrait, subject centered with some breathing room, natural anatomically correct hands. Soft daylight, cream and muted sage surroundings, dark teal casual clothing. Human, candid, understated healthcare brand photography, no hospital. Portrait 4:5 crop-friendly. No text, no letters, no logos, no watermark. Phone screen turned toward woman. Notifications will be added separately in HTML.
+
+## nutritionist.png — prompt
+Use case: photorealistic-natural. Create a premium editorial lifestyle photograph for the Italian NutraIntel nutrition follow-up website. A male nutrition professional around 40 years old in a light neutral shirt, seated at a wooden desk in a welcoming modern consultation office, looking thoughtfully at an open laptop and using the trackpad to review a patient's progress. Three-quarter waist-up composition, natural anatomically correct hands. Soft daylight, muted sage, warm white and deep teal accents, a small plant and notebook. Human and approachable, authentic candid healthcare brand photography, no lab coat or stethoscope. Portrait 4:5 crop-friendly. No text, no letters, no logos, no watermark. Laptop screen turned toward professional. Interface and message will be added separately in HTML.
