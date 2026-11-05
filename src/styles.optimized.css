@@ -391,12 +391,12 @@ main{position:relative;background:
 
 /* Complete cause/effect artwork supplied for the six use cases */
 .usecase-composite-panel{display:grid;place-items:center;min-height:0}
-.usecase-composite{display:block;width:92%;height:88%;max-width:min(620px,43vw);object-fit:contain;transform:translateY(-3%);filter:drop-shadow(0 20px 34px rgba(5,44,67,.1));will-change:transform,opacity}
+.usecase-composite{display:block;width:92%;height:86%;max-width:min(620px,43vw);object-fit:contain;transform:translateY(-9%);filter:drop-shadow(0 20px 34px rgba(5,44,67,.1));will-change:transform,opacity}
 .usecase-composite-panel.side-left .usecase-composite{justify-self:end}
 .usecase-composite-panel.side-right .usecase-composite{justify-self:start}
 
 @media(max-width:720px){
   .usecases-stage{grid-template-columns:1fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:0}
-  .usecase-composite{width:94%;height:88%;max-width:min(90vw,430px);max-height:88%;transform:translateY(-2%);justify-self:center!important}
+  .usecase-composite{width:94%;height:86%;max-width:min(90vw,430px);max-height:86%;transform:translateY(-6%);justify-self:center!important}
   .usecase-composite-panel.is-waiting{transform:translate3d(0,4vh,0)}
 }
