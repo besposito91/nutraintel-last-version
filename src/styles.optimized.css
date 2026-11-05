@@ -303,7 +303,7 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
   .solution-node.orbit-pos-1 .solution-node-inner,.solution-node.orbit-pos-2 .solution-node-inner{transform:scale(.42)}
   .solution-node-0 .solution-node-inner{width:42vw}
   .solution-node-1 .solution-node-inner{width:82vw}
-  .solution-node-2 .ph{--w:min(158px,18vh)}
+  .solution-node-2 .solution-node-inner{width:min(48vw,28vh)}
   .solution-orbit>svg,.solution-orbit::after{inset:10% 2%;width:96%;height:78%}
 
   .usecases-sticky{padding:2.2vh 12px 30px}
@@ -372,4 +372,31 @@ main{position:relative;background:
   .problem-card-body p{font-size:15px;line-height:1.62}
   .vid,.faq{min-height:auto;padding-top:10vh;padding-bottom:10vh}
   .pre{padding-top:11vh}
+}
+
+/* Ecosystem product photography */
+.solution-node-inner{display:grid;place-items:center}
+.ecosystem-product{display:block;width:100%;height:auto;max-height:52vh;object-fit:contain;filter:drop-shadow(0 24px 34px rgba(3,27,41,.18))}
+.solution-node-0 .solution-node-inner{width:min(470px,35vw,50vh)}
+.solution-node-1 .solution-node-inner{width:min(790px,57vw)}
+.solution-node-2 .solution-node-inner{width:min(350px,26vw,45vh)}
+.ecosystem-scale{border-radius:clamp(16px,2vw,28px);box-shadow:0 22px 42px rgba(3,27,41,.16)}
+
+@media(max-width:720px) and (orientation:portrait){
+  .solution-node-0 .solution-node-inner{width:min(64vw,34vh)}
+  .solution-node-1 .solution-node-inner{width:86vw}
+  .solution-node-2 .solution-node-inner{width:min(58vw,34vh)}
+  .ecosystem-product{max-height:43vh}
+}
+
+/* Complete cause/effect artwork supplied for the six use cases */
+.usecase-composite-panel{display:grid;place-items:center;min-height:0}
+.usecase-composite{display:block;width:100%;height:100%;max-width:min(660px,46vw);object-fit:contain;filter:drop-shadow(0 20px 34px rgba(5,44,67,.1));will-change:transform,opacity}
+.usecase-composite-panel.side-left .usecase-composite{justify-self:end}
+.usecase-composite-panel.side-right .usecase-composite{justify-self:start}
+
+@media(max-width:720px){
+  .usecases-stage{grid-template-columns:1fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:0}
+  .usecase-composite{width:100%;height:100%;max-width:min(94vw,460px);max-height:100%;justify-self:center!important}
+  .usecase-composite-panel.is-waiting{transform:translate3d(0,4vh,0)}
 }

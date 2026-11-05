@@ -1,12 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Phone, ScreenTrend, Laptop } from './Phone.jsx';
 import { useLanguage } from '../i18n.jsx';
-
-function Scale() {
-  return <div className="triangle-scale"><div><small>72.4</small><b>kg</b></div></div>;
-}
 
 export default function SeeDeeper() {
   const ref = useRef(null);
@@ -14,9 +9,9 @@ export default function SeeDeeper() {
   const { t } = useLanguage();
   const stages = t('ecosystem.stages').map((item, index) => ({ ...item, n: `0${index + 1}` }));
   const nodes = [
-    { key: 'scale', label: stages[0].title, content: <Scale /> },
-    { key: 'portal', label: stages[1].title, content: <Laptop /> },
-    { key: 'app', label: stages[2].title, content: <Phone><ScreenTrend /></Phone> },
+    { key: 'scale', label: stages[0].title, src: './images/ecosystem/scale.png' },
+    { key: 'portal', label: stages[1].title, src: './images/ecosystem/portal.png' },
+    { key: 'app', label: stages[2].title, src: './images/ecosystem/app.png' },
   ];
 
   useLayoutEffect(() => {
@@ -49,7 +44,9 @@ export default function SeeDeeper() {
             <svg viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="50" cy="30" rx="46" ry="24" /></svg>
             {nodes.map((node, index) => (
               <figure key={node.key} aria-label={node.label} className={`solution-node solution-node-${index} orbit-pos-${(index - step + nodes.length) % nodes.length} ${step === index ? 'active' : ''}`}>
-                <div className="solution-node-inner">{node.content}</div>
+                <div className="solution-node-inner">
+                  <img className={`ecosystem-product ecosystem-${node.key}`} src={node.src} alt="" decoding="async" />
+                </div>
               </figure>
             ))}
           </div>
