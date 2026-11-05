@@ -390,14 +390,14 @@ main{position:relative;background:
 }
 
 /* Complete cause/effect artwork supplied for the six use cases */
-.usecase-composite-panel{display:grid;place-items:center;min-height:0;padding-bottom:54px}
-.usecase-composite{display:block;width:86%;height:80%;max-width:min(580px,40vw);object-fit:contain;transform:translateY(-7%);filter:drop-shadow(0 20px 34px rgba(5,44,67,.1));will-change:transform,opacity}
+.usecase-composite-panel{display:grid;place-items:center;min-height:0;padding-bottom:60px}
+.usecase-composite{display:block;width:84%;height:78%;max-width:min(570px,39vw);object-fit:contain;transform:translateY(-22%);filter:drop-shadow(0 20px 34px rgba(5,44,67,.1));will-change:transform,opacity}
 .usecase-composite-panel.side-left .usecase-composite{justify-self:end}
 .usecase-composite-panel.side-right .usecase-composite{justify-self:start}
 
 @media(max-width:720px){
   .usecases-stage{grid-template-columns:1fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:0}
   .usecase-composite-panel{padding-bottom:28px}
-  .usecase-composite{width:90%;height:82%;max-width:min(86vw,410px);max-height:82%;transform:translateY(-4%);justify-self:center!important}
+  .usecase-composite{width:88%;height:80%;max-width:min(84vw,400px);max-height:80%;transform:translateY(-9%);justify-self:center!important}
   .usecase-composite-panel.is-waiting{transform:translate3d(0,4vh,0)}
 }
