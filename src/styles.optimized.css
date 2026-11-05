@@ -86,6 +86,18 @@ body{background:linear-gradient(135deg,#fff 0%,#e7f5f4 48%,#fff 100%) fixed}
   .foot-top{grid-template-columns:1fr;gap:34px}
   .foot-actions{justify-items:start}
 }
+
+/* Language selector */
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.nav-actions{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.language-menu{position:relative;display:block}
+.language-menu select{height:40px;min-width:104px;padding:0 30px 0 12px;border:1px solid rgba(5,44,67,.16);border-radius:999px;background:rgba(255,255,255,.6);color:var(--ink);font:650 9px/1 'Onest Variable',Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;outline:none;cursor:pointer}
+.language-menu select:focus-visible{border-color:var(--cta);box-shadow:0 0 0 3px rgba(16,149,167,.14)}
+html[lang="de"] .nav-links{gap:clamp(12px,2vw,32px);font-size:9px}
+html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
+@media(max-width:900px){.nav-links{display:none}}
+@media(max-width:720px){.nav-actions{gap:6px}.language-menu select{height:34px;min-width:62px;width:62px;padding:0 8px;font-size:8px}.language-menu option{font-size:12px}.nav-cta .btn{max-width:142px;white-space:normal;text-align:center;line-height:1.05}}
+@media(max-width:420px){.nav{gap:8px}.nav-logo{font-size:20px}.language-menu select{min-width:54px;width:54px;padding-inline:6px}.nav-cta .btn{max-width:124px;padding-inline:9px;font-size:7px}}
 @media(prefers-reduced-motion:reduce){.solution-orbit>svg,.solution-orbit::after{animation:none}.uc-actor-panel.is-visible{animation:none}}
 
 /* Navigation, rupture, video and FAQ */
@@ -105,7 +117,7 @@ body{background:linear-gradient(135deg,#fff 0%,#e7f5f4 48%,#fff 100%) fixed}
 @keyframes solution-orbit-flow{to{stroke-dashoffset:-18}}
 @keyframes solution-orbit-glow{0%{opacity:.42;transform:translate3d(-1%,.6%,0) scale(.985)}100%{opacity:1;transform:translate3d(1.2%,-.8%,0) scale(1.022)}}
 
-.consequences,.vid,.faq,.pre,.foot{background:transparent}
+.consequences,.vid,.faq,.pre,.foot{position:relative;z-index:4;background:transparent}
 .vid{position:relative;z-index:4;min-height:100svh;padding:12vh var(--pad) 10vh;display:grid;align-content:center;gap:7vh}
 .vid-head{max-width:1260px;margin:0 auto;text-align:center}.vid-head .t-display{font-size:clamp(48px,6.5vw,100px)}
 .vid-card{width:min(1180px,100%);aspect-ratio:16/9;margin:0 auto;overflow:hidden;border:1px solid rgba(255,255,255,.78);border-radius:30px;background:rgba(255,255,255,.48);box-shadow:0 32px 90px rgba(5,44,67,.12);backdrop-filter:blur(16px)}
@@ -324,4 +336,40 @@ body{background:linear-gradient(135deg,#fff 0%,#e7f5f4 48%,#fff 100%) fixed}
   .uc-camera-frame{height:36px}
   .food-table>div{font-size:6.5px}
   .usecases-progress{left:12px;right:12px;bottom:12px}
+}
+
+/* Final challenge cards, continuous canvas and lighter closing sequence */
+body{background:#e7f5f4}
+main{position:relative;background:
+  radial-gradient(circle at 10% 8%,rgba(26,139,209,.11),transparent 25%),
+  radial-gradient(circle at 90% 30%,rgba(27,200,161,.1),transparent 28%),
+  linear-gradient(180deg,#f5faf9 0%,#eef7f8 42%,#e7f5f4 100%)}
+.energy-hero,.problems,.solution-triangle-section,.solution-sticky,.usecases,.usecases-sticky,.consequences,.vid,.faq,.pre,.foot{background:transparent}
+.mesh{display:none}
+
+.problem-card{min-height:590px;padding:0;border-color:rgba(5,59,92,.1);border-radius:24px;background:rgba(237,246,250,.86);box-shadow:0 24px 65px rgba(5,44,67,.055)}
+.problem-card-image{position:relative;flex:0 0 235px;overflow:hidden;background:linear-gradient(135deg,rgba(213,239,233,.94),rgba(218,236,248,.96))}
+.problem-card-image::after{content:'';position:absolute;inset:auto 0 0;height:34%;background:linear-gradient(transparent,rgba(237,246,250,.96));pointer-events:none}
+.problem-card-image img{display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom;filter:saturate(.92) contrast(.98)}
+.problem-card-body{display:flex;flex:1;flex-direction:column;padding:clamp(28px,2.5vw,42px)}
+.problem-card-body h3{margin:0 0 24px;font-size:clamp(29px,2.15vw,38px);font-weight:470;line-height:1.08;letter-spacing:-.038em}
+.problem-card-body p{margin:0;font-size:16px;line-height:1.68;color:var(--muted)}
+
+.foot-powered a{display:inline-block;color:inherit;border-bottom:1px solid transparent;transition:border-color .25s ease,color .25s ease}
+.foot-powered a:hover,.foot-powered a:focus-visible{color:#fff;border-bottom-color:currentColor}
+
+/* Once the relation becomes the background, avoid continuously repainting its inner layers. */
+.narrative-energy.is-closing .narrative-core::before,
+.narrative-energy.is-closing .narrative-core>i{animation-play-state:paused}
+.narrative-energy.is-closing .narrative-core{box-shadow:inset -1.2vmax -1vmax 2.8vmax rgba(5,59,92,.2),inset 1vmax .8vmax 2vmax rgba(255,255,255,.16),0 0 3vmax rgba(26,139,209,.1)}
+.consequence-row .consequence-copy,.pcard-info,.vid-card{backdrop-filter:none}
+
+@media(max-width:720px){
+  .problem-card{min-height:0;border-radius:20px}
+  .problem-card-image{flex-basis:205px}
+  .problem-card-body{padding:26px 24px 30px}
+  .problem-card-body h3{font-size:29px;margin-bottom:18px}
+  .problem-card-body p{font-size:15px;line-height:1.62}
+  .vid,.faq{min-height:auto;padding-top:10vh;padding-bottom:10vh}
+  .pre{padding-top:11vh}
 }

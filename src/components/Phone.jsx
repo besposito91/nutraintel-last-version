@@ -1,3 +1,5 @@
+import { useLanguage } from '../i18n.jsx';
+
 // Mockup telefono in CSS + schermate NutraIntel (dati illustrativi dai mockup originali)
 export function Phone({ children, className = '' }) {
   return (
@@ -65,14 +67,17 @@ export const ScreenSteps = () => (
   </div>
 );
 
-export const ScreenTrend = () => (
-  <div className="scr scr-dark">
-    <div className="scr-top"><small>ANDAMENTO</small><b className="pill-live">30 GIORNI</b></div>
-    <div className="scr-big">72,4<em>kg</em></div>
-    <Spark pts={[66, 64, 65, 61, 60, 58, 59, 55, 53, 50, 49]} h={120} />
-    <div className="scr-row"><span className="dot ok" /><div><b>Obiettivo del percorso</b><small>In linea con il piano</small></div></div>
-  </div>
-);
+export const ScreenTrend = () => {
+  const { t } = useLanguage();
+  return (
+    <div className="scr scr-dark">
+      <div className="scr-top"><small>{t('mockup.trend')}</small><b className="pill-live">{t('mockup.days30')}</b></div>
+      <div className="scr-big">72,4<em>kg</em></div>
+      <Spark pts={[66, 64, 65, 61, 60, 58, 59, 55, 53, 50, 49]} h={120} />
+      <div className="scr-row"><span className="dot ok" /><div><b>{t('mockup.goal')}</b><small>{t('mockup.onTrack')}</small></div></div>
+    </div>
+  );
+};
 
 export const ScreenRecord = () => (
   <div className="scr scr-light">
@@ -106,13 +111,15 @@ export const ScreenPatients = () => (
 );
 
 export function Laptop() {
+  const { t } = useLanguage();
+  const menu = [t('mockup.patients'), t('mockup.measurements'), t('mockup.alerts'), t('mockup.analyses')];
   return (
     <div className="lap">
       <div className="lap-screen">
-        <aside><b className="lap-logo">Nutra<span>Intel</span></b>{['Pazienti', 'Misurazioni', 'Avvisi', 'Analisi'].map((t, i) => <span key={t} className={i === 0 ? 'on' : ''}>{t}</span>)}</aside>
+        <aside><b className="lap-logo">Nutra<span>Intel</span></b>{menu.map((item, i) => <span key={item} className={i === 0 ? 'on' : ''}>{item}</span>)}</aside>
         <div className="lap-main">
-          <div className="lap-head"><b>Pazienti</b><small>Portale professionale</small></div>
-          <div className="lap-kpis"><span><small>PAZIENTI ATTIVI</small><b>48</b></span><span><small>MISURAZIONI OGGI</small><b>17</b></span><span><small>AVVISI</small><b>3</b></span></div>
+          <div className="lap-head"><b>{t('mockup.patients')}</b><small>{t('mockup.professionalPortal')}</small></div>
+          <div className="lap-kpis"><span><small>{t('mockup.activePatients')}</small><b>48</b></span><span><small>{t('mockup.measurementsToday')}</small><b>17</b></span><span><small>{t('mockup.alerts').toUpperCase()}</small><b>3</b></span></div>
           <div className="lap-table">
             {[['Maria B.', '72,4 kg', '12 gg'], ['Luca R.', '81,0 kg', '5 gg'], ['Giulia T.', '—', '14 gg'], ['Andrea F.', '68,7 kg', '2 gg']].map((r) => (
               <div key={r[0]}><b>{r[0]}</b><span>{r[1]}</span><span>{r[2]}</span></div>

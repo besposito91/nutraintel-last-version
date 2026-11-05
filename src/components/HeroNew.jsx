@@ -1,9 +1,11 @@
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import BlurText from './BlurText.jsx';
+import { useLanguage } from '../i18n.jsx';
 
 export default function Hero() {
   const ref = useRef(null);
+  const { t } = useLanguage();
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -43,18 +45,18 @@ export default function Hero() {
         <div className="hero-bg mesh" aria-hidden="true"><i /><i /><i /><i /></div>
         <div className="grain" aria-hidden="true" />
         <div className="hero-wm" aria-hidden="true"><span className="wm-l">Nutra</span><span className="wm-gap" /><span className="wm-r">Intel<sup>®</sup></span></div>
-        <p className="hero-tag">Il follow-up, oltre la visita</p>
+        <p className="hero-tag">{t('hero.tag')}</p>
         <div className="hero-story">
-          <BlurText as="h1" id="hero-title" className="hero-title" text="La nutrizione evolve. La relazione con il paziente anche." />
+          <BlurText as="h1" id="hero-title" className="hero-title" text={t('hero.title')} />
           <div className="hero-story-side">
-            <p>Vai oltre la visita: coinvolgi i tuoi pazienti giorno dopo giorno e segui l’andamento del percorso nutrizionale, con tutte le informazioni a portata di mano.</p>
+            <p>{t('hero.subtitle')}</p>
             <div className="btns">
-              <a className="btn btn-dark" href="#prelancio">Diventa early adopter</a>
-              <a className="btn btn-line" href="#monitoraggio">Scopri NutraIntel</a>
+              <a className="btn btn-dark" href="#prelancio">{t('hero.cta')}</a>
+              <a className="btn btn-line" href="#monitoraggio">{t('hero.discover')}</a>
             </div>
           </div>
         </div>
-        <div className="hero-hint" aria-hidden="true"><span>Scorri per scoprire</span><i><b /></i></div>
+        <div className="hero-hint" aria-hidden="true"><span>{t('hero.scroll')}</span><i><b /></i></div>
       </div>
     </section>
   );

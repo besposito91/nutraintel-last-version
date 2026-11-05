@@ -2,26 +2,22 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Phone, ScreenTrend, Laptop } from './Phone.jsx';
-
-const stages = [
-  { n: '01', title: 'Bilancia connessa', text: 'Il paziente effettua le misurazioni attraverso la bilancia intelligente.' },
-  { n: '02', title: 'Portale professionale', text: 'Il professionista monitora i dati del paziente e organizza il suo lavoro.' },
-  { n: '03', title: 'App paziente', text: 'Il paziente visualizza le proprie misurazioni, segue l’andamento dei dati nel tempo e aggiorna le sue abitudini.' },
-];
+import { useLanguage } from '../i18n.jsx';
 
 function Scale() {
   return <div className="triangle-scale"><div><small>72.4</small><b>kg</b></div></div>;
 }
 
-const nodes = [
-  { key: 'scale', label: 'Bilancia connessa', content: <Scale /> },
-  { key: 'portal', label: 'Portale professionale', content: <Laptop /> },
-  { key: 'app', label: 'App paziente', content: <Phone><ScreenTrend /></Phone> },
-];
-
 export default function SeeDeeper() {
   const ref = useRef(null);
   const [step, setStep] = useState(0);
+  const { t } = useLanguage();
+  const stages = t('ecosystem.stages').map((item, index) => ({ ...item, n: `0${index + 1}` }));
+  const nodes = [
+    { key: 'scale', label: stages[0].title, content: <Scale /> },
+    { key: 'portal', label: stages[1].title, content: <Laptop /> },
+    { key: 'app', label: stages[2].title, content: <Phone><ScreenTrend /></Phone> },
+  ];
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {

@@ -13,10 +13,12 @@ import Faq from './components/Faq.jsx';
 import Prelaunch from './components/Prelaunch.jsx';
 import NarrativeEnergy from './components/NarrativeEnergy.jsx';
 import { Nav, Progress, Footer } from './components/Chrome.jsx';
+import { useLanguage } from './i18n.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
+  const { t } = useLanguage();
   useLayoutEffect(() => {
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const touchInput = matchMedia('(pointer: coarse)').matches;
@@ -72,7 +74,7 @@ export default function App() {
 
   return (
     <>
-      <a className="skip" href="#main">Vai al contenuto</a>
+      <a className="skip" href="#main">{t('nav.skip')}</a>
       <Nav />
       <Progress />
       <NarrativeEnergy />

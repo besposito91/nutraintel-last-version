@@ -78,14 +78,24 @@ export default function NarrativeEnergy() {
         .to(doctor, { x: () => -Math.min(innerWidth * .32, 520), y: () => innerHeight * .28, scale: .88, duration: .48, ease: 'power1.inOut' }, .50)
         .to(patient, { x: () => Math.min(innerWidth * .32, 520), y: () => innerHeight * .28, scale: .88, duration: .48, ease: 'power1.inOut' }, .50);
 
+      const expandedScale = () => {
+        const coreDiameter = Math.min(Math.max(innerWidth, innerHeight) * .7, 1020);
+        return (Math.hypot(innerWidth, innerHeight) / coreDiameter) * 1.12;
+      };
+      const ecosystemScale = () => {
+        if (innerWidth <= 720) return .82;
+        if (innerWidth <= 1100) return .96;
+        return 1.08;
+      };
+
       gsap.timeline({
         scrollTrigger: { trigger: solution, start: 'top bottom', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true },
       })
-        .to(particles, { x: 0, y: 0, scale: .68, duration: .16, ease: 'power2.inOut' }, 0)
-        .to(core, { autoAlpha: 1, scale: .17, rotation: 160, duration: .12, ease: 'power2.out' }, .11)
-        .to(particles, { autoAlpha: 0, scale: .06, duration: .08, ease: 'power2.in' }, .15)
-        .to(core, { scale: .92, autoAlpha: .18, rotation: 215, duration: .42, ease: 'power2.inOut' }, .23)
-        .to(core, { scale: .98, autoAlpha: .14, rotation: 246, duration: .2, ease: 'none' }, .65)
+        .to(particles, { x: 0, y: 0, scale: .68, duration: .09, ease: 'power2.inOut' }, 0)
+        .to(core, { autoAlpha: 1, scale: .17, rotation: 160, duration: .07, ease: 'power2.out' }, .045)
+        .set(particles, { autoAlpha: 0, scale: .06 }, .075)
+        .to(core, { scale: ecosystemScale, autoAlpha: .16, rotation: 215, duration: .18, ease: 'power3.out' }, .08)
+        .to(core, { scale: ecosystemScale, autoAlpha: .14, rotation: 246, duration: .48, ease: 'none' }, .26)
         .to(core, { x: () => -innerWidth * .415, y: () => innerHeight * .40, scale: .038, autoAlpha: 1, rotation: 292, duration: .2, ease: 'power2.inOut' }, .80);
 
       const setX = gsap.quickSetter(core, 'x', 'px');
@@ -154,20 +164,24 @@ export default function NarrativeEnergy() {
         gsap.set(core, { autoAlpha: 1, scale: .038, x: point.x, y: point.y, rotation: 292 + usecaseTrigger.progress * 250 });
       });
 
-      const expandedScale = () => {
-        const coreDiameter = Math.min(Math.max(innerWidth, innerHeight) * .7, 1020);
-        return (Math.hypot(innerWidth, innerHeight) / coreDiameter) * 1.12;
-      };
-
       gsap.timeline({
-        scrollTrigger: { trigger: consequences, start: 'top bottom', end: 'top 12%', scrub: true, invalidateOnRefresh: true },
+        scrollTrigger: {
+          trigger: consequences,
+          start: 'top bottom',
+          end: 'top 12%',
+          scrub: true,
+          invalidateOnRefresh: true,
+          onEnter: () => root.classList.add('is-closing'),
+          onEnterBack: () => root.classList.add('is-closing'),
+          onLeaveBack: () => root.classList.remove('is-closing'),
+        },
       })
-        .to(core, { x: 0, y: 0, scale: expandedScale, autoAlpha: .96, rotation: 382, duration: .78, ease: 'power2.inOut' }, 0)
-        .to(shade, { autoAlpha: .06, duration: .68, ease: 'power2.inOut' }, .18)
+        .to(core, { x: 0, y: 0, scale: expandedScale, autoAlpha: .9, rotation: 382, duration: .78, ease: 'power2.inOut' }, 0)
+        .to(shade, { autoAlpha: .05, duration: .68, ease: 'power2.inOut' }, .18)
         .to(rings, { autoAlpha: 0, scale: 1.12, stagger: .04, duration: .46, ease: 'power2.out' }, .22)
         .to(core, { rotation: 405, duration: .22, ease: 'none' }, .78);
 
-      return () => usecaseTrigger.kill();
+      return () => { usecaseTrigger.kill(); root.classList.remove('is-closing'); };
     }, root);
 
     return () => ctx.revert();
