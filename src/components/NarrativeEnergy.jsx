@@ -48,36 +48,41 @@ export default function NarrativeEnergy() {
       }
 
       const orbit = gsap.to(pair, { rotation: 360, duration: 7.5, repeat: -1, ease: 'none', paused: true });
+      const storyScrub = compactMotion ? .08 : true;
       const heroFillScale = () => compactMotion ? 1.42 : 4.4;
       const intro = compactMotion ? {
-        logo: .01, detach: .02, fall: .055, logoOut: .115,
-        gather: .15, gatherTight: .205, coreIn: .22, merge: .245,
+        logo: .01, detach: .02, sweep: .052, fall: .105, gather: .165,
+        gatherTight: .215, logoOut: .12, coreIn: .23, merge: .255,
         form: .27, fill: .34, hold: .48, close: .58,
-        logoDuration: .06, detachDuration: .035, fallDuration: .105,
-        logoOutDuration: .045, gatherDuration: .055, tightDuration: .045,
+        logoDuration: .06, detachDuration: .035, sweepDuration: .07,
+        fallDuration: .085, gatherDuration: .07, tightDuration: .05,
+        logoOutDuration: .045,
         coreDuration: .055, mergeDuration: .045, formDuration: .075,
         fillDuration: .15, holdDuration: .10, closeDuration: .16,
       } : {
-        logo: .02, detach: .04, fall: .105, logoOut: .24,
-        gather: .30, gatherTight: .39, coreIn: .41, merge: .455,
+        logo: .02, detach: .04, sweep: .10, fall: .19, gather: .31,
+        gatherTight: .405, logoOut: .245, coreIn: .43, merge: .475,
         form: .49, fill: .59, hold: .74, close: .82,
-        logoDuration: .14, detachDuration: .065, fallDuration: .22,
-        logoOutDuration: .08, gatherDuration: .10, tightDuration: .085,
+        logoDuration: .14, detachDuration: .07, sweepDuration: .13,
+        fallDuration: .17, gatherDuration: .14, tightDuration: .095,
+        logoOutDuration: .08,
         coreDuration: .10, mergeDuration: .075, formDuration: .13,
         fillDuration: .22, holdDuration: .14, closeDuration: .18,
       };
 
       gsap.timeline({
-        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom bottom', scrub: storyScrub, invalidateOnRefresh: true },
       })
         .to(logo, { y: -6, scale: .99, duration: intro.logoDuration, ease: 'power1.inOut' }, intro.logo)
-        .to(doctor, { x: () => logoSize() * .40, y: () => logoSize() * -.27, rotation: 30, duration: intro.detachDuration, ease: 'power1.in' }, intro.detach)
-        .to(patient, { x: () => logoSize() * -.40, y: () => logoSize() * -.17, rotation: -30, duration: intro.detachDuration, ease: 'power1.in' }, intro.detach)
-        .to(doctor, { x: () => logoSize() * .42, y: () => logoSize() * 1.03, rotation: 210, scale: .31, duration: intro.fallDuration, ease: 'power2.in' }, intro.fall)
-        .to(patient, { x: () => logoSize() * -.42, y: () => logoSize() * .93, rotation: -210, scale: .31, duration: intro.fallDuration, ease: 'power2.in' }, intro.fall)
+        .to(doctor, { x: () => logoSize() * .39, y: () => logoSize() * -.27, rotation: 24, duration: intro.detachDuration, ease: 'power1.in' }, intro.detach)
+        .to(patient, { x: () => logoSize() * -.39, y: () => logoSize() * -.17, rotation: -24, duration: intro.detachDuration, ease: 'power1.in' }, intro.detach)
+        .to(doctor, { x: () => logoSize() * .67, y: () => logoSize() * .22, rotation: 94, scale: .31, duration: intro.sweepDuration, ease: 'sine.inOut' }, intro.sweep)
+        .to(patient, { x: () => logoSize() * -.67, y: () => logoSize() * .28, rotation: -94, scale: .31, duration: intro.sweepDuration, ease: 'sine.inOut' }, intro.sweep)
+        .to(doctor, { x: () => logoSize() * .72, y: () => logoSize() * .94, rotation: 188, scale: .31, duration: intro.fallDuration, ease: 'sine.inOut' }, intro.fall)
+        .to(patient, { x: () => logoSize() * -.72, y: () => logoSize() * .86, rotation: -188, scale: .31, duration: intro.fallDuration, ease: 'sine.inOut' }, intro.fall)
         .to(logo, { y: -28, scale: .94, autoAlpha: 0, duration: intro.logoOutDuration, ease: 'power2.in' }, intro.logoOut)
-        .to(doctor, { x: 72, y: 150, rotation: 254, scale: .27, duration: intro.gatherDuration, ease: 'power2.inOut' }, intro.gather)
-        .to(patient, { x: -72, y: 140, rotation: -254, scale: .27, duration: intro.gatherDuration, ease: 'power2.inOut' }, intro.gather)
+        .to(doctor, { x: () => logoSize() * .34, y: () => logoSize() * .62, rotation: 265, scale: .27, duration: intro.gatherDuration, ease: 'sine.inOut' }, intro.gather)
+        .to(patient, { x: () => logoSize() * -.34, y: () => logoSize() * .58, rotation: -265, scale: .27, duration: intro.gatherDuration, ease: 'sine.inOut' }, intro.gather)
         .to(doctor, { x: 18, y: 22, rotation: 310, scale: .24, duration: intro.tightDuration, ease: 'power2.inOut' }, intro.gatherTight)
         .to(patient, { x: -18, y: 18, rotation: -310, scale: .24, duration: intro.tightDuration, ease: 'power2.inOut' }, intro.gatherTight)
         .to(core, { autoAlpha: .58, scale: .18, duration: intro.coreDuration, ease: 'power2.out' }, intro.coreIn)
@@ -92,7 +97,7 @@ export default function NarrativeEnergy() {
           trigger: problems,
           start: 'top bottom',
           end: 'bottom bottom',
-          scrub: true,
+          scrub: storyScrub,
           invalidateOnRefresh: true,
           onEnter: () => { orbit.pause(); gsap.set(pair, { rotation: 0 }); },
           onLeaveBack: () => { orbit.pause(); gsap.set(pair, { rotation: 0 }); },
@@ -125,7 +130,7 @@ export default function NarrativeEnergy() {
       };
 
       gsap.timeline({
-        scrollTrigger: { trigger: solution, start: 'top bottom', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: solution, start: 'top bottom', end: 'bottom bottom', scrub: storyScrub, invalidateOnRefresh: true },
       })
         .to(particles, { x: 0, y: 0, scale: .68, duration: .09, ease: 'power2.inOut' }, 0)
         .to(core, { autoAlpha: 1, scale: .17, rotation: 160, duration: .07, ease: 'power2.out' }, .045)
@@ -205,7 +210,7 @@ export default function NarrativeEnergy() {
           trigger: consequences,
           start: 'top bottom',
           end: 'top 12%',
-          scrub: true,
+          scrub: storyScrub,
           invalidateOnRefresh: true,
           onEnter: () => root.classList.add('is-closing'),
           onEnterBack: () => root.classList.add('is-closing'),

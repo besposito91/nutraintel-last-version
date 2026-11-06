@@ -48,7 +48,10 @@ export default function App() {
     const tickLenis = (time) => lenis.raf(time * 1000);
     lenis.on('scroll', syncScroll);
     gsap.ticker.add(tickLenis);
-    gsap.ticker.lagSmoothing(0);
+    // Keep the already crisp desktop response, but avoid large catch-up frames
+    // after a busy paint on phones and tablets.
+    if (touchInput) gsap.ticker.lagSmoothing(500, 33);
+    else gsap.ticker.lagSmoothing(0);
 
     const navigateTo = (event) => {
       const target = event.detail?.target;

@@ -6,6 +6,7 @@
    height="1000"
    viewBox="0 0 1000 1000"
    version="1.1"
+   shape-rendering="geometricPrecision"
    id="svg1"
    sodipodi:docname="logo-full-newversion-2.svg"
    inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
