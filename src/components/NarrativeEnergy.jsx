@@ -48,34 +48,38 @@ export default function NarrativeEnergy() {
       }
 
       const orbit = gsap.to(pair, { rotation: 360, duration: 7.5, repeat: -1, ease: 'none', paused: true });
-      const storyScrub = compactMotion ? .08 : true;
+      // The hero must stay physically attached to the finger on touch devices.
+      // A numeric scrub adds a small catch-up tween which is visible when the
+      // user drags very slowly; direct scrubbing keeps every frame reversible.
+      const heroScrub = true;
+      const storyScrub = compactMotion ? .06 : true;
       const heroFillScale = () => compactMotion ? 1.42 : 4.4;
       const intro = compactMotion ? {
-        logo: .01, detach: .02, sweep: .052, fall: .105, gather: .165,
-        gatherTight: .215, logoOut: .12, coreIn: .23, merge: .255,
-        form: .27, fill: .34, hold: .48, close: .58,
-        logoDuration: .06, detachDuration: .035, sweepDuration: .07,
-        fallDuration: .085, gatherDuration: .07, tightDuration: .05,
-        logoOutDuration: .045,
-        coreDuration: .055, mergeDuration: .045, formDuration: .075,
-        fillDuration: .15, holdDuration: .10, closeDuration: .16,
+        logo: 0, detach: 0, sweep: .12, fall: .27, gather: .44,
+        gatherTight: .58, logoOut: .34, coreIn: .64, merge: .69,
+        form: .74, fill: .84, hold: 1.04, close: 1.16,
+        logoDuration: .14, detachDuration: .12, sweepDuration: .15,
+        fallDuration: .17, gatherDuration: .14, tightDuration: .11,
+        logoOutDuration: .16,
+        coreDuration: .07, mergeDuration: .07, formDuration: .12,
+        fillDuration: .20, holdDuration: .12, closeDuration: .24,
       } : {
-        logo: .02, detach: .04, sweep: .10, fall: .19, gather: .31,
-        gatherTight: .405, logoOut: .245, coreIn: .43, merge: .475,
-        form: .49, fill: .59, hold: .74, close: .82,
-        logoDuration: .14, detachDuration: .07, sweepDuration: .13,
-        fallDuration: .17, gatherDuration: .14, tightDuration: .095,
-        logoOutDuration: .08,
-        coreDuration: .10, mergeDuration: .075, formDuration: .13,
-        fillDuration: .22, holdDuration: .14, closeDuration: .18,
+        logo: 0, detach: 0, sweep: .15, fall: .31, gather: .49,
+        gatherTight: .64, logoOut: .38, coreIn: .70, merge: .755,
+        form: .81, fill: .93, hold: 1.11, close: 1.24,
+        logoDuration: .16, detachDuration: .15, sweepDuration: .16,
+        fallDuration: .18, gatherDuration: .15, tightDuration: .115,
+        logoOutDuration: .17,
+        coreDuration: .075, mergeDuration: .075, formDuration: .13,
+        fillDuration: .21, holdDuration: .13, closeDuration: .23,
       };
 
       gsap.timeline({
-        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom bottom', scrub: storyScrub, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom bottom', scrub: heroScrub, invalidateOnRefresh: true },
       })
-        .to(logo, { y: -6, scale: .99, duration: intro.logoDuration, ease: 'power1.inOut' }, intro.logo)
-        .to(doctor, { x: () => logoSize() * .39, y: () => logoSize() * -.27, rotation: 24, duration: intro.detachDuration, ease: 'power1.in' }, intro.detach)
-        .to(patient, { x: () => logoSize() * -.39, y: () => logoSize() * -.17, rotation: -24, duration: intro.detachDuration, ease: 'power1.in' }, intro.detach)
+        .to(logo, { y: -6, scale: .99, duration: intro.logoDuration, ease: 'sine.inOut' }, intro.logo)
+        .to(doctor, { x: () => logoSize() * .39, y: () => logoSize() * -.27, rotation: 24, duration: intro.detachDuration, ease: 'sine.inOut' }, intro.detach)
+        .to(patient, { x: () => logoSize() * -.39, y: () => logoSize() * -.17, rotation: -24, duration: intro.detachDuration, ease: 'sine.inOut' }, intro.detach)
         .to(doctor, { x: () => logoSize() * .67, y: () => logoSize() * .22, rotation: 94, scale: .31, duration: intro.sweepDuration, ease: 'sine.inOut' }, intro.sweep)
         .to(patient, { x: () => logoSize() * -.67, y: () => logoSize() * .28, rotation: -94, scale: .31, duration: intro.sweepDuration, ease: 'sine.inOut' }, intro.sweep)
         .to(doctor, { x: () => logoSize() * .72, y: () => logoSize() * .94, rotation: 188, scale: .31, duration: intro.fallDuration, ease: 'sine.inOut' }, intro.fall)
