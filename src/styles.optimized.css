@@ -377,27 +377,49 @@ main{position:relative;background:
 /* Ecosystem product photography */
 .solution-node-inner{display:grid;place-items:center}
 .ecosystem-product{display:block;width:100%;height:auto;max-height:56vh;object-fit:contain;filter:drop-shadow(0 24px 34px rgba(3,27,41,.18))}
-.solution-node-0 .solution-node-inner{width:min(500px,37vw,53vh)}
-.solution-node-1 .solution-node-inner{width:min(840px,60vw)}
-.solution-node-2 .solution-node-inner{width:min(375px,28vw,48vh)}
+.solution-node-0 .solution-node-inner{width:min(540px,40vw,56vh)}
+.solution-node-1 .solution-node-inner{width:min(900px,64vw)}
+.solution-node-2 .solution-node-inner{width:min(410px,30vw,51vh)}
 .ecosystem-scale{border-radius:0;box-shadow:none}
 
 @media(max-width:720px) and (orientation:portrait){
-  .solution-node-0 .solution-node-inner{width:min(68vw,36vh)}
-  .solution-node-1 .solution-node-inner{width:90vw}
-  .solution-node-2 .solution-node-inner{width:min(62vw,36vh)}
-  .ecosystem-product{max-height:46vh}
+  .solution-node-0 .solution-node-inner{width:min(72vw,39vh)}
+  .solution-node-1 .solution-node-inner{width:94vw}
+  .solution-node-2 .solution-node-inner{width:min(66vw,39vh)}
+  .ecosystem-product{max-height:49vh}
 }
 
 /* Complete cause/effect artwork supplied for the six use cases */
 .usecase-composite-panel{display:grid;place-items:center;min-height:0;padding-bottom:60px}
-.usecase-composite{display:block;width:84%;height:78%;max-width:min(570px,39vw);object-fit:contain;transform:translateY(-22%);filter:drop-shadow(0 20px 34px rgba(5,44,67,.1));will-change:transform,opacity}
+.usecase-composite{display:block;width:88%;height:82%;max-width:min(610px,42vw);object-fit:contain;transform:translateY(-23%);filter:drop-shadow(0 20px 34px rgba(5,44,67,.1));will-change:transform,opacity}
 .usecase-composite-panel.side-left .usecase-composite{justify-self:end}
 .usecase-composite-panel.side-right .usecase-composite{justify-self:start}
 
 @media(max-width:720px){
   .usecases-stage{grid-template-columns:1fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:0}
   .usecase-composite-panel{padding-bottom:28px}
-  .usecase-composite{width:88%;height:80%;max-width:min(84vw,400px);max-height:80%;transform:translateY(-9%);justify-self:center!important}
+  .usecase-composite{width:92%;height:84%;max-width:min(90vw,430px);max-height:84%;transform:translateY(-10%);justify-self:center!important}
   .usecase-composite-panel.is-waiting{transform:translate3d(0,4vh,0)}
+  .energy-hero{height:290vh}
+  .solution-triangle-section{height:300vh}
+  .usecases{height:510vh}
 }
+
+/* Product-mark intro: the relationship starts as a logo, then releases its two actors. */
+.narrative-logo{position:absolute;z-index:4;left:50%;top:50%;width:clamp(190px,19vw,300px);aspect-ratio:1;display:grid;place-items:center;will-change:transform,opacity;filter:drop-shadow(0 22px 44px rgba(5,59,92,.12))}
+.narrative-logo img{display:block;width:100%;height:100%;object-fit:contain}
+.narrative-pair{z-index:5}
+@media(max-width:720px){.narrative-logo{width:clamp(170px,52vw,230px);top:48%}}
+@media(max-width:720px){.narrative-pair{top:48%}}
+@media(prefers-reduced-motion:reduce){.narrative-logo{opacity:1!important;transform:translate(-50%,-50%)!important}}
+
+/* Direct navigation for the ecosystem and exact use-case progress timing. */
+.solution-controls{position:absolute;z-index:12;inset:0;pointer-events:none}
+.solution-arrow{position:absolute;top:50%;translate:0 -50%;width:50px;height:50px;border:1px solid rgba(5,59,92,.16);border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.76);box-shadow:0 12px 32px rgba(5,44,67,.1);color:var(--ink);font-size:23px;line-height:1;cursor:pointer;pointer-events:auto;backdrop-filter:blur(10px);transition:transform .22s ease,opacity .22s ease,background .22s ease}
+.solution-arrow:hover:not(:disabled){transform:scale(1.08);background:rgba(255,255,255,.94)}
+.solution-arrow:focus-visible{outline:2px solid var(--cta);outline-offset:3px}
+.solution-arrow:disabled{opacity:.24;cursor:default}
+.solution-arrow-prev{left:clamp(16px,2.6vw,46px)}
+.solution-arrow-next{right:clamp(16px,2.6vw,46px)}
+.usecases-progress i{transition:background .12s ease-out}
+@media(max-width:720px){.solution-arrow{top:55%;width:42px;height:42px;font-size:20px}.solution-arrow-prev{left:10px}.solution-arrow-next{right:10px}}

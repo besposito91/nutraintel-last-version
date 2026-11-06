@@ -30,6 +30,16 @@ export default function SeeDeeper() {
     return () => ctx.revert();
   }, []);
 
+  const goToStep = (nextStep) => {
+    const section = ref.current;
+    if (!section || nextStep < 0 || nextStep >= stages.length) return;
+    const scrollableDistance = Math.max(0, section.offsetHeight - window.innerHeight);
+    const progress = (nextStep + .5) / stages.length;
+    const target = section.offsetTop + scrollableDistance * progress;
+    setStep(nextStep);
+    window.dispatchEvent(new CustomEvent('nutraintel:scroll-to', { detail: { target } }));
+  };
+
   return (
     <section className="solution-triangle-section" id="monitoraggio" ref={ref} aria-labelledby="solution-title" data-section="2">
       <div className="solution-sticky">
@@ -51,6 +61,10 @@ export default function SeeDeeper() {
             ))}
           </div>
         </div>
+        <nav className="solution-controls" aria-label="Navigazione ecosistema">
+          <button type="button" className="solution-arrow solution-arrow-prev" onClick={() => goToStep(step - 1)} disabled={step === 0} aria-label={stages[Math.max(0, step - 1)].title}>←</button>
+          <button type="button" className="solution-arrow solution-arrow-next" onClick={() => goToStep(step + 1)} disabled={step === stages.length - 1} aria-label={stages[Math.min(stages.length - 1, step + 1)].title}>→</button>
+        </nav>
         <div className="solution-progress" aria-hidden="true">{stages.map((item, index) => <i key={item.n} className={index === step ? 'on' : ''} />)}</div>
       </div>
     </section>

@@ -17,6 +17,7 @@ export default function NarrativeEnergy() {
     if (!root || !hero || !problems || !solution || !usecases || !consequences) return undefined;
 
     const core = root.querySelector('.narrative-core');
+    const logo = root.querySelector('.narrative-logo');
     const pair = root.querySelector('.narrative-pair');
     const doctor = root.querySelector('.narrative-particle-doctor');
     const patient = root.querySelector('.narrative-particle-patient');
@@ -25,35 +26,47 @@ export default function NarrativeEnergy() {
     const shade = root.querySelector('.narrative-shade');
     const fracture = root.querySelector('.narrative-fracture');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const logoSize = () => logo.getBoundingClientRect().width;
+    const blueHead = () => ({ x: logoSize() * .214, y: logoSize() * -.373 });
+    const greenHead = () => ({ x: logoSize() * -.224, y: logoSize() * -.253 });
 
     const ctx = gsap.context(() => {
       gsap.set(core, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: .14, rotation: 0, autoAlpha: 0 });
+      gsap.set(logo, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 1, rotation: 0, autoAlpha: 1, force3D: true });
       gsap.set(pair, { xPercent: -50, yPercent: -50, rotation: 0, autoAlpha: 1 });
-      gsap.set(doctor, { x: -78, y: 0, scale: .29, autoAlpha: 1, force3D: true });
-      gsap.set(patient, { x: 78, y: 0, scale: .29, autoAlpha: 1, force3D: true });
+      gsap.set(doctor, { x: () => blueHead().x, y: () => blueHead().y, scale: .275, rotation: 0, autoAlpha: 1, force3D: true });
+      gsap.set(patient, { x: () => greenHead().x, y: () => greenHead().y, scale: .24, rotation: 0, autoAlpha: 1, force3D: true });
       gsap.set(rings, { scale: .5, autoAlpha: 0 });
       gsap.set(shade, { autoAlpha: 0 });
       gsap.set(fracture, { xPercent: -50, yPercent: -50, scale: .45, rotation: -16, autoAlpha: 0 });
 
       if (reduced) {
-        gsap.set(particles, { autoAlpha: 0 });
-        gsap.set(core, { autoAlpha: .24, scale: 1, x: 0, y: 0 });
+        gsap.set(core, { autoAlpha: 0 });
+        gsap.set(logo, { autoAlpha: 1, scale: 1 });
         return;
       }
 
-      const orbit = gsap.to(pair, { rotation: 360, duration: 7.5, repeat: -1, ease: 'none' });
+      const orbit = gsap.to(pair, { rotation: 360, duration: 7.5, repeat: -1, ease: 'none', paused: true });
 
       gsap.timeline({
         scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true },
       })
-        .to(doctor, { x: -13, y: -4, scale: .25, duration: .16, ease: 'power2.inOut' }, .04)
-        .to(patient, { x: 13, y: 4, scale: .25, duration: .16, ease: 'power2.inOut' }, .04)
-        .to(core, { autoAlpha: .58, scale: .18, duration: .14, ease: 'power2.out' }, .11)
-        .to(particles, { x: 0, y: 0, scale: .06, autoAlpha: 0, duration: .1, ease: 'power2.in' }, .18)
-        .to(core, { scale: .48, rotation: 24, duration: .24, ease: 'power2.inOut' }, .23)
-        .to(core, { scale: 4.4, autoAlpha: .96, rotation: 78, duration: .28, ease: 'power2.inOut' }, .43)
-        .to(core, { scale: 4.4, autoAlpha: .96, rotation: 96, duration: .24, ease: 'none' }, .56)
-        .to(core, { scale: .18, autoAlpha: 1, rotation: 118, duration: .2, ease: 'power2.inOut' }, .80);
+        .to(logo, { y: -6, scale: .99, duration: .14, ease: 'power1.inOut' }, .02)
+        .to(doctor, { x: () => logoSize() * .40, y: () => logoSize() * -.27, rotation: 30, duration: .065, ease: 'power1.in' }, .04)
+        .to(patient, { x: () => logoSize() * -.40, y: () => logoSize() * -.17, rotation: -30, duration: .065, ease: 'power1.in' }, .04)
+        .to(doctor, { x: () => logoSize() * .42, y: () => logoSize() * 1.03, rotation: 210, scale: .31, duration: .22, ease: 'power2.in' }, .105)
+        .to(patient, { x: () => logoSize() * -.42, y: () => logoSize() * .93, rotation: -210, scale: .31, duration: .22, ease: 'power2.in' }, .105)
+        .to(logo, { y: -28, scale: .94, autoAlpha: 0, duration: .08, ease: 'power2.in' }, .24)
+        .to(doctor, { x: 72, y: 150, rotation: 254, scale: .27, duration: .10, ease: 'power2.inOut' }, .30)
+        .to(patient, { x: -72, y: 140, rotation: -254, scale: .27, duration: .10, ease: 'power2.inOut' }, .30)
+        .to(doctor, { x: 18, y: 22, rotation: 310, scale: .24, duration: .085, ease: 'power2.inOut' }, .39)
+        .to(patient, { x: -18, y: 18, rotation: -310, scale: .24, duration: .085, ease: 'power2.inOut' }, .39)
+        .to(core, { autoAlpha: .58, scale: .18, duration: .10, ease: 'power2.out' }, .41)
+        .to(particles, { x: 0, y: 0, scale: .06, autoAlpha: 0, duration: .075, ease: 'power2.in' }, .455)
+        .to(core, { scale: .48, rotation: 24, duration: .13, ease: 'power2.inOut' }, .49)
+        .to(core, { scale: 4.4, autoAlpha: .96, rotation: 78, duration: .22, ease: 'power2.inOut' }, .59)
+        .to(core, { scale: 4.4, autoAlpha: .96, rotation: 96, duration: .14, ease: 'none' }, .74)
+        .to(core, { scale: .18, autoAlpha: 1, rotation: 118, duration: .18, ease: 'power2.inOut' }, .82);
 
       gsap.timeline({
         scrollTrigger: {
@@ -63,7 +76,7 @@ export default function NarrativeEnergy() {
           scrub: true,
           invalidateOnRefresh: true,
           onEnter: () => { orbit.pause(); gsap.set(pair, { rotation: 0 }); },
-          onLeaveBack: () => orbit.resume(),
+          onLeaveBack: () => { orbit.pause(); gsap.set(pair, { rotation: 0 }); },
         },
       })
         .to(core, { autoAlpha: 1, scale: .22, rotation: 132, duration: .05 }, 0)
@@ -105,9 +118,9 @@ export default function NarrativeEnergy() {
         const progressBar = get('.usecases-progress');
         if (!progressBar) return { x: -innerWidth * .415, y: innerHeight * .4 };
         const rect = progressBar.getBoundingClientRect();
-        const travel = Math.max(0, rect.width - rect.width / 6);
+        const clampedProgress = gsap.utils.clamp(0, 1, progress);
         return {
-          x: rect.left + rect.width / 12 + travel * progress - innerWidth / 2,
+          x: rect.left + rect.width * clampedProgress - innerWidth / 2,
           y: rect.top + rect.height / 2 - innerHeight / 2,
         };
       };
@@ -189,6 +202,7 @@ export default function NarrativeEnergy() {
 
   return (
     <div className="narrative-energy" ref={ref} aria-hidden="true">
+      <div className="narrative-logo"><img src="./images/brand/nutraintel-product-logo.svg" alt="" /></div>
       <div className="narrative-core"><i /><i /><span className="narrative-shade" /><span className="narrative-ring narrative-ring-a" /><span className="narrative-ring narrative-ring-b" /></div>
       <div className="narrative-fracture"><i /><i /><i /><i /><b /></div>
       <div className="narrative-pair">

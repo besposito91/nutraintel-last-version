@@ -24,17 +24,17 @@ export default function Hero() {
         },
       });
       tl.to(hint, { opacity: 0, duration: .05 }, .02)
-        .fromTo('.wm-r', { opacity: 0, xPercent: 18 }, { opacity: 1, xPercent: 0, duration: .12 }, .08)
-        .fromTo('.wm-l', { opacity: 0, xPercent: -18 }, { opacity: 1, xPercent: 0, duration: .12 }, .16)
-        .fromTo('.hero-tag', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .1 }, .24)
-        .to('.hero-wm', { yPercent: -150, scale: .72, duration: .16, ease: 'power1.in' }, .38)
-        .to('.hero-wm', { opacity: 0, duration: .07 }, .47)
-        .to('.hero-tag', { opacity: 0, y: -30, duration: .07 }, .38)
-        .fromTo('.hero-story', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .06 }, .50)
-        .fromTo('.hero-story-side', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: .07 }, .57)
-        .to({}, { duration: .08 }, .8)
-        .to('.hero-story', { scale: .94, opacity: 0, duration: .12, ease: 'power2.in' }, .84)
-        .to({}, { duration: .06 }, .94);
+        .fromTo('.wm-r', { opacity: 0, xPercent: 18 }, { opacity: 1, xPercent: 0, duration: .08 }, .39)
+        .fromTo('.wm-l', { opacity: 0, xPercent: -18 }, { opacity: 1, xPercent: 0, duration: .08 }, .45)
+        .fromTo('.hero-tag', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .07 }, .52)
+        .to('.hero-wm', { yPercent: -150, scale: .72, duration: .12, ease: 'power1.in' }, .61)
+        .to('.hero-wm', { opacity: 0, duration: .06 }, .69)
+        .to('.hero-tag', { opacity: 0, y: -30, duration: .06 }, .61)
+        .fromTo('.hero-story', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .055 }, .71)
+        .fromTo('.hero-story-side', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: .06 }, .77)
+        .to({}, { duration: .04 }, .84)
+        .to('.hero-story', { scale: .94, opacity: 0, duration: .09, ease: 'power2.in' }, .89)
+        .to({}, { duration: .03 }, .97);
     }, ref);
     return () => ctx.revert();
   }, []);

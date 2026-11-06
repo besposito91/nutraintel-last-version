@@ -23,10 +23,10 @@ export default function App() {
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const touchInput = matchMedia('(pointer: coarse)').matches;
     const lenis = new Lenis({
-      lerp: touchInput ? .078 : .12,
+      lerp: touchInput ? .105 : .12,
       smoothWheel: true,
       wheelMultiplier: 1,
-      touchMultiplier: .86,
+      touchMultiplier: touchInput ? 1.14 : 1,
       virtualScroll: (data) => {
         const amount = Math.abs(data.deltaY);
         const trackpad = data.event.deltaMode === 0 && amount < 80;
@@ -36,8 +36,8 @@ export default function App() {
         return true;
       },
       syncTouch: touchInput,
-      syncTouchLerp: .06,
-      touchInertiaMultiplier: 15,
+      syncTouchLerp: .075,
+      touchInertiaMultiplier: 18,
       gestureOrientation: 'vertical',
       overscroll: false,
       anchors: { offset: -64 },
@@ -49,6 +49,13 @@ export default function App() {
     lenis.on('scroll', syncScroll);
     gsap.ticker.add(tickLenis);
     gsap.ticker.lagSmoothing(0);
+
+    const navigateTo = (event) => {
+      const target = event.detail?.target;
+      if (!Number.isFinite(target)) return;
+      lenis.scrollTo(target, { duration: .9, easing: (value) => 1 - Math.pow(1 - value, 3) });
+    };
+    window.addEventListener('nutraintel:scroll-to', navigateTo);
 
     const ctx = gsap.context(() => {
       if (!reduced) {
@@ -68,6 +75,7 @@ export default function App() {
       lenis.destroy();
       gsap.ticker.remove(tickLenis);
       gsap.ticker.lagSmoothing(500, 33);
+      window.removeEventListener('nutraintel:scroll-to', navigateTo);
       window.removeEventListener('load', refresh);
     };
   }, []);
