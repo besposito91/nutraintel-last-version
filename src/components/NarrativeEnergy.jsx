@@ -87,14 +87,36 @@ export default function NarrativeEnergy() {
         { x: -desktopReach, y: .09 }, { x: -desktopReach * .98, y: .65 },
         { x: -.24, y: .57 }, { x: -.075, y: .18 }, { x: 0, y: 0 },
       ];
+      // Touch input benefits from a longer gesture, while the desktop wheel
+      // needs a shorter, denser opening. Keeping the two timing maps separate
+      // avoids slowing down the desktop animation without changing mobile.
+      const heroPhases = compactMotion ? {
+        pathEnd: .57,
+        travelStart: .04, travelEnd: .25,
+        gatherStart: .34, gatherEnd: .53,
+        fadeStart: .53, fadeEnd: .59,
+        logoStart: .27, logoEnd: .47,
+        coreStart: .54, coreIntroEnd: .62,
+        coreGrowEnd: .70, coreFillEnd: .84, coreHoldEnd: .91,
+        rotationStart: .55,
+      } : {
+        pathEnd: .37,
+        travelStart: .025, travelEnd: .13,
+        gatherStart: .16, gatherEnd: .32,
+        fadeStart: .31, fadeEnd: .38,
+        logoStart: .14, logoEnd: .31,
+        coreStart: .34, coreIntroEnd: .40,
+        coreGrowEnd: .47, coreFillEnd: .62, coreHoldEnd: .82,
+        rotationStart: .35,
+      };
       const renderHero = (progress) => {
-        const pathProgress = clamp(0, 1, progress / .57);
+        const pathProgress = clamp(0, 1, progress / heroPhases.pathEnd);
         const doctorPoint = sampleCurve(doctorPath, pathProgress);
         const patientPoint = sampleCurve(patientPath, pathProgress);
-        const travelScale = mix(.275, .31, smooth(.04, .25, progress));
-        const gatherScale = mix(travelScale, .23, smooth(.34, .53, progress));
-        const particleScale = mix(gatherScale, .055, smooth(.53, .59, progress));
-        const particleAlpha = 1 - smooth(.535, .59, progress);
+        const travelScale = mix(.275, .31, smooth(heroPhases.travelStart, heroPhases.travelEnd, progress));
+        const gatherScale = mix(travelScale, .23, smooth(heroPhases.gatherStart, heroPhases.gatherEnd, progress));
+        const particleScale = mix(gatherScale, .055, smooth(heroPhases.fadeStart, heroPhases.fadeEnd, progress));
+        const particleAlpha = 1 - smooth(heroPhases.fadeStart + .005, heroPhases.fadeEnd, progress);
 
         gsap.set(doctor, {
           x: doctorPoint.x * measuredLogo,
@@ -111,7 +133,7 @@ export default function NarrativeEnergy() {
           autoAlpha: particleAlpha,
         });
 
-        const logoFade = smooth(.27, .47, progress);
+        const logoFade = smooth(heroPhases.logoStart, heroPhases.logoEnd, progress);
         gsap.set(logo, {
           y: mix(0, -28, logoFade),
           scale: mix(1, .94, logoFade),
@@ -121,23 +143,23 @@ export default function NarrativeEnergy() {
 
         let coreScale = .14;
         let coreAlpha = 0;
-        if (progress >= .54 && progress < .62) {
-          const t = smooth(.54, .62, progress);
+        if (progress >= heroPhases.coreStart && progress < heroPhases.coreIntroEnd) {
+          const t = smooth(heroPhases.coreStart, heroPhases.coreIntroEnd, progress);
           coreScale = mix(.14, .20, t);
           coreAlpha = mix(0, .62, t);
-        } else if (progress >= .62 && progress < .70) {
-          const t = smooth(.62, .70, progress);
+        } else if (progress >= heroPhases.coreIntroEnd && progress < heroPhases.coreGrowEnd) {
+          const t = smooth(heroPhases.coreIntroEnd, heroPhases.coreGrowEnd, progress);
           coreScale = mix(.20, .48, t);
           coreAlpha = mix(.62, .98, t);
-        } else if (progress >= .70 && progress < .84) {
-          const t = smooth(.70, .84, progress);
+        } else if (progress >= heroPhases.coreGrowEnd && progress < heroPhases.coreFillEnd) {
+          const t = smooth(heroPhases.coreGrowEnd, heroPhases.coreFillEnd, progress);
           coreScale = mix(.48, heroFillScale(), t);
           coreAlpha = mix(.98, .96, t);
-        } else if (progress >= .84 && progress < .91) {
+        } else if (progress >= heroPhases.coreFillEnd && progress < heroPhases.coreHoldEnd) {
           coreScale = heroFillScale();
           coreAlpha = .96;
-        } else if (progress >= .91) {
-          const t = smooth(.91, 1, progress);
+        } else if (progress >= heroPhases.coreHoldEnd) {
+          const t = smooth(heroPhases.coreHoldEnd, 1, progress);
           coreScale = mix(heroFillScale(), .18, t);
           coreAlpha = mix(.96, 1, t);
         }
@@ -145,7 +167,7 @@ export default function NarrativeEnergy() {
           x: 0,
           y: 0,
           scale: coreScale,
-          rotation: mix(0, 118, smooth(.55, 1, progress)),
+          rotation: mix(0, 118, smooth(heroPhases.rotationStart, 1, progress)),
           autoAlpha: coreAlpha,
         });
       };
@@ -155,11 +177,13 @@ export default function NarrativeEnergy() {
       // at the end of the browser frame prevents an inactive following section
       // from briefly restoring its own starting transform.
       let heroFrame = 0;
+      let pendingHeroProgress = 0;
       const queueHeroRender = (progress) => {
-        if (heroFrame) cancelAnimationFrame(heroFrame);
+        pendingHeroProgress = progress;
+        if (heroFrame) return;
         heroFrame = requestAnimationFrame(() => {
           heroFrame = 0;
-          renderHero(progress);
+          renderHero(pendingHeroProgress);
         });
       };
 
