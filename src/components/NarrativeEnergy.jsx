@@ -26,12 +26,13 @@ export default function NarrativeEnergy() {
     const shade = root.querySelector('.narrative-shade');
     const fracture = root.querySelector('.narrative-fracture');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const compactMotion = matchMedia('(max-width: 720px), (pointer: coarse)').matches;
     const logoSize = () => logo.getBoundingClientRect().width;
     const blueHead = () => ({ x: logoSize() * .214, y: logoSize() * -.373 });
     const greenHead = () => ({ x: logoSize() * -.224, y: logoSize() * -.253 });
 
     const ctx = gsap.context(() => {
-      gsap.set(core, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: .14, rotation: 0, autoAlpha: 0 });
+      gsap.set(core, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: .14, rotation: 0, autoAlpha: 0, force3D: true });
       gsap.set(logo, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 1, rotation: 0, autoAlpha: 1, force3D: true });
       gsap.set(pair, { xPercent: -50, yPercent: -50, rotation: 0, autoAlpha: 1 });
       gsap.set(doctor, { x: () => blueHead().x, y: () => blueHead().y, scale: .275, rotation: 0, autoAlpha: 1, force3D: true });
@@ -47,26 +48,44 @@ export default function NarrativeEnergy() {
       }
 
       const orbit = gsap.to(pair, { rotation: 360, duration: 7.5, repeat: -1, ease: 'none', paused: true });
+      const heroFillScale = () => compactMotion ? 1.42 : 4.4;
+      const intro = compactMotion ? {
+        logo: .01, detach: .02, fall: .055, logoOut: .115,
+        gather: .15, gatherTight: .205, coreIn: .22, merge: .245,
+        form: .27, fill: .34, hold: .48, close: .58,
+        logoDuration: .06, detachDuration: .035, fallDuration: .105,
+        logoOutDuration: .045, gatherDuration: .055, tightDuration: .045,
+        coreDuration: .055, mergeDuration: .045, formDuration: .075,
+        fillDuration: .15, holdDuration: .10, closeDuration: .16,
+      } : {
+        logo: .02, detach: .04, fall: .105, logoOut: .24,
+        gather: .30, gatherTight: .39, coreIn: .41, merge: .455,
+        form: .49, fill: .59, hold: .74, close: .82,
+        logoDuration: .14, detachDuration: .065, fallDuration: .22,
+        logoOutDuration: .08, gatherDuration: .10, tightDuration: .085,
+        coreDuration: .10, mergeDuration: .075, formDuration: .13,
+        fillDuration: .22, holdDuration: .14, closeDuration: .18,
+      };
 
       gsap.timeline({
         scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true },
       })
-        .to(logo, { y: -6, scale: .99, duration: .14, ease: 'power1.inOut' }, .02)
-        .to(doctor, { x: () => logoSize() * .40, y: () => logoSize() * -.27, rotation: 30, duration: .065, ease: 'power1.in' }, .04)
-        .to(patient, { x: () => logoSize() * -.40, y: () => logoSize() * -.17, rotation: -30, duration: .065, ease: 'power1.in' }, .04)
-        .to(doctor, { x: () => logoSize() * .42, y: () => logoSize() * 1.03, rotation: 210, scale: .31, duration: .22, ease: 'power2.in' }, .105)
-        .to(patient, { x: () => logoSize() * -.42, y: () => logoSize() * .93, rotation: -210, scale: .31, duration: .22, ease: 'power2.in' }, .105)
-        .to(logo, { y: -28, scale: .94, autoAlpha: 0, duration: .08, ease: 'power2.in' }, .24)
-        .to(doctor, { x: 72, y: 150, rotation: 254, scale: .27, duration: .10, ease: 'power2.inOut' }, .30)
-        .to(patient, { x: -72, y: 140, rotation: -254, scale: .27, duration: .10, ease: 'power2.inOut' }, .30)
-        .to(doctor, { x: 18, y: 22, rotation: 310, scale: .24, duration: .085, ease: 'power2.inOut' }, .39)
-        .to(patient, { x: -18, y: 18, rotation: -310, scale: .24, duration: .085, ease: 'power2.inOut' }, .39)
-        .to(core, { autoAlpha: .58, scale: .18, duration: .10, ease: 'power2.out' }, .41)
-        .to(particles, { x: 0, y: 0, scale: .06, autoAlpha: 0, duration: .075, ease: 'power2.in' }, .455)
-        .to(core, { scale: .48, rotation: 24, duration: .13, ease: 'power2.inOut' }, .49)
-        .to(core, { scale: 4.4, autoAlpha: .96, rotation: 78, duration: .22, ease: 'power2.inOut' }, .59)
-        .to(core, { scale: 4.4, autoAlpha: .96, rotation: 96, duration: .14, ease: 'none' }, .74)
-        .to(core, { scale: .18, autoAlpha: 1, rotation: 118, duration: .18, ease: 'power2.inOut' }, .82);
+        .to(logo, { y: -6, scale: .99, duration: intro.logoDuration, ease: 'power1.inOut' }, intro.logo)
+        .to(doctor, { x: () => logoSize() * .40, y: () => logoSize() * -.27, rotation: 30, duration: intro.detachDuration, ease: 'power1.in' }, intro.detach)
+        .to(patient, { x: () => logoSize() * -.40, y: () => logoSize() * -.17, rotation: -30, duration: intro.detachDuration, ease: 'power1.in' }, intro.detach)
+        .to(doctor, { x: () => logoSize() * .42, y: () => logoSize() * 1.03, rotation: 210, scale: .31, duration: intro.fallDuration, ease: 'power2.in' }, intro.fall)
+        .to(patient, { x: () => logoSize() * -.42, y: () => logoSize() * .93, rotation: -210, scale: .31, duration: intro.fallDuration, ease: 'power2.in' }, intro.fall)
+        .to(logo, { y: -28, scale: .94, autoAlpha: 0, duration: intro.logoOutDuration, ease: 'power2.in' }, intro.logoOut)
+        .to(doctor, { x: 72, y: 150, rotation: 254, scale: .27, duration: intro.gatherDuration, ease: 'power2.inOut' }, intro.gather)
+        .to(patient, { x: -72, y: 140, rotation: -254, scale: .27, duration: intro.gatherDuration, ease: 'power2.inOut' }, intro.gather)
+        .to(doctor, { x: 18, y: 22, rotation: 310, scale: .24, duration: intro.tightDuration, ease: 'power2.inOut' }, intro.gatherTight)
+        .to(patient, { x: -18, y: 18, rotation: -310, scale: .24, duration: intro.tightDuration, ease: 'power2.inOut' }, intro.gatherTight)
+        .to(core, { autoAlpha: .58, scale: .18, duration: intro.coreDuration, ease: 'power2.out' }, intro.coreIn)
+        .to(particles, { x: 0, y: 0, scale: .06, autoAlpha: 0, duration: intro.mergeDuration, ease: 'power2.in' }, intro.merge)
+        .to(core, { scale: .48, rotation: 24, duration: intro.formDuration, ease: 'power2.inOut' }, intro.form)
+        .to(core, { scale: heroFillScale, autoAlpha: .96, rotation: 78, duration: intro.fillDuration, ease: 'power2.inOut' }, intro.fill)
+        .to(core, { scale: heroFillScale, autoAlpha: .96, rotation: 96, duration: intro.holdDuration, ease: 'none' }, intro.hold)
+        .to(core, { scale: .18, autoAlpha: 1, rotation: 118, duration: intro.closeDuration, ease: 'power2.inOut' }, intro.close);
 
       gsap.timeline({
         scrollTrigger: {
@@ -92,6 +111,10 @@ export default function NarrativeEnergy() {
         .to(patient, { x: () => Math.min(innerWidth * .32, 520), y: () => innerHeight * .28, scale: .88, duration: .48, ease: 'power1.inOut' }, .50);
 
       const expandedScale = () => {
+        if (compactMotion) {
+          const diameter = core.offsetWidth || Math.max(innerWidth, innerHeight);
+          return (Math.hypot(innerWidth, innerHeight) / diameter) * 1.06;
+        }
         const coreDiameter = Math.min(Math.max(innerWidth, innerHeight) * .7, 1020);
         return (Math.hypot(innerWidth, innerHeight) / coreDiameter) * 1.12;
       };

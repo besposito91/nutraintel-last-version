@@ -284,10 +284,12 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
   .uc-ui,.uc-ui.app,.uc-ui.bubble,.app-device .uc-ui.bubble{min-height:72px;padding:7px}
   .usecases-progress{bottom:13px}
 
-  .narrative-core{box-shadow:inset -2vmax -1.5vmax 3.2vmax rgba(5,59,92,.2),inset 1.3vmax 1vmax 2.4vmax rgba(255,255,255,.18),0 0 3.5vmax rgba(26,139,209,.1)}
-  .narrative-core::before{animation:none;opacity:.42}
-  .narrative-core>i:first-child{animation-duration:13s}
-  .narrative-core>i:nth-child(2){animation-duration:16s}
+  .narrative-core{backface-visibility:hidden;transform:translateZ(0);box-shadow:inset -1.3vmax -1vmax 2.4vmax rgba(5,59,92,.18),inset 1vmax .8vmax 1.8vmax rgba(255,255,255,.15),0 0 2.4vmax rgba(26,139,209,.09)}
+  .narrative-core::before,.narrative-core>i{animation:none!important}
+  .narrative-core::before{opacity:.34}
+  .narrative-fracture::before,.narrative-fracture::after{box-shadow:none}
+  .narrative-fracture b{filter:none}
+  .narrative-ring-b{display:none}
   .solution-orbit>svg,.solution-orbit::after{animation-duration:9s}
 }
 

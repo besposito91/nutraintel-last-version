@@ -35,9 +35,9 @@ export default function App() {
         data.deltaY = Math.sign(data.deltaY) * Math.min(58, amount * factor);
         return true;
       },
-      syncTouch: touchInput,
-      syncTouchLerp: .075,
-      touchInertiaMultiplier: 18,
+      // Native touch scrolling follows the finger more precisely than a
+      // second interpolated inertia layer on mobile browsers.
+      syncTouch: false,
       gestureOrientation: 'vertical',
       overscroll: false,
       anchors: { offset: -64 },

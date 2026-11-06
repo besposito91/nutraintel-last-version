@@ -9,6 +9,16 @@ export default function Hero() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      const compactIntro = matchMedia('(max-width: 720px), (pointer: coarse)').matches;
+      const timing = compactIntro ? {
+        wordRight: .23, wordLeft: .27, tagIn: .33, wordLift: .49,
+        wordOut: .56, tagOut: .49, storyIn: .62, sideIn: .69,
+        pause: .78, storyOut: .86, end: .96,
+      } : {
+        wordRight: .39, wordLeft: .45, tagIn: .52, wordLift: .61,
+        wordOut: .69, tagOut: .61, storyIn: .71, sideIn: .77,
+        pause: .84, storyOut: .89, end: .97,
+      };
       const hint = ref.current?.querySelector('.hero-hint');
       gsap.timeline({ delay: .15 })
         .fromTo('.hero-bg', { opacity: 0 }, { opacity: 1, duration: 1.1, ease: 'power2.out' })
@@ -24,17 +34,17 @@ export default function Hero() {
         },
       });
       tl.to(hint, { opacity: 0, duration: .05 }, .02)
-        .fromTo('.wm-r', { opacity: 0, xPercent: 18 }, { opacity: 1, xPercent: 0, duration: .08 }, .39)
-        .fromTo('.wm-l', { opacity: 0, xPercent: -18 }, { opacity: 1, xPercent: 0, duration: .08 }, .45)
-        .fromTo('.hero-tag', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .07 }, .52)
-        .to('.hero-wm', { yPercent: -150, scale: .72, duration: .12, ease: 'power1.in' }, .61)
-        .to('.hero-wm', { opacity: 0, duration: .06 }, .69)
-        .to('.hero-tag', { opacity: 0, y: -30, duration: .06 }, .61)
-        .fromTo('.hero-story', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .055 }, .71)
-        .fromTo('.hero-story-side', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: .06 }, .77)
-        .to({}, { duration: .04 }, .84)
-        .to('.hero-story', { scale: .94, opacity: 0, duration: .09, ease: 'power2.in' }, .89)
-        .to({}, { duration: .03 }, .97);
+        .fromTo('.wm-r', { opacity: 0, xPercent: 18 }, { opacity: 1, xPercent: 0, duration: compactIntro ? .055 : .08 }, timing.wordRight)
+        .fromTo('.wm-l', { opacity: 0, xPercent: -18 }, { opacity: 1, xPercent: 0, duration: compactIntro ? .055 : .08 }, timing.wordLeft)
+        .fromTo('.hero-tag', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: compactIntro ? .06 : .07 }, timing.tagIn)
+        .to('.hero-wm', { yPercent: -150, scale: .72, duration: .12, ease: 'power1.in' }, timing.wordLift)
+        .to('.hero-wm', { opacity: 0, duration: .06 }, timing.wordOut)
+        .to('.hero-tag', { opacity: 0, y: -30, duration: .06 }, timing.tagOut)
+        .fromTo('.hero-story', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .055 }, timing.storyIn)
+        .fromTo('.hero-story-side', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: .06 }, timing.sideIn)
+        .to({}, { duration: .04 }, timing.pause)
+        .to('.hero-story', { scale: .94, opacity: 0, duration: .09, ease: 'power2.in' }, timing.storyOut)
+        .to({}, { duration: .03 }, timing.end);
     }, ref);
     return () => ctx.revert();
   }, []);
