@@ -3,12 +3,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../i18n.jsx';
 
 const caseImages = [
-  ['./images/usecases/slide-1-left.png', './images/usecases/slide-1-right.png'],
-  ['./images/usecases/slide-2-left.png', './images/usecases/slide-2-right.png'],
-  ['./images/usecases/slide-3-left.png', './images/usecases/slide-3-right.png'],
-  ['./images/usecases/slide-4-left.png', './images/usecases/slide-4-right.png'],
-  ['./images/usecases/slide-5-left.png', './images/usecases/slide-5-right.png'],
-  ['./images/usecases/slide-6-left.png', './images/usecases/slide-6-right.png'],
+  ['./images/usecases/slide-1-left.webp', './images/usecases/slide-1-right.webp'],
+  ['./images/usecases/slide-2-left.webp', './images/usecases/slide-2-right.webp'],
+  ['./images/usecases/slide-3-left.webp', './images/usecases/slide-3-right.webp'],
+  ['./images/usecases/slide-4-left.webp', './images/usecases/slide-4-right.webp'],
+  ['./images/usecases/slide-5-left.webp', './images/usecases/slide-5-right.webp'],
+  ['./images/usecases/slide-6-left.webp', './images/usecases/slide-6-right.webp'],
 ];
 
 function ActorPanel({ src, position, visible = true }) {
