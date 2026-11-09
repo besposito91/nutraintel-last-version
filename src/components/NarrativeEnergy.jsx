@@ -60,6 +60,14 @@ export default function NarrativeEnergy() {
         const t = clamp(0, 1, (value - start) / (end - start));
         return t * t * (3 - 2 * t);
       };
+      const quadraticPoint = (start, control, end, value) => {
+        const t = clamp(0, 1, value);
+        const inverse = 1 - t;
+        return {
+          x: inverse * inverse * start.x + 2 * inverse * t * control.x + t * t * end.x,
+          y: inverse * inverse * start.y + 2 * inverse * t * control.y + t * t * end.y,
+        };
+      };
       const sampleCurve = (points, value) => {
         const scaled = clamp(0, 1, value) * (points.length - 1);
         const index = Math.min(points.length - 2, Math.floor(scaled));
@@ -110,6 +118,69 @@ export default function NarrativeEnergy() {
         rotationStart: .35,
       };
       const renderHero = (progress) => {
+        /*
+         * Mobile uses a deliberately lighter path. Two quadratic arcs replace
+         * the seven-point spline and the sphere grows in one continuous pass.
+         * This keeps the visual story intact while making slow finger scrolling
+         * track the gesture without the former frame-to-frame jumps.
+         */
+        if (compactMotion) {
+          const pathProgress = smooth(.015, .405, progress);
+          const firstLeg = clamp(0, 1, pathProgress / .48);
+          const secondLeg = clamp(0, 1, (pathProgress - .48) / .52);
+          const doctorStart = { x: .214, y: -.373 };
+          const patientStart = { x: -.224, y: -.253 };
+          const doctorOuter = { x: .43, y: .30 };
+          const patientOuter = { x: -.43, y: .28 };
+          const doctorPoint = pathProgress < .48
+            ? quadraticPoint(doctorStart, { x: .35, y: -.18 }, doctorOuter, firstLeg)
+            : quadraticPoint(doctorOuter, { x: .31, y: .48 }, { x: 0, y: 0 }, secondLeg);
+          const patientPoint = pathProgress < .48
+            ? quadraticPoint(patientStart, { x: -.36, y: -.10 }, patientOuter, firstLeg)
+            : quadraticPoint(patientOuter, { x: -.30, y: .46 }, { x: 0, y: 0 }, secondLeg);
+          const particleGrowth = smooth(.04, .20, progress);
+          const particleMerge = smooth(.30, .415, progress);
+          const particleScale = mix(mix(.275, .315, particleGrowth), .055, particleMerge);
+          const particleAlpha = 1 - smooth(.355, .425, progress);
+
+          gsap.set(doctor, {
+            x: doctorPoint.x * measuredLogo,
+            y: doctorPoint.y * measuredLogo,
+            scale: particleScale,
+            rotation: 0,
+            autoAlpha: particleAlpha,
+          });
+          gsap.set(patient, {
+            x: patientPoint.x * measuredLogo,
+            y: patientPoint.y * measuredLogo,
+            scale: particleScale * .94,
+            rotation: 0,
+            autoAlpha: particleAlpha,
+          });
+
+          const logoFade = smooth(.14, .34, progress);
+          gsap.set(logo, {
+            y: mix(0, -18, logoFade),
+            scale: mix(1, .965, logoFade),
+            rotation: 0,
+            autoAlpha: 1 - logoFade,
+          });
+
+          const coreIntro = smooth(.335, .445, progress);
+          const coreFill = smooth(.425, .61, progress);
+          const coreExit = smooth(.865, 1, progress);
+          const introScale = mix(.12, .42, coreIntro);
+          const filledScale = mix(introScale, heroFillScale(), coreFill);
+          gsap.set(core, {
+            x: 0,
+            y: 0,
+            scale: mix(filledScale, .18, coreExit),
+            rotation: mix(0, 42, smooth(.36, 1, progress)),
+            autoAlpha: mix(coreIntro, 1, coreFill),
+          });
+          return;
+        }
+
         const pathProgress = clamp(0, 1, progress / heroPhases.pathEnd);
         const doctorPoint = sampleCurve(doctorPath, pathProgress);
         const patientPoint = sampleCurve(patientPath, pathProgress);

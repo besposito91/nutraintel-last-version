@@ -11,9 +11,9 @@ export default function Hero() {
     const ctx = gsap.context(() => {
       const compactIntro = matchMedia('(max-width: 720px), (pointer: coarse)').matches;
       const timing = compactIntro ? {
-        wordRight: .23, wordLeft: .27, tagIn: .33, wordLift: .49,
-        wordOut: .56, tagOut: .49, storyIn: .62, sideIn: .69,
-        pause: .78, storyOut: .86, end: .96,
+        wordRight: .17, wordLeft: .21, tagIn: .27, wordLift: .39,
+        wordOut: .45, tagOut: .40, storyIn: .49, sideIn: .55,
+        pause: .77, storyOut: .87, end: .96,
       } : {
         wordRight: .39, wordLeft: .45, tagIn: .52, wordLift: .61,
         wordOut: .69, tagOut: .61, storyIn: .71, sideIn: .77,

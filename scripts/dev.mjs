@@ -1,12 +1,25 @@
-import { createServer } from 'vite';
+import { build, preview } from 'vite';
 import { config } from './vite-shared.mjs';
 
-const server = await createServer({
+// Preview the production bundle so the local site behaves like the deployed
+// version and Windows never receives an incompatible CommonJS JSX runtime.
+await build({
   ...config,
   logLevel: 'error',
-  optimizeDeps: { disabled: true, noDiscovery: true, include: [] },
-  server: { host: '127.0.0.1', port: 5173 },
+  build: {
+    cssCodeSplit: false,
+    modulePreload: false,
+    assetsInlineLimit: 60000,
+    watch: {},
+  },
 });
 
-await server.listen();
-console.log(`NutraIntel pronto su ${server.resolvedUrls?.local?.[0] || 'http://127.0.0.1:5173/'}`);
+const server = await preview({
+  ...config,
+  logLevel: 'error',
+  preview: { host: '127.0.0.1', port: 5173, strictPort: true },
+});
+
+console.log('NutraIntel pronto su http://127.0.0.1:5173/');
+console.log('Le modifiche vengono ricompilate automaticamente; aggiorna la pagina per vederle.');
+server.printUrls();
