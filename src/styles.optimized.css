@@ -426,3 +426,45 @@ main{position:relative;background:
 .solution-arrow-next{right:clamp(16px,2.6vw,46px)}
 .usecases-progress i{transition:background .12s ease-out}
 @media(max-width:720px){.solution-arrow{top:55%;width:42px;height:42px;font-size:20px}.solution-arrow-prev{left:10px}.solution-arrow-next{right:10px}}
+
+/* Ecosystem is explored with its controls; page scrolling continues normally. */
+.solution-triangle-section{height:100svh}
+.solution-sticky{position:relative;top:auto;height:100svh}
+.solution-arrow{width:60px;height:60px;border-color:rgba(255,255,255,.68);background:linear-gradient(145deg,#1095a7,#0e8f72);box-shadow:0 16px 38px rgba(5,59,92,.22),inset 0 1px 0 rgba(255,255,255,.28);color:#fff;backdrop-filter:none}
+.solution-arrow span{display:block;margin-top:-5px;font-size:48px;font-weight:260;line-height:1}
+.solution-arrow:hover:not(:disabled){transform:scale(1.1);background:linear-gradient(145deg,#0d8497,#0b8066);box-shadow:0 20px 44px rgba(5,59,92,.28),0 0 0 7px rgba(16,149,167,.11)}
+.solution-arrow:disabled{opacity:.32;background:rgba(255,255,255,.72);border-color:rgba(5,59,92,.12);color:rgba(5,59,92,.55);box-shadow:0 9px 24px rgba(5,44,67,.08)}
+
+/* A clearly visible desktop image increase without changing the mobile crop. */
+@media(min-width:721px){
+  .ecosystem-product{max-height:69vh}
+  .solution-node-0 .solution-node-inner{width:min(700px,51vw,68vh)}
+  .solution-node-1 .solution-node-inner{width:min(1120px,78vw)}
+  .solution-node-2 .solution-node-inner{width:min(535px,39vw,63vh)}
+  .usecase-composite{width:100%;height:95%;max-width:min(810px,52vw);transform:translateY(-23%)}
+  .problem-card-image{flex-basis:295px}
+  .consequence-row .human-cutout{height:min(39vh,410px)}
+}
+
+@media(max-width:720px){
+  .solution-triangle-section{height:100svh}
+  .solution-sticky{height:100svh}
+  .solution-copy{left:18px;right:18px;top:13%;translate:0;text-align:center}
+  .solution-copy h2{font-size:clamp(34px,10vw,46px)}
+  .solution-copy p{max-width:520px;margin:12px auto 0;font-size:14px;line-height:1.42}
+  .solution-stage{inset:23vh 0 7vh}
+  .solution-node.orbit-pos-0{left:50%;top:60%;z-index:6}
+  .solution-node.orbit-pos-1{left:18%;top:84%;opacity:.28}
+  .solution-node.orbit-pos-2{left:82%;top:84%;opacity:.28}
+  .solution-node.orbit-pos-1 .solution-node-inner,.solution-node.orbit-pos-2 .solution-node-inner{transform:scale(.3)}
+  .solution-orbit>svg,.solution-orbit::after{inset:28% 3% 5%;width:94%;height:67%}
+  .solution-node-0 .solution-node-inner{width:min(72vw,39vh)}
+  .solution-node-1 .solution-node-inner{width:90vw}
+  .solution-node-2 .solution-node-inner{width:min(62vw,38vh)}
+  .solution-arrow{top:61%;width:48px;height:48px}
+  .solution-arrow span{font-size:38px}
+  .energy-hero{height:260vh}
+  .narrative-core{background:radial-gradient(circle at 31% 27%,#f6fffc 0 3%,#58ddbd 11%,#1bc8a1 30%,#168fa2 68%,#075071 100%);box-shadow:inset -1vmax -.8vmax 1.7vmax rgba(5,59,92,.14),0 0 1.6vmax rgba(26,139,209,.07)}
+  .narrative-core>i{display:none}
+  .narrative-particle{box-shadow:none}
+}

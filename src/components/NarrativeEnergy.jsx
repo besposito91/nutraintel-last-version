@@ -60,12 +60,13 @@ export default function NarrativeEnergy() {
         const t = clamp(0, 1, (value - start) / (end - start));
         return t * t * (3 - 2 * t);
       };
-      const quadraticPoint = (start, control, end, value) => {
+      const linear = (start, end, value) => clamp(0, 1, (value - start) / (end - start));
+      const cubicPoint = (start, controlA, controlB, end, value) => {
         const t = clamp(0, 1, value);
         const inverse = 1 - t;
         return {
-          x: inverse * inverse * start.x + 2 * inverse * t * control.x + t * t * end.x,
-          y: inverse * inverse * start.y + 2 * inverse * t * control.y + t * t * end.y,
+          x: inverse ** 3 * start.x + 3 * inverse * inverse * t * controlA.x + 3 * inverse * t * t * controlB.x + t ** 3 * end.x,
+          y: inverse ** 3 * start.y + 3 * inverse * inverse * t * controlA.y + 3 * inverse * t * t * controlB.y + t ** 3 * end.y,
         };
       };
       const sampleCurve = (points, value) => {
@@ -125,23 +126,15 @@ export default function NarrativeEnergy() {
          * track the gesture without the former frame-to-frame jumps.
          */
         if (compactMotion) {
-          const pathProgress = smooth(.015, .405, progress);
-          const firstLeg = clamp(0, 1, pathProgress / .48);
-          const secondLeg = clamp(0, 1, (pathProgress - .48) / .52);
+          const pathProgress = linear(.015, .405, progress);
           const doctorStart = { x: .214, y: -.373 };
           const patientStart = { x: -.224, y: -.253 };
-          const doctorOuter = { x: .43, y: .30 };
-          const patientOuter = { x: -.43, y: .28 };
-          const doctorPoint = pathProgress < .48
-            ? quadraticPoint(doctorStart, { x: .35, y: -.18 }, doctorOuter, firstLeg)
-            : quadraticPoint(doctorOuter, { x: .31, y: .48 }, { x: 0, y: 0 }, secondLeg);
-          const patientPoint = pathProgress < .48
-            ? quadraticPoint(patientStart, { x: -.36, y: -.10 }, patientOuter, firstLeg)
-            : quadraticPoint(patientOuter, { x: -.30, y: .46 }, { x: 0, y: 0 }, secondLeg);
-          const particleGrowth = smooth(.04, .20, progress);
-          const particleMerge = smooth(.30, .415, progress);
+          const doctorPoint = cubicPoint(doctorStart, { x: .42, y: -.08 }, { x: .46, y: .55 }, { x: 0, y: 0 }, pathProgress);
+          const patientPoint = cubicPoint(patientStart, { x: -.43, y: -.02 }, { x: -.45, y: .53 }, { x: 0, y: 0 }, pathProgress);
+          const particleGrowth = linear(.04, .20, progress);
+          const particleMerge = linear(.30, .415, progress);
           const particleScale = mix(mix(.275, .315, particleGrowth), .055, particleMerge);
-          const particleAlpha = 1 - smooth(.355, .425, progress);
+          const particleAlpha = 1 - linear(.355, .425, progress);
 
           gsap.set(doctor, {
             x: doctorPoint.x * measuredLogo,
@@ -158,7 +151,7 @@ export default function NarrativeEnergy() {
             autoAlpha: particleAlpha,
           });
 
-          const logoFade = smooth(.14, .34, progress);
+          const logoFade = linear(.14, .34, progress);
           gsap.set(logo, {
             y: mix(0, -18, logoFade),
             scale: mix(1, .965, logoFade),
@@ -166,16 +159,16 @@ export default function NarrativeEnergy() {
             autoAlpha: 1 - logoFade,
           });
 
-          const coreIntro = smooth(.335, .445, progress);
-          const coreFill = smooth(.425, .61, progress);
-          const coreExit = smooth(.865, 1, progress);
+          const coreIntro = linear(.335, .445, progress);
+          const coreFill = linear(.425, .61, progress);
+          const coreExit = linear(.865, 1, progress);
           const introScale = mix(.12, .42, coreIntro);
           const filledScale = mix(introScale, heroFillScale(), coreFill);
           gsap.set(core, {
             x: 0,
             y: 0,
             scale: mix(filledScale, .18, coreExit),
-            rotation: mix(0, 42, smooth(.36, 1, progress)),
+            rotation: 0,
             autoAlpha: mix(coreIntro, 1, coreFill),
           });
           return;
@@ -257,6 +250,7 @@ export default function NarrativeEnergy() {
           renderHero(pendingHeroProgress);
         });
       };
+      const commitHeroRender = compactMotion ? renderHero : queueHeroRender;
 
       const heroTrigger = ScrollTrigger.create({
         trigger: hero,
@@ -265,10 +259,10 @@ export default function NarrativeEnergy() {
         invalidateOnRefresh: true,
         onRefreshInit: () => { measuredLogo = logoSize(); },
         onRefresh: ({ progress, isActive }) => {
-          if (isActive || progress === 0) queueHeroRender(progress);
+          commitHeroRender(progress);
         },
         onUpdate: ({ progress, isActive }) => {
-          if (isActive) queueHeroRender(progress);
+          if (isActive) commitHeroRender(progress);
         },
       });
       renderHero(heroTrigger.progress);
@@ -277,27 +271,32 @@ export default function NarrativeEnergy() {
         scrollTrigger: {
           trigger: problems,
           start: 'top bottom',
-          end: 'bottom bottom',
+          end: compactMotion ? 'top 18%' : 'bottom bottom',
           scrub: storyScrub,
           invalidateOnRefresh: true,
           onEnter: () => { orbit.pause(); gsap.set(pair, { rotation: 0 }); },
           onLeaveBack: () => { orbit.pause(); gsap.set(pair, { rotation: 0 }); },
         },
-      })
-        .to(core, { autoAlpha: 1, scale: .22, rotation: 132, duration: .05 }, 0)
-        .fromTo(fracture, { autoAlpha: 0, scale: .45, rotation: -16 }, { autoAlpha: 1, scale: 1.05, rotation: 8, duration: .09, ease: 'power3.out', immediateRender: false }, .025)
-        .to(fracture, { autoAlpha: 0, scale: 1.65, rotation: 25, duration: .14, ease: 'power2.in' }, .095)
-        .to(core, { autoAlpha: 0, scale: .08, duration: .08, ease: 'power2.in' }, .10)
-        .set(pair, { rotation: 0 }, .11)
-        .fromTo(doctor, { x: 0, y: 0, scale: .1, autoAlpha: 0 }, { x: () => -Math.min(innerWidth * .39, 620), y: () => innerHeight * .14, scale: 1.06, autoAlpha: 1, duration: .35, ease: 'power2.out', immediateRender: false }, .11)
-        .fromTo(patient, { x: 0, y: 0, scale: .1, autoAlpha: 0 }, { x: () => Math.min(innerWidth * .39, 620), y: () => innerHeight * .21, scale: 1.06, autoAlpha: 1, duration: .35, ease: 'power2.out', immediateRender: false }, .11)
-        .to(doctor, { x: () => -Math.min(innerWidth * .32, 520), y: () => innerHeight * .28, scale: .88, duration: .48, ease: 'power1.inOut' }, .50)
-        .to(patient, { x: () => Math.min(innerWidth * .32, 520), y: () => innerHeight * .28, scale: .88, duration: .48, ease: 'power1.inOut' }, .50);
+      });
 
-      // The two expanding rings are a useful desktop accent, but they force a
-      // large extra paint on mobile. The fracture itself remains visible.
-      if (!compactMotion) {
+      if (compactMotion) {
         splitTimeline
+          .to(core, { autoAlpha: .96, scale: .20, rotation: 0, duration: .16, ease: 'none' }, 0)
+          .to(core, { autoAlpha: 0, scale: .09, duration: .12, ease: 'none' }, .15)
+          .set(pair, { rotation: 0 }, .19)
+          .fromTo(doctor, { x: 0, y: 0, scale: .10, autoAlpha: 0 }, { x: () => -innerWidth * .34, y: () => innerHeight * .23, scale: .76, autoAlpha: 1, duration: .66, ease: 'none', immediateRender: false }, .19)
+          .fromTo(patient, { x: 0, y: 0, scale: .10, autoAlpha: 0 }, { x: () => innerWidth * .34, y: () => innerHeight * .25, scale: .76, autoAlpha: 1, duration: .66, ease: 'none', immediateRender: false }, .19);
+      } else {
+        splitTimeline
+          .to(core, { autoAlpha: 1, scale: .22, rotation: 132, duration: .05 }, 0)
+          .fromTo(fracture, { autoAlpha: 0, scale: .45, rotation: -16 }, { autoAlpha: 1, scale: 1.05, rotation: 8, duration: .09, ease: 'power3.out', immediateRender: false }, .025)
+          .to(fracture, { autoAlpha: 0, scale: 1.65, rotation: 25, duration: .14, ease: 'power2.in' }, .095)
+          .to(core, { autoAlpha: 0, scale: .08, duration: .08, ease: 'power2.in' }, .10)
+          .set(pair, { rotation: 0 }, .11)
+          .fromTo(doctor, { x: 0, y: 0, scale: .1, autoAlpha: 0 }, { x: () => -Math.min(innerWidth * .39, 620), y: () => innerHeight * .14, scale: 1.06, autoAlpha: 1, duration: .35, ease: 'power2.out', immediateRender: false }, .11)
+          .fromTo(patient, { x: 0, y: 0, scale: .1, autoAlpha: 0 }, { x: () => Math.min(innerWidth * .39, 620), y: () => innerHeight * .21, scale: 1.06, autoAlpha: 1, duration: .35, ease: 'power2.out', immediateRender: false }, .11)
+          .to(doctor, { x: () => -Math.min(innerWidth * .32, 520), y: () => innerHeight * .28, scale: .88, duration: .48, ease: 'power1.inOut' }, .50)
+          .to(patient, { x: () => Math.min(innerWidth * .32, 520), y: () => innerHeight * .28, scale: .88, duration: .48, ease: 'power1.inOut' }, .50)
           .to(rings, { autoAlpha: .75, scale: 1.7, stagger: .014, duration: .08, ease: 'power2.out' }, .035)
           .to(rings, { autoAlpha: 0, scale: 2.25, duration: .07, ease: 'power2.in' }, .10);
       }
@@ -317,18 +316,19 @@ export default function NarrativeEnergy() {
       };
 
       gsap.timeline({
-        scrollTrigger: { trigger: solution, start: 'top bottom', end: 'bottom bottom', scrub: storyScrub, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: solution, start: 'top bottom', end: 'top top', scrub: storyScrub, invalidateOnRefresh: true },
       })
         .to(particles, { x: 0, y: 0, scale: .68, duration: .09, ease: 'power2.inOut' }, 0)
         .to(core, { autoAlpha: 1, scale: .17, rotation: 160, duration: .07, ease: 'power2.out' }, .045)
         .set(particles, { autoAlpha: 0, scale: .06 }, .075)
         .to(core, { scale: ecosystemScale, autoAlpha: .16, rotation: 215, duration: .18, ease: 'power3.out' }, .08)
-        .to(core, { scale: ecosystemScale, autoAlpha: .14, rotation: 246, duration: .48, ease: 'none' }, .26)
-        .to(core, { x: () => -innerWidth * .415, y: () => innerHeight * .40, scale: .038, autoAlpha: 1, rotation: 292, duration: .2, ease: 'power2.inOut' }, .80);
+        .to(core, { scale: ecosystemScale, autoAlpha: .14, rotation: 246, duration: .74, ease: 'none' }, .26);
 
       const setX = gsap.quickSetter(core, 'x', 'px');
       const setY = gsap.quickSetter(core, 'y', 'px');
       const setRotation = gsap.quickSetter(core, 'rotation', 'deg');
+      const setScale = gsap.quickSetter(core, 'scale');
+      const setOpacity = gsap.quickSetter(core, 'opacity');
       const markerPoint = (progress = 0) => {
         const progressBar = get('.usecases-progress');
         if (!progressBar) return { x: -innerWidth * .415, y: innerHeight * .4 };
@@ -340,15 +340,15 @@ export default function NarrativeEnergy() {
         };
       };
 
-      const entryPoint = () => ({ x: -innerWidth * .415, y: innerHeight * .40 });
       const placeUsecaseEntry = (progress) => {
-        const start = entryPoint();
         const end = markerPoint(0);
         const eased = gsap.parseEase('power2.inOut')(progress);
-        setX(gsap.utils.interpolate(start.x, end.x, eased));
-        setY(gsap.utils.interpolate(start.y, end.y, eased));
-        setRotation(gsap.utils.interpolate(292, 318, eased));
-        gsap.set(core, { autoAlpha: 1, scale: .038 });
+        setX(gsap.utils.interpolate(0, end.x, eased));
+        setY(gsap.utils.interpolate(0, end.y, eased));
+        setRotation(gsap.utils.interpolate(246, 318, eased));
+        setScale(gsap.utils.interpolate(ecosystemScale(), .038, eased));
+        setOpacity(gsap.utils.interpolate(.14, 1, eased));
+        core.style.visibility = 'inherit';
       };
 
       ScrollTrigger.create({
@@ -375,9 +375,11 @@ export default function NarrativeEnergy() {
           gsap.set(core, { autoAlpha: 1, scale: .038, x: point.x, y: point.y, rotation: 292 + progress * 250 });
         },
         onRefresh: ({ progress, isActive }) => {
-          if (!isActive) return;
+          const rect = usecases.getBoundingClientRect();
+          if (!isActive && !(rect.top <= 1 && rect.bottom > 0)) return;
           const point = markerPoint(progress);
           setX(point.x); setY(point.y); setRotation(292 + progress * 250);
+          setScale(.038); setOpacity(1); core.style.visibility = 'inherit';
         },
         onUpdate: ({ progress, isActive }) => {
           if (!isActive) return;
@@ -387,7 +389,8 @@ export default function NarrativeEnergy() {
       });
 
       gsap.delayedCall(.2, () => {
-        if (!usecaseTrigger.isActive) return;
+        const rect = usecases.getBoundingClientRect();
+        if (!usecaseTrigger.isActive && !(rect.top <= 1 && rect.bottom > 0)) return;
         const point = markerPoint(usecaseTrigger.progress);
         gsap.set(core, { autoAlpha: 1, scale: .038, x: point.x, y: point.y, rotation: 292 + usecaseTrigger.progress * 250 });
       });
@@ -396,7 +399,7 @@ export default function NarrativeEnergy() {
         scrollTrigger: {
           trigger: consequences,
           start: 'top bottom',
-          end: compactMotion ? 'top -12%' : 'top 12%',
+          end: compactMotion ? 'top 10%' : 'top 12%',
           scrub: consequenceScrub,
           invalidateOnRefresh: true,
           onEnter: () => root.classList.add('is-closing'),

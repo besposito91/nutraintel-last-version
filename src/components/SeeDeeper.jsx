@@ -17,27 +17,13 @@ export default function SeeDeeper() {
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo('.solution-orbit', { opacity: 0, scale: .88 }, { opacity: 1, scale: 1, duration: .8, ease: 'power2.out', scrollTrigger: { trigger: ref.current, start: 'top 70%', end: 'top 15%', scrub: true } });
-
-      let activeStep = -1;
-      ScrollTrigger.create({
-        trigger: ref.current, start: 'top top', end: 'bottom bottom',
-        onUpdate: (state) => {
-          const next = Math.min(2, Math.floor(state.progress * 2.999));
-          if (next !== activeStep) { activeStep = next; setStep(next); }
-        },
-      });
     }, ref);
     return () => ctx.revert();
   }, []);
 
   const goToStep = (nextStep) => {
-    const section = ref.current;
-    if (!section || nextStep < 0 || nextStep >= stages.length) return;
-    const scrollableDistance = Math.max(0, section.offsetHeight - window.innerHeight);
-    const progress = (nextStep + .5) / stages.length;
-    const target = section.offsetTop + scrollableDistance * progress;
+    if (nextStep < 0 || nextStep >= stages.length) return;
     setStep(nextStep);
-    window.dispatchEvent(new CustomEvent('nutraintel:scroll-to', { detail: { target } }));
   };
 
   return (
@@ -62,8 +48,8 @@ export default function SeeDeeper() {
           </div>
         </div>
         <nav className="solution-controls" aria-label="Navigazione ecosistema">
-          <button type="button" className="solution-arrow solution-arrow-prev" onClick={() => goToStep(step - 1)} disabled={step === 0} aria-label={stages[Math.max(0, step - 1)].title}>←</button>
-          <button type="button" className="solution-arrow solution-arrow-next" onClick={() => goToStep(step + 1)} disabled={step === stages.length - 1} aria-label={stages[Math.min(stages.length - 1, step + 1)].title}>→</button>
+          <button type="button" className="solution-arrow solution-arrow-prev" onClick={() => goToStep(step - 1)} disabled={step === 0} aria-label={stages[Math.max(0, step - 1)].title}><span aria-hidden="true">‹</span></button>
+          <button type="button" className="solution-arrow solution-arrow-next" onClick={() => goToStep(step + 1)} disabled={step === stages.length - 1} aria-label={stages[Math.min(stages.length - 1, step + 1)].title}><span aria-hidden="true">›</span></button>
         </nav>
         <div className="solution-progress" aria-hidden="true">{stages.map((item, index) => <i key={item.n} className={index === step ? 'on' : ''} />)}</div>
       </div>
