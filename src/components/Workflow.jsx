@@ -128,6 +128,7 @@ export default function Workflow() {
 
         </nav>
 
+        
         <div className="usecases-progress" aria-hidden="true">
           {cases.map((caseItem, index) => (
             <i
@@ -135,9 +136,16 @@ export default function Workflow() {
               className={index === step ? 'on' : ''}
             />
           ))}
-        </div>
 
+          <span
+            className="usecases-progress-dot"
+            style={{
+              left: `${((step + 0.5) / cases.length) * 100}%`,
+            }}
+          />
+        </div>
       </div>
     </section>
   );
 }
+
