@@ -51,7 +51,7 @@ body{background:linear-gradient(135deg,#fff 0%,#e7f5f4 48%,#fff 100%) fixed}
 .consequence-rows{position:relative;z-index:6;max-width:1320px;margin:3vh auto 0;display:grid;gap:1vh}
 .consequence-row{position:relative;inset:auto;width:100%;height:auto;min-height:30vh;margin:0;display:grid;grid-template-columns:minmax(0,.92fr) minmax(320px,1.08fr);align-items:center;gap:clamp(28px,6vw,92px)}
 .consequence-row.consequence-professional,.consequence-row.consequence-patient{position:relative;inset:auto;right:auto;left:auto;top:auto;bottom:auto}
-.consequence-row .human-cutout{position:relative;inset:auto;width:100%;height:min(32vh,330px);align-self:end}
+.consequence-row .human-cutout{position:relative;inset:auto;width:100%;height:min(40vh,330px);align-self:end}
 .consequence-row .consequence-copy{position:relative;inset:auto;max-width:560px;padding:clamp(20px,2.5vw,34px);border:1px solid rgba(255,255,255,.72);border-radius:24px;background:rgba(255,255,255,.66);box-shadow:0 22px 60px rgba(5,44,67,.08);backdrop-filter:blur(14px)}
 .consequence-row .consequence-copy h3{font-size:clamp(25px,2.5vw,42px);line-height:1.02}
 .consequence-row.consequence-patient{grid-template-columns:minmax(320px,1.08fr) minmax(0,.92fr)}
