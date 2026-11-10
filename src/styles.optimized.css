@@ -177,6 +177,13 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
 }
 
 
+.problem-card-image::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+}
+
+
 @media(max-width:720px){
   .consequence-row .consequence-copy h3{font-size:31px}
   .pcard-info .early-hook{font-size:27px}
