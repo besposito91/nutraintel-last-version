@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Phone, ScreenTrend, ScreenHydration, ScreenSteps } from './Phone.jsx';
 import BlurText from './BlurText.jsx';
 
@@ -11,7 +11,7 @@ const slides = [
 export default function AppCarousel() {
   const [i, setI] = useState(0);
   const n = slides.length;
-  useEffect(() => { const t = setInterval(() => setI((v) => (v + 1) % n), 5200); return () => clearInterval(t); }, [i, n]);
+  
   const pos = (j) => ((j - i + n) % n === 0 ? 'c' : (j - i + n) % n === 1 ? 'r' : 'l');
 
   return (
