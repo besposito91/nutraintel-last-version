@@ -191,6 +191,21 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
   border-radius: 0 !important;
 }
 
+.consequence-row.consequence-professional {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.consequence-row.consequence-professional .consequence-copy {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 0 !important;
+}
+
 @media(max-width:720px){
   .consequence-row .consequence-copy h3{font-size:31px}
   .pcard-info .early-hook{font-size:27px}
