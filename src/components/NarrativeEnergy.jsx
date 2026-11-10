@@ -340,6 +340,27 @@ export default function NarrativeEnergy() {
         };
       };
 
+      let usecaseProgress = .5 / 6;
+
+      const moveToUsecaseStep = (event) => {
+        const nextProgress = gsap.utils.clamp(0, 1, Number(event.detail?.progress) || .5 / 6);
+        usecaseProgress = nextProgress;
+        const rect = usecases.getBoundingClientRect();
+        if (rect.bottom <= 0 || rect.top >= innerHeight) return;
+        const point = markerPoint(usecaseProgress);
+        gsap.to(core, {
+          x: point.x,
+          y: point.y,
+          scale: .038,
+          autoAlpha: 1,
+          rotation: 292 + usecaseProgress * 250,
+          duration: .62,
+          ease: 'power3.inOut',
+          overwrite: 'auto',
+        });
+      };
+      window.addEventListener('nutraintel:usecase-step', moveToUsecaseStep);
+
       const placeUsecaseEntry = (progress) => {
         const end = markerPoint(0);
         const eased = gsap.parseEase('power2.inOut')(progress);
@@ -363,36 +384,31 @@ export default function NarrativeEnergy() {
 
       const usecaseTrigger = ScrollTrigger.create({
         trigger: usecases,
-        start: 'top top',
-        end: 'bottom bottom',
+        start: 'top 50%',
+        end: 'bottom 50%',
         invalidateOnRefresh: true,
         onEnter: () => {
-          const point = markerPoint(0);
-          gsap.set(core, { autoAlpha: 1, scale: .038, x: point.x, y: point.y, rotation: 292 });
+          const point = markerPoint(usecaseProgress);
+          gsap.set(core, { autoAlpha: 1, scale: .038, x: point.x, y: point.y, rotation: 292 + usecaseProgress * 250 });
         },
-        onEnterBack: ({ progress }) => {
-          const point = markerPoint(progress);
-          gsap.set(core, { autoAlpha: 1, scale: .038, x: point.x, y: point.y, rotation: 292 + progress * 250 });
+        onEnterBack: () => {
+          const point = markerPoint(usecaseProgress);
+          gsap.set(core, { autoAlpha: 1, scale: .038, x: point.x, y: point.y, rotation: 292 + usecaseProgress * 250 });
         },
-        onRefresh: ({ progress, isActive }) => {
+        onRefresh: ({ isActive }) => {
           const rect = usecases.getBoundingClientRect();
           if (!isActive && !(rect.top <= 1 && rect.bottom > 0)) return;
-          const point = markerPoint(progress);
-          setX(point.x); setY(point.y); setRotation(292 + progress * 250);
+          const point = markerPoint(usecaseProgress);
+          setX(point.x); setY(point.y); setRotation(292 + usecaseProgress * 250);
           setScale(.038); setOpacity(1); core.style.visibility = 'inherit';
-        },
-        onUpdate: ({ progress, isActive }) => {
-          if (!isActive) return;
-          const point = markerPoint(progress);
-          setX(point.x); setY(point.y); setRotation(292 + progress * 250);
         },
       });
 
       gsap.delayedCall(.2, () => {
         const rect = usecases.getBoundingClientRect();
         if (!usecaseTrigger.isActive && !(rect.top <= 1 && rect.bottom > 0)) return;
-        const point = markerPoint(usecaseTrigger.progress);
-        gsap.set(core, { autoAlpha: 1, scale: .038, x: point.x, y: point.y, rotation: 292 + usecaseTrigger.progress * 250 });
+        const point = markerPoint(usecaseProgress);
+        gsap.set(core, { autoAlpha: 1, scale: .038, x: point.x, y: point.y, rotation: 292 + usecaseProgress * 250 });
       });
 
       const consequenceTimeline = gsap.timeline({
@@ -419,6 +435,7 @@ export default function NarrativeEnergy() {
         if (heroFrame) cancelAnimationFrame(heroFrame);
         heroTrigger.kill();
         usecaseTrigger.kill();
+        window.removeEventListener('nutraintel:usecase-step', moveToUsecaseStep);
         root.classList.remove('is-closing');
       };
     }, root);

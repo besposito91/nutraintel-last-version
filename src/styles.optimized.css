@@ -87,6 +87,14 @@ body{background:linear-gradient(135deg,#fff 0%,#e7f5f4 48%,#fff 100%) fixed}
   .foot-actions{justify-items:start}
 }
 
+/* Use cases are explored with arrows; vertical scrolling continues to the next section. */
+.usecases{height:100svh;min-height:680px}
+.usecases-sticky{position:relative;top:auto;height:100svh;min-height:680px}
+@media(max-width:720px){
+  .usecases{height:100svh;min-height:620px}
+  .usecases-sticky{height:100svh;min-height:620px}
+}
+
 /* Language selector */
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 .nav-actions{display:flex;align-items:center;gap:10px;flex:0 0 auto}
@@ -504,4 +512,12 @@ main{position:relative;background:
   .narrative-core{background:radial-gradient(circle at 31% 27%,#f6fffc 0 3%,#58ddbd 11%,#1bc8a1 30%,#168fa2 68%,#075071 100%);box-shadow:inset -1vmax -.8vmax 1.7vmax rgba(5,59,92,.14),0 0 1.6vmax rgba(26,139,209,.07)}
   .narrative-core>i{display:none}
   .narrative-particle{box-shadow:none}
+}
+
+/* Final use-case navigation: arrows change slides, page scroll leaves the section. */
+.usecases{height:100svh;min-height:680px}
+.usecases-sticky{position:relative;top:auto;height:100svh;min-height:680px}
+@media(max-width:720px){
+  .usecases{height:100svh;min-height:620px}
+  .usecases-sticky{height:100svh;min-height:620px}
 }
