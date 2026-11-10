@@ -22,8 +22,7 @@ export default function SeeDeeper() {
   }, []);
 
   const goToStep = (nextStep) => {
-    if (nextStep < 0 || nextStep >= stages.length) return;
-    setStep(nextStep);
+    setStep((nextStep + stages.length) % stages.length);
   };
 
   return (
@@ -48,9 +47,24 @@ export default function SeeDeeper() {
           </div>
         </div>
         <nav className="solution-controls" aria-label="Navigazione ecosistema">
-          <button type="button" className="solution-arrow solution-arrow-prev" onClick={() => goToStep(step - 1)} disabled={step === 0} aria-label={stages[Math.max(0, step - 1)].title}><span aria-hidden="true">‹</span></button>
-          <button type="button" className="solution-arrow solution-arrow-next" onClick={() => goToStep(step + 1)} disabled={step === stages.length - 1} aria-label={stages[Math.min(stages.length - 1, step + 1)].title}><span aria-hidden="true">›</span></button>
-        </nav>
+  <button
+    type="button"
+    className="solution-arrow solution-arrow-prev"
+    onClick={() => goToStep(step - 1)}
+    aria-label="Precedente"
+  >
+    <span aria-hidden="true">‹</span>
+  </button>
+
+  <button
+    type="button"
+    className="solution-arrow solution-arrow-next"
+    onClick={() => goToStep(step + 1)}
+    aria-label="Successivo"
+  >
+    <span aria-hidden="true">›</span>
+  </button>
+</nav>
         <div className="solution-progress" aria-hidden="true">{stages.map((item, index) => <i key={item.n} className={index === step ? 'on' : ''} />)}</div>
       </div>
     </section>
