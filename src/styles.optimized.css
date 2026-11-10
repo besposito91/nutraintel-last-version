@@ -169,6 +169,21 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
 .foot .nav-logo,.foot-big,.foot-actions,.foot-bot{color:#f4fbfc}.foot .nav-logo span{color:#72ecd0}.foot-bot{border-top-color:rgba(255,255,255,.24);color:rgba(240,249,251,.76)}
 .foot-brand{display:grid;justify-items:start;gap:10px}.foot-powered{font-size:9px;text-align:left;text-transform:uppercase;letter-spacing:.08em;color:rgba(240,249,251,.72)}.foot-powered strong{font-weight:700;color:#fff}
 
+.human-cutout {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.human-cutout img,
+.human-photo {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 @media(max-width:720px){
   .consequence-row .consequence-copy h3{font-size:31px}
   .pcard-info .early-hook{font-size:27px}
