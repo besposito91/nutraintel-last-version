@@ -1,6 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
-import BlurText from './BlurText.jsx';
 import { useLanguage } from '../i18n.jsx';
 
 export default function Hero() {
@@ -57,12 +56,20 @@ export default function Hero() {
         <div className="hero-wm" aria-hidden="true"><span className="wm-l">Nutra</span><span className="wm-gap" /><span className="wm-r">Intel<sup>®</sup></span></div>
         <p className="hero-tag">{t('hero.tag')}</p>
         <div className="hero-story">
-          <BlurText as="h1" id="hero-title" className="hero-title" text={t('hero.title')} />
+          <h1 id="hero-title" className="hero-title">
+            <span className="hero-title-line">{t('hero.titleLine1')}</span>
+            <span className="hero-title-line">
+              <span className="highlight">{t('hero.titleHighlight')}</span>{' '}
+              <span>{t('hero.titleTail')}</span>
+            </span>
+          </h1>
           <div className="hero-story-side">
             <p>{t('hero.subtitle')}</p>
             <div className="btns">
               <a className="btn btn-dark" href="#prelancio">{t('hero.cta')}</a>
-              <a className="btn btn-line" href="#monitoraggio">{t('hero.discover')}</a>
+              <a className="btn btn-line" href="#monitoraggio">
+                {t('hero.discover')} <span className="discover-arrow" aria-hidden="true">↓</span>
+              </a>
             </div>
           </div>
         </div>

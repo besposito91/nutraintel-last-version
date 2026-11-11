@@ -868,6 +868,51 @@ main{position:relative;background:
   color: #053b5c;
 }
 
+/* Titolo hero su due righe, evidenziazione e spaziatura delle CTA. */
+.hero-title-line {
+  display: block;
+}
+
+.hero-title .highlight {
+  padding: 0 0.15em;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 119, 0, 0.5),
+    rgba(255, 187, 0, 0.5)
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 0.8em;
+  background-position: 0 77%;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.hero-story-side {
+  gap: clamp(20px, 2.6vh, 28px);
+}
+
+.hero-story-side p {
+  color: #052c43;
+}
+
+.hero-story-side .discover-arrow {
+  display: inline-block;
+  margin-left: 0.4em;
+  font-size: 1.25em;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+
+.hero-story-side .btn-line:hover .discover-arrow {
+  transform: translateY(3px);
+}
+
+@media (max-width: 720px) {
+  .hero-story-side {
+    gap: 18px;
+  }
+}
+
 /* Reset delle vecchie regole della sezione Conseguenze. */
 .consequence-columns .consequence-card {
   position: relative;
