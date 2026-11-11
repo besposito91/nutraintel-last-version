@@ -411,6 +411,18 @@ export default function NarrativeEnergy() {
         gsap.set(core, { autoAlpha: 1, scale: .038, x: point.x, y: point.y, rotation: 292 + usecaseProgress * 250 });
       });
 
+      const restoreUsecaseSphere = () => {
+        const point = markerPoint(usecaseProgress);
+      
+        gsap.set(core, {
+          x: point.x,
+          y: point.y,
+          scale: 0.038,
+          autoAlpha: 1,
+          rotation: 292 + usecaseProgress * 250,
+        });
+      };
+      
       const consequenceTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: consequences,
@@ -418,12 +430,43 @@ export default function NarrativeEnergy() {
           end: compactMotion ? 'top 10%' : 'top 12%',
           scrub: consequenceScrub,
           invalidateOnRefresh: true,
-          onEnter: () => root.classList.add('is-closing'),
-          onEnterBack: () => root.classList.add('is-closing'),
-          onLeaveBack: () => root.classList.remove('is-closing'),
+      
+          onEnter: () => {
+            root.classList.add('is-closing');
+            consequenceTimeline.invalidate();
+          },
+      
+          onEnterBack: () => {
+            root.classList.add('is-closing');
+          },
+      
+          onLeaveBack: () => {
+            root.classList.remove('is-closing');
+            restoreUsecaseSphere();
+          },
         },
       })
-        .to(core, { x: 0, y: 0, scale: expandedScale, autoAlpha: .9, rotation: 382, duration: .78, ease: 'sine.inOut' }, 0);
+        .fromTo(
+          core,
+          {
+            x: () => markerPoint(usecaseProgress).x,
+            y: () => markerPoint(usecaseProgress).y,
+            scale: 0.038,
+            autoAlpha: 1,
+            rotation: () => 292 + usecaseProgress * 250,
+          },
+          {
+            x: 0,
+            y: 0,
+            scale: expandedScale,
+            autoAlpha: 0.9,
+            rotation: 382,
+            duration: 0.78,
+            ease: 'sine.inOut',
+            immediateRender: false,
+          },
+          0
+        );
       if (!compactMotion) {
         consequenceTimeline
           .to(shade, { autoAlpha: .05, duration: .68, ease: 'power2.inOut' }, .18)
