@@ -48,7 +48,7 @@ export default function Prelaunch() {
           <ul className="pre-hooks">
             {t('pre.hooks').map(([focus, rest]) => <li key={focus}><strong>{focus}</strong> {rest}</li>)}
           </ul>
-          <div className="pcard-foot"><i /><span>{t('pre.interest')}</span></div>
+          
         </div>
         <form className="pcard pform" noValidate ref={formRef} onSubmit={onSubmit} data-fade>
           <h3>{t('pre.formTitle')}</h3>
