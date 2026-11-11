@@ -72,7 +72,7 @@ export default function Hero() {
             </p>
             <div className="btns">
               <a className="btn btn-dark" href="#prelancio">{t('hero.cta')}</a>
-              <a className="btn btn-line" href="#monitoraggio">
+              <a className="btn btn-line" href="#problema">
                 {t('hero.discover')} <span className="discover-arrow" aria-hidden="true">↓</span>
               </a>
             </div>
