@@ -254,6 +254,15 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
   }
 }
 
+/* Immagini carosello leggermente più piccole — desktop */
+@media (min-width: 721px) {
+  .usecase-composite {
+    width: 90%;
+    height: 84%;
+    max-width: min(700px, 46vw);
+    object-fit: contain;
+  }
+}
 
 @media(max-width:720px){
   .consequence-row .consequence-copy h3{font-size:31px}
