@@ -1,36 +1,17 @@
-import { useLayoutEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef } from 'react';
 import BlurText from './BlurText.jsx';
 import { useLanguage } from '../i18n.jsx';
 
 const images = ['./images/cutouts/patient-case-1.webp', './images/cutouts/patient-case-2.webp', './images/cutouts/patient-case-4.webp'];
 
 export default function ProblemStory() {
-  const ref = useRef(null);
+  
   const { t } = useLanguage();
   const problems = t('challenge.cards').map((item, index) => ({ ...item, image: images[index] }));
 
-  useLayoutEffect(() => {
-    const mm = gsap.matchMedia();
-    mm.add('(min-width: 721px)', () => {
-      const cards = gsap.utils.toArray('.problem-card', ref.current);
-      gsap.set(cards, { autoAlpha: 0, y: 70, scale: .96 });
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: '.problems-list',
-          start: 'top 88%',
-          end: 'top 22%',
-          scrub: .75,
-          invalidateOnRefresh: true,
-        },
-      }).to(cards, { autoAlpha: 1, y: 0, scale: 1, duration: 1, stagger: .72, ease: 'power2.out' });
-    });
-    return () => mm.revert();
-  }, []);
 
   return (
-    <section className="problems split-problems" id="problema" ref={ref} aria-labelledby="problem-title" data-section="1">
+    <section>
       <div className="mesh mesh-soft" aria-hidden="true"><i /><i /><i /><i /></div>
       <div className="grain" aria-hidden="true" />
       <header className="problems-head">
