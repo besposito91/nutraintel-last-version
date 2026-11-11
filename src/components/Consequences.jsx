@@ -4,19 +4,61 @@ import { useLanguage } from '../i18n.jsx';
 
 export default function Consequences() {
   const { t } = useLanguage();
+
   return (
-    <section className="consequences" id="impatto" aria-labelledby="consequences-title" data-section="4">
+    <section
+      className="consequences"
+      id="impatto"
+      aria-labelledby="consequences-title"
+      data-section="4"
+    >
       <header className="consequences-head">
-        <BlurText as="h2" id="consequences-title" data-blur className="t-display" text={t('impact.title')} />
+        <BlurText
+          as="h2"
+          id="consequences-title"
+          data-blur
+          className="t-display"
+          text={t('impact.title')}
+        />
       </header>
-      <div className="consequence-rows">
-        <article className="consequence-row consequence-professional" data-fade>
-          <div className="consequence-copy"><h3><strong>{t('impact.professionalStrong')}</strong> {t('impact.professionalRest')}</h3></div>
-          <HumanCutout src="./images/cutouts/nutritionist-computer.webp" alt={t('impact.professionalAlt')} />
+
+      <div className="consequence-columns">
+        <article className="consequence-card consequence-professional" data-fade>
+          <div className="consequence-image">
+            <HumanCutout
+              src="./images/cutouts/nutritionist-computer.webp"
+              alt={t('impact.professionalAlt')}
+            />
+          </div>
+
+          <div className="consequence-copy">
+            <span className="consequence-eyebrow">
+              {t('impact.professionalEyebrow')}
+            </span>
+            <h3>
+              <strong>{t('impact.professionalStrong')}</strong>
+              <span>{t('impact.professionalRest')}</span>
+            </h3>
+          </div>
         </article>
-        <article className="consequence-row consequence-patient" data-fade>
-          <HumanCutout src="./images/cutouts/patient.webp" alt={t('impact.patientAlt')} />
-          <div className="consequence-copy"><h3><strong>{t('impact.patientStrong')}</strong> {t('impact.patientRest')}</h3></div>
+
+        <article className="consequence-card consequence-patient" data-fade>
+          <div className="consequence-image">
+            <HumanCutout
+              src="./images/cutouts/patient.webp"
+              alt={t('impact.patientAlt')}
+            />
+          </div>
+
+          <div className="consequence-copy">
+            <span className="consequence-eyebrow">
+              {t('impact.patientEyebrow')}
+            </span>
+            <h3>
+              <strong>{t('impact.patientStrong')}</strong>
+              <span>{t('impact.patientRest')}</span>
+            </h3>
+          </div>
         </article>
       </div>
     </section>

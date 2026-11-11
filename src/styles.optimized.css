@@ -777,3 +777,44 @@ main{position:relative;background:
     font-size: clamp(2rem, 10vw, 3rem);
   }
 }
+
+/* Reset delle vecchie regole della sezione Conseguenze. */
+.consequence-columns .consequence-card {
+  position: relative;
+  inset: auto;
+  width: auto;
+  height: auto;
+  margin: 0;
+}
+
+.consequence-columns .consequence-image {
+  position: relative;
+}
+
+.consequence-columns .consequence-image .human-cutout {
+  position: relative;
+  inset: auto;
+  display: block;
+}
+
+.consequence-columns .consequence-copy {
+  position: relative;
+  inset: auto;
+  max-width: none;
+  padding: clamp(1.25rem, 2.5vh, 2rem) 0 0;
+  color: #f5fcfd;
+}
+
+.consequence-columns .consequence-copy h3 {
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .consequence-columns .consequence-card {
+    width: 100%;
+  }
+
+  .consequence-columns .consequence-copy {
+    width: 100%;
+  }
+}
