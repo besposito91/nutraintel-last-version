@@ -875,20 +875,20 @@ main{position:relative;background:
 
 .hero-title .highlight {
   padding: 0 0.15em;
-  background-image: linear-gradient(
-    to right,
-    rgba(255, 119, 0, 0.5),
-    rgba(255, 187, 0, 0.5)
-  );
+  background-image: linear-gradient(to right, #ffb675, #ffe08a);
   background-repeat: no-repeat;
   background-size: 100% 0.8em;
-  background-position: 0 77%;
+  background-position: 0 51%;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
 
+.hero-story {
+  gap: 40px;
+}
+
 .hero-story-side {
-  gap: clamp(20px, 2.6vh, 28px);
+  gap: 40px;
 }
 
 .hero-story-side p {
@@ -907,11 +907,6 @@ main{position:relative;background:
   transform: translateY(3px);
 }
 
-@media (max-width: 720px) {
-  .hero-story-side {
-    gap: 18px;
-  }
-}
 
 /* Reset delle vecchie regole della sezione Conseguenze. */
 .consequence-columns .consequence-card {
