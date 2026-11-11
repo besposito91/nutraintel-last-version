@@ -214,6 +214,46 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
   padding: 0 !important;
 }
 
+/* Carosello interamente contenuto sotto la navbar */
+@media (min-width: 721px) {
+  .usecases {
+    height: 100svh;
+    min-height: 680px;
+  }
+
+  .usecases-sticky {
+    position: relative;
+    top: 64px;
+    height: calc(100svh - 64px);
+    min-height: 616px;
+    padding-top: 2vh;
+    padding-bottom: 46px;
+    overflow: hidden;
+  }
+
+  .usecases-head {
+    height: 19vh;
+  }
+
+  .usecases-scenes {
+    height: calc(100% - 19vh);
+  }
+
+  .usecases-progress {
+    bottom: 32px;
+  }
+
+  .usecase-composite-panel {
+    padding-bottom: 46px;
+  }
+
+  .usecase-composite {
+    height: 90%;
+    transform: translateY(-18%);
+  }
+}
+
+
 @media(max-width:720px){
   .consequence-row .consequence-copy h3{font-size:31px}
   .pcard-info .early-hook{font-size:27px}
