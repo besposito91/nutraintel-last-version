@@ -801,7 +801,7 @@ main{position:relative;background:
   background: linear-gradient(
     119deg,
     rgba(255, 119, 0, 1) 0%,
-    rgba(214, 100, 0, 1) 22%,
+    rgba(214, 145, 0, 1) 22%,
     rgba(255, 187, 0, 1) 100%
   );
   background-size: 130% 100%;
@@ -820,7 +820,7 @@ main{position:relative;background:
   background: linear-gradient(
     119deg,
     rgba(255, 119, 0, 1) 0%,
-    rgba(214, 100, 0, 1) 22%,
+    rgba(214, 145, 0, 1) 22%,
     rgba(255, 187, 0, 1) 100%
   );
   background-size: 130% 100%;
@@ -843,7 +843,7 @@ main{position:relative;background:
     linear-gradient(
       119deg,
       rgba(255, 119, 0, 1) 0%,
-      rgba(214, 100, 0, 1) 22%,
+      rgba(255, 145, 0, 1) 22%,
       rgba(255, 187, 0, 1) 100%
     ) border-box;
   color: #053b5c;
@@ -860,7 +860,7 @@ main{position:relative;background:
     linear-gradient(
       119deg,
       rgba(255, 119, 0, 1) 0%,
-      rgba(214, 100, 0, 1) 22%,
+      rgba(255, 145, 0, 1) 22%,
       rgba(255, 187, 0, 1) 100%
     ) border-box;
   color: #053b5c;
