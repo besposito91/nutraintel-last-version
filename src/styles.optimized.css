@@ -919,6 +919,25 @@ main{position:relative;background:
   font-weight: 600;
 }
 
+/* Avvicina la conclusione della Sfida all'ecosistema successivo. */
+.problems {
+  padding-bottom: 8vh;
+}
+
+.solution-stage {
+  inset: 13vh 3vw 7vh;
+}
+
+@media (max-width: 720px) {
+  .problems {
+    padding-bottom: 7vh;
+  }
+
+  .solution-stage {
+    inset: 21vh 0 7vh;
+  }
+}
+
 .hero-story-side .discover-arrow {
   display: inline-block;
   margin-left: 0.4em;
