@@ -65,7 +65,11 @@ export default function Hero() {
             </span>
           </h1>
           <div className="hero-story-side">
-            <p>{t('hero.subtitle')}</p>
+            <p>
+              {t('hero.subtitleBefore')}
+              <strong>{t('hero.subtitleEmphasis')}</strong>
+              {t('hero.subtitleAfter')}
+            </p>
             <div className="btns">
               <a className="btn btn-dark" href="#prelancio">{t('hero.cta')}</a>
               <a className="btn btn-line" href="#monitoraggio">

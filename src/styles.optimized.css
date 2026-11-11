@@ -875,6 +875,7 @@ main{position:relative;background:
 
 .hero-title .highlight {
   padding: 0 0.15em;
+  font-weight: 500;
   background-image: linear-gradient(to right, #e7740f, #f5cc59);
   background-repeat: no-repeat;
   background-size: 100% 0.4em;
@@ -893,6 +894,10 @@ main{position:relative;background:
 
 .hero-story-side p {
   color: #052c43;
+}
+
+.hero-story-side p strong {
+  font-weight: 500;
 }
 
 .hero-story-side .discover-arrow {
