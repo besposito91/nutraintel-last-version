@@ -651,3 +651,7 @@ main{position:relative;background:
   .usecases{height:100svh;min-height:620px}
   .usecases-sticky{height:100svh;min-height:620px}
 }
+
+.language-menu {
+  display: none;
+}
