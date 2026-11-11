@@ -795,18 +795,42 @@ main{position:relative;background:
   position: relative;
   inset: auto;
   display: block;
+  width: min(100%, 650px);
+  height: clamp(350px, 47vh, 530px);
+}
+
+.consequence-columns .consequence-image img {
+  max-height: none;
 }
 
 .consequence-columns .consequence-copy {
   position: relative;
   inset: auto;
   max-width: none;
-  padding: clamp(1.25rem, 2.5vh, 2rem) 0 0;
+  padding: clamp(1rem, 2vh, 1.5rem) 0 0;
   color: #f5fcfd;
+  text-align: center;
 }
 
 .consequence-columns .consequence-copy h3 {
-  margin: 0;
+  max-width: 19ch;
+  margin: 0 auto;
+  font-size: clamp(1.75rem, 2.35vw, 2.85rem);
+  line-height: 1.06;
+}
+
+.consequence-columns .consequence-eyebrow {
+  width: fit-content;
+  margin: 0 auto 0.9rem;
+  padding: 0.48rem 0.8rem;
+  border: 1px solid rgba(255,255,255,.32);
+  border-radius: 999px;
+  background: rgba(5,59,92,.22);
+  color: #fff;
+  font-size: clamp(0.72rem, 0.72vw, 0.82rem);
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-shadow: 0 1px 10px rgba(5,44,67,.28);
 }
 
 @media (max-width: 720px) {
@@ -816,5 +840,15 @@ main{position:relative;background:
 
   .consequence-columns .consequence-copy {
     width: 100%;
+  }
+
+  .consequence-columns .consequence-image .human-cutout {
+    width: min(100%, 480px);
+    height: 360px;
+  }
+
+  .consequence-columns .consequence-copy h3 {
+    max-width: 18ch;
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
   }
 }
