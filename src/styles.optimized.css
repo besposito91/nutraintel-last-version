@@ -835,6 +835,11 @@ main{position:relative;background:
   outline-offset: 3px;
 }
 
+.hero-story-side .btn-dark,
+.hero-story-side .btn-dark:hover {
+  color: #053b5c;
+}
+
 /* Reset delle vecchie regole della sezione Conseguenze. */
 .consequence-columns .consequence-card {
   position: relative;
