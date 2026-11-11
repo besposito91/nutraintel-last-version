@@ -545,7 +545,7 @@ main{position:relative;background:
 .problem-card-image::after{content:'';position:absolute;inset:auto 0 0;height:34%;background:linear-gradient(transparent,rgba(237,246,250,.96));pointer-events:none}
 .problem-card-image img{display:block;width:115%;height:100%;object-fit:cover;object-position:center bottom;filter:saturate(.92) contrast(.98)}
 .problem-card-body{display:flex;flex:1;flex-direction:column;padding:0 40px 40px 50px}
-.problem-card-body h3{margin:0 0 24px;font-size:clamp(29px,2.15vw,38px);font-weight:470;line-height:1.08;letter-spacing:-.038em}
+.problem-card-body h3{margin:0 0 24px;font-size:clamp(29px,2.15vw,38px);font-weight:600;line-height:1.08;letter-spacing:-.038em}
 .problem-card-body p{margin:0;font-size:16px;line-height:1.68;color:var(--muted)}
 
 .foot-powered a{display:inline-block;color:inherit;border-bottom:1px solid transparent;transition:border-color .25s ease,color .25s ease}
