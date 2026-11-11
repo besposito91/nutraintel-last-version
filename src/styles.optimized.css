@@ -837,15 +837,10 @@ main{position:relative;background:
 
 /* CTA secondaria dell'hero: superficie chiara e contorno arancione sfumato. */
 .hero-story-side .btn-line {
-  border: 3px solid transparent;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)) padding-box,
-    linear-gradient(
-      119deg,
-      rgba(255, 119, 0, 1) 0%,
-      rgba(255, 145, 0, 1) 22%,
-      rgba(255, 187, 0, 1) 100%
-    ) border-box;
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  background: transparent;
   color: #053b5c;
   transition:
     transform 0.25s ease,
@@ -853,16 +848,29 @@ main{position:relative;background:
     filter 0.25s ease;
 }
 
+.hero-story-side .btn-line::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    119deg,
+    rgba(255, 119, 0, 1) 0%,
+    rgba(255, 145, 0, 1) 22%,
+    rgba(255, 187, 0, 1) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
 .hero-story-side .btn-line:hover {
   border-color: transparent;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)) padding-box,
-    linear-gradient(
-      119deg,
-      rgba(255, 119, 0, 1) 0%,
-      rgba(255, 145, 0, 1) 22%,
-      rgba(255, 187, 0, 1) 100%
-    ) border-box;
+  background: transparent;
   color: #053b5c;
   box-shadow: 0 10px 25px rgba(214, 100, 0, 0.18);
   filter: saturate(1.04);
