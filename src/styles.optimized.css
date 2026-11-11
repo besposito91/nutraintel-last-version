@@ -875,10 +875,10 @@ main{position:relative;background:
 
 .hero-title .highlight {
   padding: 0 0.15em;
-  background-image: linear-gradient(to right, #ffb675, #ffe08a);
+  background-image: linear-gradient(to right, #e7740f, #f5cc59);
   background-repeat: no-repeat;
-  background-size: 100% 0.8em;
-  background-position: 0 51%;
+  background-size: 100% 0.4em;
+  background-position: 0 80%;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }

@@ -59,6 +59,7 @@ export default function Hero() {
           <h1 id="hero-title" className="hero-title">
             <span className="hero-title-line">{t('hero.titleLine1')}</span>
             <span className="hero-title-line">
+              <span>{t('hero.titlePrefix')} </span>
               <span className="highlight">{t('hero.titleHighlight')}</span>{' '}
               <span>{t('hero.titleTail')}</span>
             </span>
