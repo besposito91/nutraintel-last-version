@@ -270,6 +270,22 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
   .foot-brand{gap:8px}
 }
 
+/* Riduzione leggera delle immagini sui monitor grandi */
+@media (min-width: 1440px) and (min-height: 800px) {
+  .usecase-composite {
+    width: 84%;
+    height: 74%;
+    max-width: min(640px, 41vw);
+    transform: translateY(0);
+    object-fit: contain;
+  }
+
+  .usecase-composite-panel {
+    padding-top: 12px;
+    padding-bottom: 55px;
+  }
+}
+
 /* Performance and typography refinement */
 .narrative-core{box-shadow:inset -2vmax -1.5vmax 4vmax rgba(5,59,92,.24),inset 1.5vmax 1vmax 3vmax rgba(255,255,255,.2),0 0 5vmax rgba(26,139,209,.14)}
 .nav{backdrop-filter:blur(8px)}
