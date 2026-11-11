@@ -42,7 +42,7 @@ export default function Prelaunch() {
       </div>
       <div className="pre-grid">
         <div className="pcard pcard-info" data-fade>
-          <small className="pre-card-kicker">{t('pre.kicker')}</small>
+          
           <h3>{t('pre.cardTitle')}</h3>
           <p>{t('pre.cardText')}</p>
           <ul className="pre-hooks">
