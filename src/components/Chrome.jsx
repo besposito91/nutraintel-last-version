@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { languageOptions, useLanguage } from '../i18n.jsx';
 
-function LanguageMenu() {
+/*function LanguageMenu() {
   const { language, setLanguage } = useLanguage();
   return (
     <label className="language-menu">
@@ -11,7 +11,7 @@ function LanguageMenu() {
       </select>
     </label>
   );
-}
+}*/
 
 export function Nav() {
   const { t } = useLanguage();
