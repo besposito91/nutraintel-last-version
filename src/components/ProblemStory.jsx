@@ -14,6 +14,7 @@ export default function ProblemStory() {
 
 
   return (
+    <>
     <section className="problems split-problems" id="problema" ref={ref} aria-labelledby="problem-title" data-section="1">
       <div className="mesh mesh-soft" aria-hidden="true"><i /><i /><i /><i /></div>
       <div className="grain" aria-hidden="true" />
@@ -43,12 +44,15 @@ export default function ProblemStory() {
           </article>
         ))}
       </div>
+    </section>
+    <section className="problems-answer-section" id="monitoraggio" aria-labelledby="answer-title" data-section="2">
       <div className="problems-answer" data-fade>
         <span>{t('challenge.answerKicker')}</span>
-        <h3>{t('challenge.answerTitle')}</h3>
+        <h3 id="answer-title">{t('challenge.answerTitle')}</h3>
         <p>{t('challenge.answerText')}</p>
-        <a href="#monitoraggio" className="arrow-link">{t('challenge.answerLink')} <span>↓</span></a>
+        <a href="#ecosistema" className="arrow-link">{t('challenge.answerLink')} <span>↓</span></a>
       </div>
     </section>
+    </>
   );
 }

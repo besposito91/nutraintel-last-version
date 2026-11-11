@@ -26,7 +26,7 @@ export default function SeeDeeper() {
   };
 
   return (
-    <section className="solution-triangle-section" id="monitoraggio" ref={ref} aria-labelledby="solution-title" data-section="2">
+    <section className="solution-triangle-section" id="ecosistema" ref={ref} aria-labelledby="solution-title" data-section="2">
       <div className="solution-sticky">
         <div className="mesh mesh-soft" aria-hidden="true"><i /><i /><i /><i /></div>
         <div className="grain" aria-hidden="true" />
