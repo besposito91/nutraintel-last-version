@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import BlurText from './BlurText.jsx';
 import { useLanguage } from '../i18n.jsx';
 
 
@@ -19,9 +18,15 @@ export default function ProblemStory() {
       <div className="mesh mesh-soft" aria-hidden="true"><i /><i /><i /><i /></div>
       <div className="grain" aria-hidden="true" />
       <header className="problems-head">
-        <span className="problems-kicker" data-fade>{t('challenge.kicker')}</span>
-        <BlurText as="h2" id="problem-title" data-blur className="t-display" text={t('challenge.title')} />
-        <p data-fade>{t('challenge.intro')}</p>
+        <h2 id="problem-title" data-blur className="t-display">
+          {t('challenge.titleBefore')}
+          <strong className="highlight">{t('challenge.titleHighlight')}</strong>
+        </h2>
+        <p data-fade>
+          {t('challenge.introBefore')}
+          <strong>{t('challenge.introEmphasis')}</strong>
+          {t('challenge.introAfter')}
+        </p>
       </header>
       <div className="problems-list">
         {problems.map((item) => (
