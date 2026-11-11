@@ -837,9 +837,9 @@ main{position:relative;background:
 
 /* CTA secondaria dell'hero: superficie chiara e contorno arancione sfumato. */
 .hero-story-side .btn-line {
-  border: 2px solid transparent;
+  border: 3px solid transparent;
   background:
-    linear-gradient(rgba(238, 249, 247, 0.9), rgba(238, 249, 247, 0.9)) padding-box,
+    linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)) padding-box,
     linear-gradient(
       119deg,
       rgba(255, 119, 0, 1) 0%,
@@ -856,7 +856,7 @@ main{position:relative;background:
 .hero-story-side .btn-line:hover {
   border-color: transparent;
   background:
-    linear-gradient(rgba(238, 249, 247, 0.96), rgba(238, 249, 247, 0.96)) padding-box,
+    linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)) padding-box,
     linear-gradient(
       119deg,
       rgba(255, 119, 0, 1) 0%,
