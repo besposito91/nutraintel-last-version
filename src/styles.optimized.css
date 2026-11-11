@@ -915,6 +915,10 @@ main{position:relative;background:
   font-weight: 600;
 }
 
+.problem-card-body p strong {
+  font-weight: 600;
+}
+
 .hero-story-side .discover-arrow {
   display: inline-block;
   margin-left: 0.4em;

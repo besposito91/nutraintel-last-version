@@ -32,7 +32,14 @@ export default function ProblemStory() {
         {problems.map((item) => (
           <article className="problem-card" key={item.title}>
             <div className="problem-card-image"><img src={item.image} alt={item.alt} loading="lazy" decoding="async" /></div>
-            <div className="problem-card-body"><h3>{item.title}</h3><p>{item.text}</p></div>
+            <div className="problem-card-body">
+              <h3>{item.title}</h3>
+              <p>
+                {item.textBefore}
+                <strong>{item.textEmphasis}</strong>
+                {item.textAfter}
+              </p>
+            </div>
           </article>
         ))}
       </div>
