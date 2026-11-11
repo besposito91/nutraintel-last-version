@@ -920,9 +920,6 @@ main{position:relative;background:
 }
 
 /* Avvicina la conclusione della Sfida all'ecosistema successivo. */
-.problems {
-  padding-bottom: 8vh;
-}
 
 .solution-stage {
   inset: 13vh 3vw 7vh;
