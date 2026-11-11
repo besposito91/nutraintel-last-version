@@ -87,6 +87,22 @@ body{background:linear-gradient(135deg,#fff 0%,#e7f5f4 48%,#fff 100%) fixed}
   .foot-actions{justify-items:start}
 }
 
+/* Mobile stability: keep scroll-linked transforms on the compositor and
+   avoid repainting the fixed navigation blur during every touch frame. */
+@media(max-width:720px){
+  .nav{
+    background:rgba(247,251,250,.97);
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
+  }
+  .narrative-energy{contain:strict}
+  .narrative-core,.narrative-logo,.narrative-pair,.narrative-particle{
+    will-change:transform,opacity;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+  }
+}
+
 /* Use cases are explored with arrows; vertical scrolling continues to the next section. */
 .usecases{height:100svh;min-height:680px}
 .usecases-sticky{position:relative;top:auto;height:100svh;min-height:680px}
@@ -887,5 +903,29 @@ main{position:relative;background:
   .consequence-columns .consequence-copy h3 {
     max-width: 18ch;
     font-size: clamp(1.65rem, 7.5vw, 2.25rem);
+  }
+}
+
+/* Mobile motion stability: keep the shared energy layer on the compositor and
+   avoid repainting a blurred fixed navigation bar during touch scrolling. */
+@media (max-width: 720px) {
+  .nav {
+    background: rgba(245, 251, 251, 0.96);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .narrative-energy {
+    contain: strict;
+  }
+
+  .narrative-core,
+  .narrative-logo,
+  .narrative-pair,
+  .narrative-particle {
+    will-change: transform, opacity;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform-style: flat;
   }
 }

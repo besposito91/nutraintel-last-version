@@ -250,7 +250,10 @@ export default function NarrativeEnergy() {
           renderHero(pendingHeroProgress);
         });
       };
-      const commitHeroRender = compactMotion ? renderHero : queueHeroRender;
+      // Batch both wheel and touch updates into a single paint. Calling
+      // gsap.set() directly for every touchmove event can produce several
+      // transform writes inside the same frame on mobile browsers.
+      const commitHeroRender = queueHeroRender;
 
       const heroTrigger = ScrollTrigger.create({
         trigger: hero,
@@ -259,13 +262,15 @@ export default function NarrativeEnergy() {
         invalidateOnRefresh: true,
         onRefreshInit: () => { measuredLogo = logoSize(); },
         onRefresh: ({ progress, isActive }) => {
-          commitHeroRender(progress);
+          const rect = hero.getBoundingClientRect();
+          if (isActive || rect.bottom > 0) commitHeroRender(progress);
         },
         onUpdate: ({ progress, isActive }) => {
-          if (isActive) commitHeroRender(progress);
+          const rect = hero.getBoundingClientRect();
+          if (isActive || (rect.top >= -1 && rect.top < innerHeight)) commitHeroRender(progress);
         },
       });
-      renderHero(heroTrigger.progress);
+      if (hero.getBoundingClientRect().bottom > 0) renderHero(heroTrigger.progress);
 
       const splitTimeline = gsap.timeline({
         scrollTrigger: {
@@ -315,7 +320,7 @@ export default function NarrativeEnergy() {
         return 1.08;
       };
 
-      gsap.timeline({
+      const solutionTimeline = gsap.timeline({
         scrollTrigger: { trigger: solution, start: 'top bottom', end: 'top top', scrub: storyScrub, invalidateOnRefresh: true },
       })
         .to(particles, { x: 0, y: 0, scale: .68, duration: .09, ease: 'power2.inOut' }, 0)
@@ -346,7 +351,7 @@ export default function NarrativeEnergy() {
         const nextProgress = gsap.utils.clamp(0, 1, Number(event.detail?.progress) || .5 / 6);
         usecaseProgress = nextProgress;
         const rect = usecases.getBoundingClientRect();
-        if (rect.bottom <= 0 || rect.top >= innerHeight) return;
+        if (rect.bottom <= innerHeight * .05 || rect.top >= innerHeight * .95) return;
         const point = markerPoint(usecaseProgress);
         gsap.to(core, {
           x: point.x,
@@ -372,14 +377,16 @@ export default function NarrativeEnergy() {
         core.style.visibility = 'inherit';
       };
 
-      ScrollTrigger.create({
+      const usecaseEntryTrigger = ScrollTrigger.create({
         trigger: usecases,
         start: 'top bottom',
         end: 'top top',
         invalidateOnRefresh: true,
         onEnter: ({ progress }) => placeUsecaseEntry(progress),
         onEnterBack: ({ progress }) => placeUsecaseEntry(progress),
-        onUpdate: ({ progress }) => placeUsecaseEntry(progress),
+        onUpdate: ({ progress, isActive }) => {
+          if (isActive) placeUsecaseEntry(progress);
+        },
       });
 
       const usecaseTrigger = ScrollTrigger.create({
@@ -404,7 +411,7 @@ export default function NarrativeEnergy() {
         },
       });
 
-      gsap.delayedCall(.2, () => {
+      const initialMarkerCall = gsap.delayedCall(.2, () => {
         const rect = usecases.getBoundingClientRect();
         if (!usecaseTrigger.isActive && !(rect.top <= 1 && rect.bottom > 0)) return;
         const point = markerPoint(usecaseProgress);
@@ -413,7 +420,8 @@ export default function NarrativeEnergy() {
 
       const restoreUsecaseSphere = () => {
         const point = markerPoint(usecaseProgress);
-      
+        gsap.set([logo, fracture], { autoAlpha: 0 });
+        gsap.set(particles, { autoAlpha: 0 });
         gsap.set(core, {
           x: point.x,
           y: point.y,
@@ -474,10 +482,108 @@ export default function NarrativeEnergy() {
       }
       consequenceTimeline.to(core, { rotation: 405, duration: .22, ease: 'none' }, .78);
 
+      /*
+       * A browser refresh can restore the scroll position before images,
+       * fonts and ScrollTrigger have finished measuring the document. Since
+       * every chapter controls the same fixed sphere, the last refresh
+       * callback used to win even when it belonged to a section above the
+       * viewport. Reconcile the visual state from the current chapter after
+       * all triggers have refreshed instead of relying on callback order.
+       */
+      const applyTimelineAtScroll = (timeline) => {
+        const progress = timeline.scrollTrigger?.progress ?? 0;
+        timeline.invalidate().progress(progress, true);
+      };
+
+      const reconcileNarrativeState = () => {
+        measuredLogo = logoSize();
+
+        const consequenceRect = consequences.getBoundingClientRect();
+        const consequenceProgress = consequenceTimeline.scrollTrigger?.progress ?? 0;
+        if (consequenceProgress > 0 || consequenceRect.top < innerHeight * .98) {
+          root.classList.add('is-closing');
+          gsap.set([logo, fracture], { autoAlpha: 0 });
+          gsap.set(particles, { autoAlpha: 0 });
+          applyTimelineAtScroll(consequenceTimeline);
+          return;
+        }
+
+        root.classList.remove('is-closing');
+        const usecaseRect = usecases.getBoundingClientRect();
+        // Leave a small boundary tolerance: fractional viewport pixels can
+        // otherwise make the following section appear "visible" while the
+        // ecosystem still occupies the whole screen after a hash refresh.
+        if (usecaseRect.top < innerHeight * .95 && usecaseRect.bottom > innerHeight * .05) {
+          gsap.set([logo, fracture], { autoAlpha: 0 });
+          gsap.set(particles, { autoAlpha: 0 });
+          if (usecaseEntryTrigger.progress < 1 && usecaseRect.top > 0) {
+            placeUsecaseEntry(usecaseEntryTrigger.progress);
+          } else {
+            restoreUsecaseSphere();
+          }
+          return;
+        }
+
+        const solutionRect = solution.getBoundingClientRect();
+        const solutionProgress = solutionTimeline.scrollTrigger?.progress ?? 0;
+        if (solutionProgress > 0 || solutionRect.top < innerHeight) {
+          gsap.set([logo, fracture], { autoAlpha: 0 });
+          applyTimelineAtScroll(solutionTimeline);
+          return;
+        }
+
+        const problemRect = problems.getBoundingClientRect();
+        const problemProgress = splitTimeline.scrollTrigger?.progress ?? 0;
+        if (problemProgress > 0 || problemRect.top < innerHeight) {
+          gsap.set(logo, { autoAlpha: 0 });
+          applyTimelineAtScroll(splitTimeline);
+          return;
+        }
+
+        renderHero(heroTrigger.progress);
+      };
+
+      let reconcileFrame = 0;
+      let settleFrame = 0;
+      const scheduleReconcile = () => {
+        if (reconcileFrame) cancelAnimationFrame(reconcileFrame);
+        if (settleFrame) cancelAnimationFrame(settleFrame);
+        reconcileFrame = requestAnimationFrame(() => {
+          reconcileFrame = 0;
+          // The second frame lets restored scroll position and the visual
+          // viewport settle before reading section bounds.
+          settleFrame = requestAnimationFrame(() => {
+            settleFrame = 0;
+            reconcileNarrativeState();
+          });
+        });
+      };
+      const reconcileWhenVisible = () => {
+        if (document.visibilityState === 'visible') scheduleReconcile();
+      };
+
+      ScrollTrigger.addEventListener('refresh', scheduleReconcile);
+      window.addEventListener('pageshow', scheduleReconcile);
+      window.addEventListener('load', scheduleReconcile);
+      window.addEventListener('hashchange', scheduleReconcile);
+      window.addEventListener('popstate', scheduleReconcile);
+      document.addEventListener('visibilitychange', reconcileWhenVisible);
+      scheduleReconcile();
+
       return () => {
         if (heroFrame) cancelAnimationFrame(heroFrame);
+        if (reconcileFrame) cancelAnimationFrame(reconcileFrame);
+        if (settleFrame) cancelAnimationFrame(settleFrame);
+        initialMarkerCall.kill();
         heroTrigger.kill();
+        usecaseEntryTrigger.kill();
         usecaseTrigger.kill();
+        ScrollTrigger.removeEventListener('refresh', scheduleReconcile);
+        window.removeEventListener('pageshow', scheduleReconcile);
+        window.removeEventListener('load', scheduleReconcile);
+        window.removeEventListener('hashchange', scheduleReconcile);
+        window.removeEventListener('popstate', scheduleReconcile);
+        document.removeEventListener('visibilitychange', reconcileWhenVisible);
         window.removeEventListener('nutraintel:usecase-step', moveToUsecaseStep);
         root.classList.remove('is-closing');
       };

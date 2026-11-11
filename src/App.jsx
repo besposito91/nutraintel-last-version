@@ -75,9 +75,19 @@ export default function App() {
       }
     });
 
-    const refresh = () => ScrollTrigger.refresh();
+    let refreshFrame = 0;
+    const refresh = () => {
+      if (refreshFrame) cancelAnimationFrame(refreshFrame);
+      refreshFrame = requestAnimationFrame(() => {
+        refreshFrame = 0;
+        ScrollTrigger.refresh(true);
+        ScrollTrigger.update();
+      });
+    };
     document.fonts?.ready.then(refresh);
     window.addEventListener('load', refresh);
+    window.addEventListener('pageshow', refresh);
+    window.addEventListener('orientationchange', refresh);
     return () => {
       ctx.revert();
       if (lenis) {
@@ -86,8 +96,11 @@ export default function App() {
         gsap.ticker.remove(tickLenis);
       }
       gsap.ticker.lagSmoothing(500, 33);
+      if (refreshFrame) cancelAnimationFrame(refreshFrame);
       window.removeEventListener('nutraintel:scroll-to', navigateTo);
       window.removeEventListener('load', refresh);
+      window.removeEventListener('pageshow', refresh);
+      window.removeEventListener('orientationchange', refresh);
     };
   }, []);
 
