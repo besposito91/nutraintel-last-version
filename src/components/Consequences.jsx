@@ -2,6 +2,23 @@ import BlurText from './BlurText.jsx';
 import HumanCutout from './HumanCutout.jsx';
 import { useLanguage } from '../i18n.jsx';
 
+function ImpactLines({ strong, rest }) {
+  const lines = `${strong} ${rest}`
+    .split('.')
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  return (
+    <h3>
+      {lines.map((line, index) => (
+        <span className={index === 0 ? 'is-strong' : ''} key={line}>
+          {line}{index === lines.length - 1 ? '.' : ''}
+        </span>
+      ))}
+    </h3>
+  );
+}
+
 export default function Consequences() {
   const { t } = useLanguage();
 
@@ -35,10 +52,10 @@ export default function Consequences() {
             <span className="consequence-eyebrow">
               {t('impact.professionalEyebrow')}
             </span>
-            <h3>
-              <strong>{t('impact.professionalStrong')}</strong>
-              <span>{t('impact.professionalRest')}</span>
-            </h3>
+            <ImpactLines
+              strong={t('impact.professionalStrong')}
+              rest={t('impact.professionalRest')}
+            />
           </div>
         </article>
 
@@ -54,10 +71,10 @@ export default function Consequences() {
             <span className="consequence-eyebrow">
               {t('impact.patientEyebrow')}
             </span>
-            <h3>
-              <strong>{t('impact.patientStrong')}</strong>
-              <span>{t('impact.patientRest')}</span>
-            </h3>
+            <ImpactLines
+              strong={t('impact.patientStrong')}
+              rest={t('impact.patientRest')}
+            />
           </div>
         </article>
       </div>

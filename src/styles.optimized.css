@@ -787,6 +787,25 @@ main{position:relative;background:
   margin: 0;
 }
 
+.consequences {
+  height: calc(100svh - 74px);
+  min-height: 650px;
+  padding: clamp(1.1rem, 2.4vh, 2rem) clamp(1.5rem, 5vw, 6rem) clamp(1rem, 2vh, 1.5rem);
+}
+
+.consequences-head {
+  margin-bottom: clamp(0.25rem, 0.8vh, 0.75rem);
+}
+
+.consequences-head .t-display {
+  font-size: clamp(2.25rem, 3.7vw, 3.85rem);
+  line-height: 0.98;
+}
+
+.consequence-columns {
+  gap: clamp(1.5rem, 4vw, 5rem);
+}
+
 .consequence-columns .consequence-image {
   position: relative;
 }
@@ -795,8 +814,8 @@ main{position:relative;background:
   position: relative;
   inset: auto;
   display: block;
-  width: min(100%, 650px);
-  height: clamp(350px, 47vh, 530px);
+  width: min(100%, 610px);
+  height: clamp(245px, 33vh, 355px);
 }
 
 .consequence-columns .consequence-image img {
@@ -807,22 +826,30 @@ main{position:relative;background:
   position: relative;
   inset: auto;
   max-width: none;
-  padding: clamp(1rem, 2vh, 1.5rem) 0 0;
+  padding: clamp(0.35rem, 0.8vh, 0.7rem) 0 0;
   color: #f5fcfd;
   text-align: center;
 }
 
 .consequence-columns .consequence-copy h3 {
-  max-width: 19ch;
+  max-width: 18ch;
   margin: 0 auto;
-  font-size: clamp(1.75rem, 2.35vw, 2.85rem);
-  line-height: 1.06;
+  font-size: clamp(1.6rem, 2vw, 2.35rem);
+  line-height: 1.08;
+}
+
+.consequence-columns .consequence-copy h3 span {
+  display: block;
+}
+
+.consequence-columns .consequence-copy h3 .is-strong {
+  font-weight: 750;
 }
 
 .consequence-columns .consequence-eyebrow {
   width: fit-content;
-  margin: 0 auto 0.9rem;
-  padding: 0.48rem 0.8rem;
+  margin: 0 auto 0.55rem;
+  padding: 0.42rem 0.75rem;
   border: 1px solid rgba(255,255,255,.32);
   border-radius: 999px;
   background: rgba(5,59,92,.22);
@@ -834,6 +861,16 @@ main{position:relative;background:
 }
 
 @media (max-width: 720px) {
+  .consequences {
+    height: auto;
+    min-height: auto;
+    padding: 4.5rem 1.25rem;
+  }
+
+  .consequences-head {
+    margin-bottom: 1.5rem;
+  }
+
   .consequence-columns .consequence-card {
     width: 100%;
   }
@@ -844,11 +881,11 @@ main{position:relative;background:
 
   .consequence-columns .consequence-image .human-cutout {
     width: min(100%, 480px);
-    height: 360px;
+    height: 300px;
   }
 
   .consequence-columns .consequence-copy h3 {
     max-width: 18ch;
-    font-size: clamp(1.75rem, 8vw, 2.5rem);
+    font-size: clamp(1.65rem, 7.5vw, 2.25rem);
   }
 }
