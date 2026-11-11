@@ -794,6 +794,47 @@ main{position:relative;background:
   }
 }
 
+/* CTA principali */
+.btn-dark {
+  border-color: transparent;
+  background: #ff7700;
+  background: linear-gradient(
+    119deg,
+    rgba(255, 119, 0, 1) 0%,
+    rgba(214, 100, 0, 1) 22%,
+    rgba(255, 187, 0, 1) 100%
+  );
+  background-size: 130% 100%;
+  background-position: 0 50%;
+  color: #fff;
+  box-shadow: 0 10px 26px rgba(214, 100, 0, 0.2);
+  transition:
+    transform 0.25s ease,
+    background-position 0.35s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+}
+
+.btn-dark:hover {
+  background: #ff7700;
+  background: linear-gradient(
+    119deg,
+    rgba(255, 119, 0, 1) 0%,
+    rgba(214, 100, 0, 1) 22%,
+    rgba(255, 187, 0, 1) 100%
+  );
+  background-size: 130% 100%;
+  background-position: 100% 50%;
+  color: #fff;
+  box-shadow: 0 14px 32px rgba(214, 100, 0, 0.28);
+  filter: saturate(1.05) brightness(1.03);
+}
+
+.btn-dark:focus-visible {
+  outline: 3px solid rgba(255, 187, 0, 0.38);
+  outline-offset: 3px;
+}
+
 /* Reset delle vecchie regole della sezione Conseguenze. */
 .consequence-columns .consequence-card {
   position: relative;
