@@ -815,7 +815,7 @@ main{position:relative;background:
   inset: auto;
   display: block;
   width: min(100%, 610px);
-  height: clamp(245px, 33vh, 355px);
+  height: clamp(280px, 38vh, 410px);
 }
 
 .consequence-columns .consequence-image img {
