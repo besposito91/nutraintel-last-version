@@ -655,3 +655,125 @@ main{position:relative;background:
 .language-menu {
   display: none;
 }
+
+/* CONSEGUENZE — layout a due colonne */
+
+.consequences {
+  position: relative;
+  min-height: 100svh;
+  padding: clamp(6rem, 9vh, 8rem) clamp(1.5rem, 5vw, 6rem);
+  overflow: hidden;
+}
+
+.consequences-head {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto clamp(2.5rem, 5vh, 4.5rem);
+  text-align: center;
+}
+
+.consequences-head h2 {
+  margin: 0;
+  line-height: 1.02;
+}
+
+.consequence-columns {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(2rem, 5vw, 6rem);
+  width: min(1400px, 100%);
+  margin: 0 auto;
+}
+
+.consequence-card {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-width: 0;
+}
+
+.consequence-image {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: clamp(260px, 40vh, 450px);
+}
+
+.consequence-image .human-cutout {
+  width: min(100%, 520px);
+  height: 100%;
+}
+
+.consequence-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 450px;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.consequence-copy {
+  position: relative;
+  padding-top: clamp(1.25rem, 2.5vh, 2rem);
+}
+
+.consequence-eyebrow {
+  display: block;
+  margin-bottom: 0.8rem;
+  color: #0e8f72;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.consequence-copy h3 {
+  max-width: 17ch;
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+}
+
+.consequence-copy h3 strong,
+.consequence-copy h3 span {
+  display: block;
+}
+
+.consequence-copy h3 strong {
+  font-weight: 700;
+}
+
+@media (max-width: 720px) {
+  .consequences {
+    min-height: auto;
+    padding: 5rem 1.25rem;
+  }
+
+  .consequences-head {
+    margin-bottom: 3rem;
+  }
+
+  .consequence-columns {
+    grid-template-columns: 1fr;
+    gap: 4.5rem;
+  }
+
+  .consequence-image {
+    min-height: 280px;
+  }
+
+  .consequence-image img {
+    max-height: 340px;
+  }
+
+  .consequence-copy h3 {
+    max-width: 15ch;
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+}
