@@ -1,4 +1,3 @@
-import BlurText from './BlurText.jsx';
 import HumanCutout from './HumanCutout.jsx';
 import { useLanguage } from '../i18n.jsx';
 
@@ -30,13 +29,11 @@ export default function Consequences() {
       data-section="4"
     >
       <header className="consequences-head">
-        <BlurText
-          as="h2"
-          id="consequences-title"
-          data-blur
-          className="t-display"
-          text={t('impact.title')}
-        />
+        <h2 id="consequences-title" data-blur className="t-display">
+          {t('impact.titleBefore')}
+          <span className="highlight">{t('impact.titleHighlight')}</span>
+          {t('impact.titleAfter')}
+        </h2>
       </header>
 
       <div className="consequence-columns">
