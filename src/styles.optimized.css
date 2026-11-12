@@ -1139,3 +1139,17 @@ main{position:relative;background:
   left: 2%;
   top: -15%;
 }
+
+.ecosystem-app {
+  position: relative;
+  left: 15%;
+  top: -14%;
+  transform: scale(1.3);
+}
+
+.ecosystem-scale {
+  position: relative;
+  left: 10%;
+  top: -14%;
+  transform: scale(1.3);
+}
