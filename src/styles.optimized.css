@@ -1122,3 +1122,12 @@ main{position:relative;background:
 .usecases-head p {
   font-size: 18px !important;
 }
+
+/* Gerarchia tipografica dei testi dell'ecosistema. */
+.solution-copy h2 {
+  font-weight: 500;
+}
+
+.solution-copy p strong {
+  font-weight: 600;
+}

@@ -32,7 +32,11 @@ export default function SeeDeeper() {
         <div className="grain" aria-hidden="true" />
         <header className="solution-copy" aria-live="polite">
           <h2 id="solution-title">{stages[step].title}</h2>
-          <p>{stages[step].text}</p>
+          <p>
+            {stages[step].textBefore}
+            <strong>{stages[step].textEmphasis}</strong>
+            {stages[step].textAfter}
+          </p>
         </header>
         <div className="solution-stage">
           <div className="solution-orbit">

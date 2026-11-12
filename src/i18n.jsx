@@ -15,9 +15,9 @@ const messages = {
       answerKicker: 'La risposta NutraIntel', answerTitle: 'Rimettere in connessione il percorso.', answerTitleBefore: 'Rimettere in ', answerTitleHighlight: 'connessione', answerTitleAfter: ' il percorso.', answerText: 'Quando i due punti si ritrovano, dati e relazione tornano a muoversi insieme.', answerTextBefore: 'Quando i due punti si ritrovano, ', answerTextEmphasis: 'dati e relazione tornano a muoversi insieme', answerTextAfter: '.', answerLink: 'Guarda la connessione',
     },
     ecosystem: { stages: [
-      { title: 'Bilancia connessa', text: 'Il paziente effettua le misurazioni attraverso la bilancia intelligente.' },
-      { title: 'Portale professionale', text: 'Il professionista monitora i dati del paziente e organizza il suo lavoro.' },
-      { title: 'App paziente', text: 'Il paziente visualizza le proprie misurazioni, segue l’andamento dei dati nel tempo e aggiorna le sue abitudini.' },
+      { title: 'Bilancia connessa', text: 'Il paziente effettua le misurazioni attraverso la bilancia intelligente.', textBefore: 'Il paziente ', textEmphasis: 'effettua le misurazioni', textAfter: ' attraverso la bilancia intelligente.' },
+      { title: 'Portale professionale', text: 'Il professionista monitora i dati del paziente e organizza il suo lavoro.', textBefore: 'Il professionista ', textEmphasis: 'monitora i dati del paziente', textAfter: ' e organizza il suo lavoro.' },
+      { title: 'App paziente', text: 'Il paziente visualizza le proprie misurazioni, segue l’andamento dei dati nel tempo e aggiorna le sue abitudini.', textBefore: 'Il paziente ', textEmphasis: 'visualizza le proprie misurazioni', textAfter: ', segue l’andamento dei dati nel tempo e aggiorna le sue abitudini.' },
     ] },
     usecases: {
       cases: [
@@ -57,9 +57,9 @@ const messages = {
       { title: 'What if missing information emerged too late?', text: 'A skipped measurement, an outdated document, a changing habit. Without continuity, some signals only become visible at the next check-up.', textBefore: 'A skipped measurement, an outdated document, a changing habit. Without continuity, ', textEmphasis: 'some signals only become visible at the next check-up', textAfter: '.', alt: 'A patient photographs a document with a smartphone.' },
     ], answerKicker: 'The NutraIntel answer', answerTitle: 'Bring the journey back into connection.', answerTitleBefore: 'Bring the journey back into ', answerTitleHighlight: 'connection', answerTitleAfter: '.', answerText: 'When the two points meet again, data and relationships start moving together.', answerTextBefore: 'When the two points meet again, ', answerTextEmphasis: 'data and relationships start moving together', answerTextAfter: '.', answerLink: 'See the connection' },
     ecosystem: { stages: [
-      { title: 'Connected scale', text: 'The patient takes measurements using the smart scale.' },
-      { title: 'Professional portal', text: 'The professional monitors patient data and organises their work.' },
-      { title: 'Patient app', text: 'The patient views measurements, follows trends over time and updates daily habits.' },
+      { title: 'Connected scale', text: 'The patient takes measurements using the smart scale.', textBefore: 'The patient ', textEmphasis: 'takes measurements', textAfter: ' using the smart scale.' },
+      { title: 'Professional portal', text: 'The professional monitors patient data and organises their work.', textBefore: 'The professional ', textEmphasis: 'monitors patient data', textAfter: ' and organises their work.' },
+      { title: 'Patient app', text: 'The patient views measurements, follows trends over time and updates daily habits.', textBefore: 'The patient ', textEmphasis: 'views measurements', textAfter: ', follows trends over time and updates daily habits.' },
     ] },
     usecases: { cases: [
       { title: 'Every measurement tells a story of progress.', description: 'Data recorded by the patient immediately becomes part of the journey followed by the professional.' },
@@ -93,9 +93,9 @@ const messages = {
       { title: 'Was, wenn fehlende Informationen zu spät auffallen?', text: 'Eine ausgelassene Messung, ein veraltetes Dokument, eine veränderte Gewohnheit. Ohne Kontinuität werden manche Signale erst beim nächsten Termin sichtbar.', textBefore: 'Eine ausgelassene Messung, ein veraltetes Dokument, eine veränderte Gewohnheit. Ohne Kontinuität ', textEmphasis: 'werden manche Signale erst beim nächsten Termin sichtbar', textAfter: '.', alt: 'Ein Patient fotografiert ein Dokument mit dem Smartphone.' },
     ], answerKicker: 'Die Antwort von NutraIntel', answerTitle: 'Den Weg wieder in Verbindung bringen.', answerTitleBefore: 'Den Weg wieder in ', answerTitleHighlight: 'Verbindung', answerTitleAfter: ' bringen.', answerText: 'Wenn beide Punkte wieder zusammenfinden, bewegen sich Daten und Beziehung gemeinsam.', answerTextBefore: 'Wenn beide Punkte wieder zusammenfinden, ', answerTextEmphasis: 'bewegen sich Daten und Beziehung gemeinsam', answerTextAfter: '.', answerLink: 'Verbindung ansehen' },
     ecosystem: { stages: [
-      { title: 'Vernetzte Waage', text: 'Der Patient führt Messungen mit der intelligenten Waage durch.' },
-      { title: 'Professionelles Portal', text: 'Die Fachkraft überwacht Patientendaten und organisiert ihre Arbeit.' },
-      { title: 'Patienten-App', text: 'Der Patient sieht seine Messwerte, verfolgt Entwicklungen und aktualisiert seine Gewohnheiten.' },
+      { title: 'Vernetzte Waage', text: 'Der Patient führt Messungen mit der intelligenten Waage durch.', textBefore: 'Der Patient ', textEmphasis: 'führt Messungen durch', textAfter: ' mit der intelligenten Waage.' },
+      { title: 'Professionelles Portal', text: 'Die Fachkraft überwacht Patientendaten und organisiert ihre Arbeit.', textBefore: 'Die Fachkraft ', textEmphasis: 'überwacht Patientendaten', textAfter: ' und organisiert ihre Arbeit.' },
+      { title: 'Patienten-App', text: 'Der Patient sieht seine Messwerte, verfolgt Entwicklungen und aktualisiert seine Gewohnheiten.', textBefore: 'Der Patient ', textEmphasis: 'sieht seine Messwerte', textAfter: ', verfolgt Entwicklungen und aktualisiert seine Gewohnheiten.' },
     ] },
     usecases: { cases: [
       { title: 'Jede Messung erzählt von einem Fortschritt.', description: 'Die vom Patienten erfassten Daten werden sofort Teil des von der Fachkraft begleiteten Weges.' },
