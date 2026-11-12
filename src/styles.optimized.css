@@ -105,7 +105,7 @@ body{background:linear-gradient(135deg,#fff 0%,#e7f5f4 48%,#fff 100%) fixed}
 }
 
 /* Use cases are explored with arrows; vertical scrolling continues to the next section. */
-.usecases{height:100svh;min-height:680px}
+.usecases{height:100svh;min-height:680px;margin-top:15vh;}
 .usecases-sticky{position:relative;top:auto;height:100svh;min-height:680px}
 @media(max-width:720px){
   .usecases{height:100svh;min-height:620px}
@@ -503,7 +503,7 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
   .usecases-sticky{padding:2.2vh 12px 30px}
   .usecases-head{position:relative;z-index:10;height:clamp(150px,19vh,176px);padding:0 4px;background:linear-gradient(180deg,rgba(247,251,250,.98) 0%,rgba(247,251,250,.88) 76%,rgba(247,251,250,0) 100%)}
   .usecases-head h2{max-width:370px;font-size:clamp(28px,8vw,35px);line-height:1.03}
-  .usecases-head p{max-width:360px;margin-top:11px;font-size:13px;line-height:1.4;color:#527384}
+  .usecases-head p{max-width:360px;margin-top:11px;font-size:13px;line-height:1.4;color:#1f455c}
   .usecases-scenes{height:calc(100% - clamp(150px,19vh,176px) - 8px)}
   .usecases-stage{gap:8px}
   .uc-actor-panel{overflow:visible}

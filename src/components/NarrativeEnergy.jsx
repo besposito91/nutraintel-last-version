@@ -390,7 +390,12 @@ export default function NarrativeEnergy() {
 
       const usecaseTrigger = ScrollTrigger.create({
         trigger: usecases,
-        start: 'top 50%',
+        // The sphere is already animated continuously by usecaseEntryTrigger
+        // while the use-case section crosses the viewport.  Activate the
+        // steady slide state only after that transition has fully completed;
+        // otherwise this trigger would force the final small scale halfway
+        // through the movement and create a visible jump in both directions.
+        start: 'top top',
         end: 'bottom 50%',
         invalidateOnRefresh: true,
         onEnter: () => {
