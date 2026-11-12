@@ -905,10 +905,11 @@ main{position:relative;background:
 .problems-head .highlight {
   padding: 0 0.15em;
   font-weight: 500;
-  background-image: linear-gradient(to right, #e7740f, #f5cc59);
+  border-radius: 50px;
+  background-image: linear-gradient(to right, rgb(255 175 104), rgb(253 209 88));
   background-repeat: no-repeat;
   background-size: 100% 0.4em;
-  background-position: 0 80%;
+  background-position: 0 60%;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
@@ -924,10 +925,11 @@ main{position:relative;background:
 .problems-answer h3 .highlight {
   padding: 0 0.15em;
   font-weight: 500;
-  background-image: linear-gradient(to right, #e7740f, #f5cc59);
+  border-radius: 50px;
+  background-image: linear-gradient(to right, rgb(255 175 104), rgb(253 209 88));
   background-repeat: no-repeat;
   background-size: 100% 0.4em;
-  background-position: 0 80%;
+  background-position: 0 60%;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
