@@ -1203,3 +1203,89 @@ main{position:relative;background:
 .consequences{
   margin-top: 15vh;
 }
+
+/* Conseguenze — composizione editoriale: immagini ai lati, messaggi al centro. */
+@media (min-width: 721px) {
+  .consequences {
+    height: calc(100svh - 74px);
+    min-height: 680px;
+    padding: clamp(1rem, 2.2vh, 1.8rem) clamp(1.5rem, 4vw, 5rem) clamp(1rem, 2vh, 1.5rem);
+  }
+
+  .consequences-head {
+    max-width: 1480px;
+    margin: 0 auto clamp(.5rem, 1.5vh, 1.25rem);
+  }
+
+  .consequences-head .t-display {
+    font-size: clamp(48px, 5vw, 80px);
+    line-height: .98;
+  }
+
+  .consequence-columns {
+    position: relative;
+    display: block;
+    width: min(1760px, 100%);
+    height: clamp(430px, 62vh, 650px);
+    margin: 0 auto;
+  }
+
+  .consequence-columns .consequence-card {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .consequence-columns .consequence-image {
+    position: absolute;
+    top: 50%;
+    width: clamp(350px, 30vw, 570px);
+    height: clamp(350px, 50vh, 570px);
+    translate: 0 -50%;
+  }
+
+  .consequence-columns .consequence-image .human-cutout {
+    width: 100%;
+    height: 100%;
+  }
+
+  .consequence-professional .consequence-image {
+    left: 0;
+  }
+
+  .consequence-patient .consequence-image {
+    right: 0;
+  }
+
+  .consequence-columns .consequence-copy {
+    position: absolute;
+    left: 50%;
+    width: min(32vw, 520px);
+    padding: 0;
+    translate: -50% 0;
+    color: #f5fcfd;
+    text-align: left;
+  }
+
+  .consequence-professional .consequence-copy {
+    top: 8%;
+  }
+
+  .consequence-patient .consequence-copy {
+    bottom: 8%;
+  }
+
+  .consequence-columns .consequence-eyebrow {
+    margin: 0 0 .7rem;
+  }
+
+  .consequence-columns .consequence-copy h3 {
+    max-width: none;
+    margin: 0;
+    font-size: clamp(27px, 2.35vw, 43px);
+    line-height: 1.08;
+  }
+}
