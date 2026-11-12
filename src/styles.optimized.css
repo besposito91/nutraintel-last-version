@@ -1178,12 +1178,13 @@ main{position:relative;background:
 .consequences-head .highlight {
   padding: 0 0.15em;
   font-weight: 500;
-  background-image: linear-gradient(to right, #e7740f, #f5cc59);
+  background-image: linear-gradient(to right, rgb(255 146 49), rgb(255 205 68));
   background-repeat: no-repeat;
   background-size: 100% 0.4em;
-  background-position: 0 80%;
+  background-position: 0 60%;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
+  border-radius: 50px;
 }
 
 @media (max-width: 720px) {
