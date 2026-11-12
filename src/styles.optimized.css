@@ -1112,3 +1112,9 @@ main{position:relative;background:
 :root p {
   font-size: 20px !important;
 }
+
+/* Eccezioni: testi descrittivi più compatti nelle card e negli use case. */
+.problem-card-body p,
+.usecases-head p {
+  font-size: 18px !important;
+}
