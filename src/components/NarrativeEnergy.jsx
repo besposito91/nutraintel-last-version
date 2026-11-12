@@ -26,7 +26,9 @@ export default function NarrativeEnergy() {
     const shade = root.querySelector('.narrative-shade');
     const fracture = root.querySelector('.narrative-fracture');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const compactMotion = matchMedia('(max-width: 720px), (pointer: coarse)').matches;
+    // Keep the established desktop choreography untouched. The lighter,
+    // finger-locked renderer is used only by the actual mobile layout.
+    const compactMotion = matchMedia('(max-width: 720px)').matches;
     const logoSize = () => logo.getBoundingClientRect().width;
     const blueHead = () => ({ x: logoSize() * .214, y: logoSize() * -.373 });
     const greenHead = () => ({ x: logoSize() * -.224, y: logoSize() * -.253 });
@@ -118,6 +120,27 @@ export default function NarrativeEnergy() {
         coreGrowEnd: .47, coreFillEnd: .62, coreHoldEnd: .82,
         rotationStart: .35,
       };
+
+      // ScrollTrigger already runs its updates on the browser animation frame.
+      // On mobile, quick setters avoid rebuilding GSAP tweens for every tiny
+      // touch delta and keep all writes limited to compositor-only properties.
+      const mobileSet = compactMotion ? {
+        doctorX: gsap.quickSetter(doctor, 'x', 'px'),
+        doctorY: gsap.quickSetter(doctor, 'y', 'px'),
+        doctorScale: gsap.quickSetter(doctor, 'scale'),
+        doctorOpacity: gsap.quickSetter(doctor, 'opacity'),
+        patientX: gsap.quickSetter(patient, 'x', 'px'),
+        patientY: gsap.quickSetter(patient, 'y', 'px'),
+        patientScale: gsap.quickSetter(patient, 'scale'),
+        patientOpacity: gsap.quickSetter(patient, 'opacity'),
+        logoY: gsap.quickSetter(logo, 'y', 'px'),
+        logoScale: gsap.quickSetter(logo, 'scale'),
+        logoOpacity: gsap.quickSetter(logo, 'opacity'),
+        coreScale: gsap.quickSetter(core, 'scale'),
+        coreOpacity: gsap.quickSetter(core, 'opacity'),
+      } : null;
+      if (compactMotion) core.style.visibility = 'visible';
+
       const renderHero = (progress) => {
         /*
          * Mobile uses a deliberately lighter path. Two quadratic arcs replace
@@ -136,41 +159,29 @@ export default function NarrativeEnergy() {
           const particleScale = mix(mix(.275, .315, particleGrowth), .055, particleMerge);
           const particleAlpha = 1 - linear(.355, .425, progress);
 
-          gsap.set(doctor, {
-            x: doctorPoint.x * measuredLogo,
-            y: doctorPoint.y * measuredLogo,
-            scale: particleScale,
-            rotation: 0,
-            autoAlpha: particleAlpha,
-          });
-          gsap.set(patient, {
-            x: patientPoint.x * measuredLogo,
-            y: patientPoint.y * measuredLogo,
-            scale: particleScale * .94,
-            rotation: 0,
-            autoAlpha: particleAlpha,
-          });
+          mobileSet.doctorX(doctorPoint.x * measuredLogo);
+          mobileSet.doctorY(doctorPoint.y * measuredLogo);
+          mobileSet.doctorScale(particleScale);
+          mobileSet.doctorOpacity(particleAlpha);
+          mobileSet.patientX(patientPoint.x * measuredLogo);
+          mobileSet.patientY(patientPoint.y * measuredLogo);
+          mobileSet.patientScale(particleScale * .94);
+          mobileSet.patientOpacity(particleAlpha);
 
           const logoFade = linear(.14, .34, progress);
-          gsap.set(logo, {
-            y: mix(0, -18, logoFade),
-            scale: mix(1, .965, logoFade),
-            rotation: 0,
-            autoAlpha: 1 - logoFade,
-          });
+          mobileSet.logoY(mix(0, -18, logoFade));
+          mobileSet.logoScale(mix(1, .965, logoFade));
+          mobileSet.logoOpacity(1 - logoFade);
 
           const coreIntro = linear(.335, .445, progress);
           const coreFill = linear(.425, .61, progress);
-          const coreExit = linear(.865, 1, progress);
+          // The filled sphere now stays stable, then closes in a shorter
+          // continuous interval. This removes the long, slow "rubber" phase.
+          const coreExit = linear(.90, .992, progress);
           const introScale = mix(.12, .42, coreIntro);
           const filledScale = mix(introScale, heroFillScale(), coreFill);
-          gsap.set(core, {
-            x: 0,
-            y: 0,
-            scale: mix(filledScale, .18, coreExit),
-            rotation: 0,
-            autoAlpha: mix(coreIntro, 1, coreFill),
-          });
+          mobileSet.coreScale(mix(filledScale, .18, coreExit));
+          mobileSet.coreOpacity(mix(coreIntro, 1, coreFill));
           return;
         }
 
@@ -253,7 +264,10 @@ export default function NarrativeEnergy() {
       // Batch both wheel and touch updates into a single paint. Calling
       // gsap.set() directly for every touchmove event can produce several
       // transform writes inside the same frame on mobile browsers.
-      const commitHeroRender = queueHeroRender;
+      // ScrollTrigger is already frame-synchronised. Rendering directly on
+      // phones removes the extra one-frame delay that was perceptible while
+      // dragging slowly; desktop retains its existing batching behaviour.
+      const commitHeroRender = compactMotion ? renderHero : queueHeroRender;
 
       const heroTrigger = ScrollTrigger.create({
         trigger: hero,
@@ -262,10 +276,18 @@ export default function NarrativeEnergy() {
         invalidateOnRefresh: true,
         onRefreshInit: () => { measuredLogo = logoSize(); },
         onRefresh: ({ progress, isActive }) => {
+          if (compactMotion) {
+            if (isActive || window.scrollY <= 1) commitHeroRender(progress);
+            return;
+          }
           const rect = hero.getBoundingClientRect();
           if (isActive || rect.bottom > 0) commitHeroRender(progress);
         },
         onUpdate: ({ progress, isActive }) => {
+          if (compactMotion) {
+            if (isActive) commitHeroRender(progress);
+            return;
+          }
           const rect = hero.getBoundingClientRect();
           if (isActive || (rect.top >= -1 && rect.top < innerHeight)) commitHeroRender(progress);
         },
@@ -276,7 +298,9 @@ export default function NarrativeEnergy() {
         scrollTrigger: {
           trigger: problems,
           start: 'top bottom',
-          end: compactMotion ? 'top 18%' : 'bottom bottom',
+          // Complete the mobile break sooner; the previous 82vh-long split
+          // made the response feel delayed even though it was scroll-linked.
+          end: compactMotion ? 'top 52%' : 'bottom bottom',
           scrub: storyScrub,
           invalidateOnRefresh: true,
           onEnter: () => { orbit.pause(); gsap.set(pair, { rotation: 0 }); },

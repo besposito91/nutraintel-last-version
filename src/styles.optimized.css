@@ -654,7 +654,8 @@ main{position:relative;background:
   .solution-node-2 .solution-node-inner{width:min(62vw,38vh)}
   .solution-arrow{top:61%;width:48px;height:48px}
   .solution-arrow span{font-size:38px}
-  .energy-hero{height:260vh}
+  /* A denser mobile chapter keeps the sphere responsive to the finger. */
+  .energy-hero{height:215vh}
   .narrative-core{background:radial-gradient(circle at 31% 27%,#f6fffc 0 3%,#58ddbd 11%,#1bc8a1 30%,#168fa2 68%,#075071 100%);box-shadow:inset -1vmax -.8vmax 1.7vmax rgba(5,59,92,.14),0 0 1.6vmax rgba(26,139,209,.07)}
   .narrative-core>i{display:none}
   .narrative-particle{box-shadow:none}
@@ -1077,6 +1078,9 @@ main{position:relative;background:
   .narrative-logo,
   .narrative-pair,
   .narrative-particle {
+    /* Mobile state is driven by opacity. Keeping visibility stable prevents
+       autoAlpha from causing a one-frame disappearance when reversing. */
+    visibility: visible !important;
     will-change: transform, opacity;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
