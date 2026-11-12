@@ -920,6 +920,25 @@ main{position:relative;background:
   font-weight: 600;
 }
 
+.problems-answer h3 .highlight {
+  padding: 0 0.15em;
+  font-weight: 500;
+  background-image: linear-gradient(to right, #e7740f, #f5cc59);
+  background-repeat: no-repeat;
+  background-size: 100% 0.4em;
+  background-position: 0 80%;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.problems-answer-section p {
+  font-size: 20px;
+}
+
+.problems-answer-section p strong {
+  font-weight: 600;
+}
+
 /* Avvicina la conclusione della Sfida all'ecosistema successivo. */
 
 .solution-stage {

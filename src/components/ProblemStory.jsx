@@ -48,9 +48,16 @@ export default function ProblemStory() {
     <section className="problems-answer-section" id="monitoraggio" aria-labelledby="answer-title" data-section="2">
       <div className="problems-answer" data-fade>
         <span>{t('challenge.answerKicker')}</span>
-        <h3 id="answer-title">{t('challenge.answerTitle')}</h3>
-        <p>{t('challenge.answerText')}</p>
-        <a href="#ecosistema" className="arrow-link">{t('challenge.answerLink')} <span>↓</span></a>
+         <h3 id="answer-title">
+           {t('challenge.answerTitleBefore')}
+           <strong className="highlight">{t('challenge.answerTitleHighlight')}</strong>
+           {t('challenge.answerTitleAfter')}
+         </h3>
+         <p>
+           {t('challenge.answerTextBefore')}
+           <strong>{t('challenge.answerTextEmphasis')}</strong>
+           {t('challenge.answerTextAfter')}
+         </p>
       </div>
     </section>
     </>
