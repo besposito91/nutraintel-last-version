@@ -76,6 +76,7 @@ body{background:linear-gradient(135deg,#fff 0%,#e7f5f4 48%,#fff 100%) fixed}
   .consequence-row.consequence-patient{grid-template-columns:minmax(280px,1.1fr) minmax(0,.9fr)}
   .foot-top{grid-template-columns:1fr 1.4fr auto}
 }
+
 @media(max-width:720px){
   .consequences{min-height:auto;padding-top:9vh}
   .consequence-rows{gap:5vh}
@@ -1105,4 +1106,9 @@ main{position:relative;background:
     backface-visibility: hidden;
     transform-style: flat;
   }
+}
+
+/* Dimensione uniforme per tutti i paragrafi, anche nelle regole responsive. */
+:root p {
+  font-size: 20px !important;
 }
