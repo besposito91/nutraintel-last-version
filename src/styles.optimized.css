@@ -1111,6 +1111,7 @@ main{position:relative;background:
 /* Dimensione uniforme per tutti i paragrafi, anche nelle regole responsive. */
 :root p {
   font-size: 20px !important;
+  line-height: 1.55 !important; 
 }
 
 /* Eccezioni: testi descrittivi più compatti nelle card e negli use case. */
