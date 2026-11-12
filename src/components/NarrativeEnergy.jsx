@@ -367,7 +367,8 @@ export default function NarrativeEnergy() {
 
       const placeUsecaseEntry = (progress) => {
         const end = usecasePoint();
-        const eased = gsap.parseEase('power2.inOut')(progress);
+        const eased = gsap.parseEase('sine.inOut')(progress);
+        gsap.set(core, { force3D: false });
         setX(0);
         setY(gsap.utils.interpolate(0, end.y, eased));
         setRotation(gsap.utils.interpolate(246, 305, eased));
@@ -376,17 +377,46 @@ export default function NarrativeEnergy() {
         core.style.visibility = 'inherit';
       };
 
-      const usecaseEntryTrigger = ScrollTrigger.create({
-        trigger: usecases,
-        start: 'top bottom',
-        end: 'top top',
-        invalidateOnRefresh: true,
-        onEnter: ({ progress }) => placeUsecaseEntry(progress),
-        onEnterBack: ({ progress }) => placeUsecaseEntry(progress),
-        onUpdate: ({ progress, isActive }) => {
-          if (isActive) placeUsecaseEntry(progress);
+      const setUsecaseTransitionRendering = (active) => {
+        core.style.willChange = active ? 'opacity' : 'transform, opacity';
+        gsap.set(core, { force3D: !active });
+      };
+
+      const usecaseEntryTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: usecases,
+          start: 'top bottom',
+          end: 'top top',
+          scrub: storyScrub,
+          invalidateOnRefresh: true,
+          onEnter: () => setUsecaseTransitionRendering(true),
+          onEnterBack: () => setUsecaseTransitionRendering(true),
+          onLeave: () => setUsecaseTransitionRendering(false),
+          onLeaveBack: () => setUsecaseTransitionRendering(false),
         },
-      });
+      }).fromTo(
+        core,
+        {
+          x: 0,
+          y: 0,
+          scale: ecosystemScale,
+          autoAlpha: .14,
+          rotation: 246,
+          force3D: false,
+        },
+        {
+          x: 0,
+          y: () => usecasePoint().y,
+          scale: usecaseSphereScale,
+          autoAlpha: usecaseSphereOpacity,
+          rotation: 305,
+          force3D: false,
+          duration: 1,
+          ease: 'sine.inOut',
+          immediateRender: false,
+        },
+      );
+      const usecaseEntryTrigger = usecaseEntryTimeline.scrollTrigger;
 
       const usecaseTrigger = ScrollTrigger.create({
         trigger: usecases,
