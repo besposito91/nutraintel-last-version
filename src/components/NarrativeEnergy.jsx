@@ -358,46 +358,21 @@ export default function NarrativeEnergy() {
       const setRotation = gsap.quickSetter(core, 'rotation', 'deg');
       const setScale = gsap.quickSetter(core, 'scale');
       const setOpacity = gsap.quickSetter(core, 'opacity');
-      const markerPoint = (progress = 0) => {
-        const progressBar = get('.usecases-progress');
-        if (!progressBar) return { x: -innerWidth * .415, y: innerHeight * .4 };
-        const rect = progressBar.getBoundingClientRect();
-        const clampedProgress = gsap.utils.clamp(0, 1, progress);
-        return {
-          x: rect.left + rect.width * clampedProgress - innerWidth / 2,
-          y: rect.top + rect.height / 2 - innerHeight / 2,
-        };
-      };
-
-      let usecaseProgress = .5 / 6;
-
-      const moveToUsecaseStep = (event) => {
-        const nextProgress = gsap.utils.clamp(0, 1, Number(event.detail?.progress) || .5 / 6);
-        usecaseProgress = nextProgress;
-        const rect = usecases.getBoundingClientRect();
-        if (rect.bottom <= innerHeight * .05 || rect.top >= innerHeight * .95) return;
-        const point = markerPoint(usecaseProgress);
-        gsap.to(core, {
-          x: point.x,
-          y: point.y,
-          scale: .038,
-          autoAlpha: 1,
-          rotation: 292 + usecaseProgress * 250,
-          duration: .62,
-          ease: 'power3.inOut',
-          overwrite: 'auto',
-        });
-      };
-      window.addEventListener('nutraintel:usecase-step', moveToUsecaseStep);
+      const usecasePoint = () => ({
+        x: 0,
+        y: innerHeight * (compactMotion ? .1 : .12),
+      });
+      const usecaseSphereScale = () => compactMotion ? .075 : .05;
+      const usecaseSphereOpacity = .36;
 
       const placeUsecaseEntry = (progress) => {
-        const end = markerPoint(0);
+        const end = usecasePoint();
         const eased = gsap.parseEase('power2.inOut')(progress);
-        setX(gsap.utils.interpolate(0, end.x, eased));
+        setX(0);
         setY(gsap.utils.interpolate(0, end.y, eased));
-        setRotation(gsap.utils.interpolate(246, 318, eased));
-        setScale(gsap.utils.interpolate(ecosystemScale(), .038, eased));
-        setOpacity(gsap.utils.interpolate(.14, 1, eased));
+        setRotation(gsap.utils.interpolate(246, 305, eased));
+        setScale(gsap.utils.interpolate(ecosystemScale(), usecaseSphereScale(), eased));
+        setOpacity(gsap.utils.interpolate(.14, usecaseSphereOpacity, eased));
         core.style.visibility = 'inherit';
       };
 
@@ -419,39 +394,39 @@ export default function NarrativeEnergy() {
         end: 'bottom 50%',
         invalidateOnRefresh: true,
         onEnter: () => {
-          const point = markerPoint(usecaseProgress);
-          gsap.set(core, { autoAlpha: 1, scale: .038, x: point.x, y: point.y, rotation: 292 + usecaseProgress * 250 });
+          const point = usecasePoint();
+          gsap.set(core, { autoAlpha: usecaseSphereOpacity, scale: usecaseSphereScale(), x: point.x, y: point.y, rotation: 305 });
         },
         onEnterBack: () => {
-          const point = markerPoint(usecaseProgress);
-          gsap.set(core, { autoAlpha: 1, scale: .038, x: point.x, y: point.y, rotation: 292 + usecaseProgress * 250 });
+          const point = usecasePoint();
+          gsap.set(core, { autoAlpha: usecaseSphereOpacity, scale: usecaseSphereScale(), x: point.x, y: point.y, rotation: 305 });
         },
         onRefresh: ({ isActive }) => {
           const rect = usecases.getBoundingClientRect();
           if (!isActive && !(rect.top <= 1 && rect.bottom > 0)) return;
-          const point = markerPoint(usecaseProgress);
-          setX(point.x); setY(point.y); setRotation(292 + usecaseProgress * 250);
-          setScale(.038); setOpacity(1); core.style.visibility = 'inherit';
+          const point = usecasePoint();
+          setX(point.x); setY(point.y); setRotation(305);
+          setScale(usecaseSphereScale()); setOpacity(usecaseSphereOpacity); core.style.visibility = 'inherit';
         },
       });
 
       const initialMarkerCall = gsap.delayedCall(.2, () => {
         const rect = usecases.getBoundingClientRect();
         if (!usecaseTrigger.isActive && !(rect.top <= 1 && rect.bottom > 0)) return;
-        const point = markerPoint(usecaseProgress);
-        gsap.set(core, { autoAlpha: 1, scale: .038, x: point.x, y: point.y, rotation: 292 + usecaseProgress * 250 });
+        const point = usecasePoint();
+        gsap.set(core, { autoAlpha: usecaseSphereOpacity, scale: usecaseSphereScale(), x: point.x, y: point.y, rotation: 305 });
       });
 
       const restoreUsecaseSphere = () => {
-        const point = markerPoint(usecaseProgress);
+        const point = usecasePoint();
         gsap.set([logo, fracture], { autoAlpha: 0 });
         gsap.set(particles, { autoAlpha: 0 });
         gsap.set(core, {
           x: point.x,
           y: point.y,
-          scale: 0.038,
-          autoAlpha: 1,
-          rotation: 292 + usecaseProgress * 250,
+          scale: usecaseSphereScale(),
+          autoAlpha: usecaseSphereOpacity,
+          rotation: 305,
         });
       };
       
@@ -481,11 +456,11 @@ export default function NarrativeEnergy() {
         .fromTo(
           core,
           {
-            x: () => markerPoint(usecaseProgress).x,
-            y: () => markerPoint(usecaseProgress).y,
-            scale: 0.038,
-            autoAlpha: 1,
-            rotation: () => 292 + usecaseProgress * 250,
+            x: () => usecasePoint().x,
+            y: () => usecasePoint().y,
+            scale: () => usecaseSphereScale(),
+            autoAlpha: usecaseSphereOpacity,
+            rotation: 305,
           },
           {
             x: 0,
@@ -608,7 +583,6 @@ export default function NarrativeEnergy() {
         window.removeEventListener('hashchange', scheduleReconcile);
         window.removeEventListener('popstate', scheduleReconcile);
         document.removeEventListener('visibilitychange', reconcileWhenVisible);
-        window.removeEventListener('nutraintel:usecase-step', moveToUsecaseStep);
         root.classList.remove('is-closing');
       };
     }, root);

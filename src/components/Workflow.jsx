@@ -53,17 +53,6 @@ export default function Workflow() {
     return () => window.clearTimeout(timer);
   }, [step]);
 
-  // The energy marker follows the selected case, not the page scroll.
-  useEffect(() => {
-    window.dispatchEvent(new CustomEvent('nutraintel:usecase-step', {
-      detail: {
-        step,
-        total: cases.length,
-        progress: (step + 0.5) / cases.length,
-      },
-    }));
-  }, [step, cases.length]);
-
   // Navigazione circolare
   const goToStep = (direction) => {
     setStep((current) => (
@@ -148,12 +137,6 @@ export default function Workflow() {
             />
           ))}
 
-          <span
-            className="usecases-progress-dot"
-            style={{
-              left: `${((step + 0.5) / cases.length) * 100}%`,
-            }}
-          />
         </div>
       </div>
     </section>
