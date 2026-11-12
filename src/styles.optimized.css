@@ -1131,3 +1131,11 @@ main{position:relative;background:
 .solution-copy p strong {
   font-weight: 600;
 }
+
+.ecosystem-portal {
+  width: 65% !important;
+  object-fit: cover;
+  position: relative;
+  left: 2%;
+  top: -15%;
+}
