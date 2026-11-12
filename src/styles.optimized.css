@@ -1171,6 +1171,10 @@ main{position:relative;background:
   height: 2px;
 }
 
+.usecases-head h2 strong {
+  font-weight: 500;
+}
+
 @media (max-width: 720px) {
   .usecases-progress {
     left: 50%;

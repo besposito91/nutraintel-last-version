@@ -76,7 +76,11 @@ export default function Workflow() {
       <div className="usecases-sticky">
 
         <header className="usecases-head" aria-live="polite">
-          <h2 id="usecase-title">{item.title}</h2>
+          <h2 id="usecase-title">
+            {item.titleBefore}
+            <strong>{item.titleEmphasis}</strong>
+            {item.titleAfter}
+          </h2>
           <p>{item.description}</p>
         </header>
 
