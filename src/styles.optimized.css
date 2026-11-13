@@ -1044,9 +1044,9 @@ main{position:relative;background:
   width: fit-content;
   margin: 0 auto 0.55rem;
   padding: 0.42rem 0.75rem;
-  border: 1px solid rgba(255,255,255,.32);
+  
   border-radius: 999px;
-  background: rgba(5,59,92,.22);
+  
   color: #fff;
   font-size: clamp(0.72rem, 0.72vw, 0.82rem);
   font-weight: 750;
@@ -1229,7 +1229,7 @@ main{position:relative;background:
     display: block;
     width: min(1760px, 100%);
     height: clamp(430px, 62vh, 650px);
-    margin: 0 auto;
+    margin: 30px auto;
   }
 
   .consequence-columns .consequence-card {
@@ -1273,12 +1273,12 @@ main{position:relative;background:
   }
 
   .consequence-professional .consequence-copy {
-    left: 49%;
+    left: 47%;
     top: 8%;
   }
 
   .consequence-patient .consequence-copy {
-    left: 68.5%;
+    left: 67.5%;
     bottom: 8%;
   }
 
