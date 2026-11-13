@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { NUTRAINTEL_CONFIG } from '../config.js';
-import BlurText from './BlurText.jsx';
 import { useLanguage } from '../i18n.jsx';
 
 export default function Video() {
@@ -11,7 +10,10 @@ export default function Video() {
   return (
     <section className="vid" id="video" aria-labelledby="vid-title" data-section="5">
       <div className="vid-head">
-        <BlurText as="h2" id="vid-title" data-blur className="t-display" text={t('video.title')} />
+        <h2 id="vid-title" data-blur className="t-display">
+          {t('video.titleBefore')}
+          <strong>{t('video.titleEmphasis')}</strong>
+        </h2>
       </div>
       <div className="vid-card" data-fade>
         {playing ? (
