@@ -818,8 +818,8 @@ main{position:relative;background:
 .solution-arrow,
 .solution-arrow:hover:not(:disabled),
 .solution-arrow:disabled {
-  border: 2px solid #d9931c;
-  background: #6666663b;
+  border: 1px solid #d9931c;
+  background: #c6c6c63b;
   color: #052c43;
   box-shadow: none;
   backdrop-filter: none;
@@ -827,8 +827,7 @@ main{position:relative;background:
 
 .solution-arrow:hover:not(:disabled) {
   transform: scale(1.08);
-  background: #66666652;
-  box-shadow: 0 0 0 5px rgba(217, 147, 28, .1);
+  
 }
 
 .solution-arrow span {
@@ -880,7 +879,7 @@ main{position:relative;background:
 }
 
 .pcard-info h3 strong {
-  font-weight: 500;
+  font-weight: 700;
 }
 
 /* Video: enfasi limitata alla frase conclusiva. */
