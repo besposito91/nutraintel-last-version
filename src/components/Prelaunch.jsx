@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { NUTRAINTEL_CONFIG } from '../config.js';
-import BlurText from './BlurText.jsx';
 import { useLanguage } from '../i18n.jsx';
 
 const UTM = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
@@ -14,6 +13,9 @@ export default function Prelaunch() {
   const [utm, setUtm] = useState({});
   const [status, setStatus] = useState({ key: '', tone: '' });
   const { t } = useLanguage();
+  const titleParts = t('pre.title').match(/^(.*?)(,\s|\s–\s)([^,–]+)$/);
+  const titleBefore = titleParts ? `${titleParts[1]}${titleParts[2].trim()}` : t('pre.title');
+  const titleHighlight = titleParts?.[3] || '';
 
   useEffect(() => {
     const params = new URLSearchParams(location.search); const next = {};
@@ -38,7 +40,10 @@ export default function Prelaunch() {
   return (
     <section className="pre" id="prelancio" aria-labelledby="pre-title" data-section="7">
       <div className="pre-head">
-        <BlurText as="h2" id="pre-title" data-blur className="t-display" text={t('pre.title')} />
+        <h2 id="pre-title" data-blur className="t-display">
+          {titleBefore}
+          {titleHighlight && <><br /><span className="highlight">{titleHighlight}</span></>}
+        </h2>
       </div>
       <div className="pre-grid">
         <div className="pcard pcard-info" data-fade>

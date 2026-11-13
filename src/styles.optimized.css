@@ -812,6 +812,34 @@ main{position:relative;background:
   background: #6666663b;
 }
 
+/* Prelancio: titolo centrato con la chiusa evidenziata su una nuova riga. */
+.pre-head {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.pre-head .t-display {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.pre-head .highlight {
+  display: inline;
+  padding: 0 .15em;
+  border-radius: 50px;
+  background-image: linear-gradient(to right, rgb(255, 146, 49), rgb(255, 205, 68));
+  background-repeat: no-repeat;
+  background-size: 100% .4em;
+  background-position: 0 60%;
+  font-weight: 500;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.faq-head .t-display strong {
+  font-weight: 500;
+}
+
 /* Video: enfasi limitata alla frase conclusiva. */
 .vid-head .t-display strong {
   font-weight: 500;
@@ -834,6 +862,7 @@ main{position:relative;background:
 
 .faq-item summary {
   padding-inline: 0;
+  padding-left: 4px;
 }
 
 /* CTA principali */
