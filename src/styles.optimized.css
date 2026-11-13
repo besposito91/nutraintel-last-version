@@ -741,8 +741,8 @@ main{position:relative;background:
 .consequence-eyebrow {
   display: block;
   margin-bottom: 0.8rem;
-  color: #0e8f72;
-  font-size: 0.72rem;
+  color: #095451;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0.16em;
@@ -794,6 +794,45 @@ main{position:relative;background:
     max-width: 15ch;
     font-size: clamp(2rem, 10vw, 3rem);
   }
+}
+
+/* Prelancio: testi informativi in blu NutraIntel. */
+.pre-head .t-display,
+.pcard-info h3,
+.pcard-info > p,
+.pcard-info .pre-hooks,
+.pcard-info .pre-hooks li,
+.pcard-info .pre-hooks strong {
+  color: #052c43;
+}
+
+/* Dimensione desktop uniforme per i due titoli editoriali indicati. */
+@media (min-width: 721px) {
+  #consequences-title,
+  #answer-title {
+    font-size: 69.12px;
+  }
+}
+
+/* Frecce dei caroselli: stesso trattamento dei controlli FAQ. */
+.solution-arrow,
+.solution-arrow:hover:not(:disabled),
+.solution-arrow:disabled {
+  border: 2px solid #d9931c;
+  background: #6666663b;
+  color: #052c43;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.solution-arrow:hover:not(:disabled) {
+  transform: scale(1.08);
+  background: #66666652;
+  box-shadow: 0 0 0 5px rgba(217, 147, 28, .1);
+}
+
+.solution-arrow span {
+  color: #052c43;
 }
 
 /* FAQ: pulsante +/- coordinato con la CTA secondaria dell'hero. */
@@ -1392,5 +1431,13 @@ main{position:relative;background:
     font-size: .68em;
     font-weight: 600;
     line-height: 1;
+  }
+}
+
+/* Override finale desktop: mantiene esattamente la misura concordata. */
+@media (min-width: 721px) {
+  #consequences-title,
+  #answer-title {
+    font-size: 69.12px;
   }
 }
