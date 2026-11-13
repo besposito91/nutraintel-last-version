@@ -421,7 +421,7 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
 @keyframes energy-underflow-a{0%{transform:translate3d(-4%,-3%,0) scale(.94);opacity:.55}100%{transform:translate3d(19%,14%,0) scale(1.18);opacity:.9}}
 @keyframes energy-underflow-b{0%{transform:translate3d(7%,8%,0) scale(1.08);opacity:.45}100%{transform:translate3d(-17%,-12%,0) scale(.9);opacity:.8}}
 
-.pcard-info{gap:0;justify-content:flex-start}.pcard-info .pre-card-kicker{color:#FF9900}.pcard-info h3{max-width:660px;margin:18px 0 20px;font-size:clamp(34px,3.2vw,54px);font-weight:360;color:#fff}.pcard-info>p{max-width:610px;margin:0;color:rgba(238,249,251,.78)}.pcard-info .pre-hooks{margin-top:32px;gap:16px}.pcard-info .pre-hooks li{font-size:clamp(17px,1.3vw,21px);line-height:1.35;color:#fff}.pcard-info .pre-hooks li::before{color:#FF9900}.pcard-info .pre-hooks strong{font-weight:720;color:#fff}.pcard-info .pcard-foot{margin-top:auto;padding-top:42px;color:rgba(240,249,251,.76)}.pcard-info .pcard-foot i{background:#72ecd0}
+.pcard-info{gap:0;justify-content:flex-start}.pcard-info .pre-card-kicker{color:#FF9900}.pcard-info h3{max-width:660px;margin:18px 0 20px;font-size:clamp(34px,3.2vw,54px);font-weight:360;color:#fff}.pcard-info>p{max-width:610px;margin-top:35px;color:#fff}.pcard-info .pre-hooks{margin-top:32px;gap:16px}.pcard-info .pre-hooks li{font-size:clamp(17px,1.3vw,21px);line-height:1.35;color:#fff}.pcard-info .pre-hooks li::before{color:#FF9900}.pcard-info .pre-hooks strong{font-weight:720;color:#fff}.pcard-info .pcard-foot{margin-top:auto;padding-top:42px;color:rgba(240,249,251,.76)}.pcard-info .pcard-foot i{background:#72ecd0}
 @media(max-width:720px){.pcard-info h3{font-size:34px}.pcard-info .pre-hooks li{font-size:17px}.pcard-info .pcard-foot{margin-top:34px;padding-top:0}}
 @media(prefers-reduced-motion:reduce){.narrative-core::before,.narrative-core>i{animation:none!important}}
 
@@ -837,6 +837,10 @@ main{position:relative;background:
 }
 
 .faq-head .t-display strong {
+  font-weight: 500;
+}
+
+.pcard-info h3 strong {
   font-weight: 500;
 }
 

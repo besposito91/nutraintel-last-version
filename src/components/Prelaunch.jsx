@@ -12,10 +12,19 @@ export default function Prelaunch() {
   const formRef = useRef(null);
   const [utm, setUtm] = useState({});
   const [status, setStatus] = useState({ key: '', tone: '' });
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const titleParts = t('pre.title').match(/^(.*?)(,\s|\s–\s)([^,–]+)$/);
   const titleBefore = titleParts ? `${titleParts[1]}${titleParts[2].trim()}` : t('pre.title');
   const titleHighlight = titleParts?.[3] || '';
+  const cardFocus = {
+    it: 'Non aspettare',
+    en: 'Do not wait',
+    de: 'Warten Sie nicht',
+  }[language] || '';
+  const cardTitle = t('pre.cardTitle');
+  const cardTitleRest = cardFocus && cardTitle.startsWith(cardFocus)
+    ? cardTitle.slice(cardFocus.length)
+    : cardTitle;
 
   useEffect(() => {
     const params = new URLSearchParams(location.search); const next = {};
@@ -48,7 +57,7 @@ export default function Prelaunch() {
       <div className="pre-grid">
         <div className="pcard pcard-info" data-fade>
           
-          <h3>{t('pre.cardTitle')}</h3>
+          <h3>{cardFocus && cardTitle.startsWith(cardFocus) && <strong>{cardFocus}</strong>}{cardTitleRest}</h3>
           <p>{t('pre.cardText')}</p>
           <ul className="pre-hooks">
             {t('pre.hooks').map(([focus, rest]) => <li key={focus}><strong>{focus}</strong> {rest}</li>)}
