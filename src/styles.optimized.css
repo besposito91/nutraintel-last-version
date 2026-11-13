@@ -796,6 +796,22 @@ main{position:relative;background:
   }
 }
 
+/* FAQ: pulsante +/- coordinato con la CTA secondaria dell'hero. */
+.faq-item summary i {
+  border: 2px solid #d9931c;
+  background: #6666663b;
+}
+
+.faq-item summary i::before,
+.faq-item summary i::after {
+  background: #fff;
+}
+
+.faq-item[open] summary i {
+  border-color: #d9931c;
+  background: #6666663b;
+}
+
 /* Video: enfasi limitata alla frase conclusiva. */
 .vid-head .t-display strong {
   font-weight: 500;
