@@ -1268,12 +1268,12 @@ main{position:relative;background:
   }
 
   .consequence-professional .consequence-copy {
-    left: 47%;
-    top: 8%;
+    left: 48%;
+    top: 13%;
   }
 
   .consequence-patient .consequence-copy {
-    left: 67.5%;
+    left: 65.5%;
     bottom: 8%;
   }
 
@@ -1286,5 +1286,38 @@ main{position:relative;background:
     margin: 0;
     font-size: clamp(27px, 2.35vw, 43px);
     line-height: 1.08;
+  }
+
+  .consequence-columns .consequence-copy h3 span {
+    display: flex;
+    align-items: baseline;
+    gap: .42em;
+  }
+
+  .consequence-columns .consequence-copy h3 span::before {
+    content: '\2713';
+    flex: 0 0 auto;
+    color: #FF9900;
+    font-size: .68em;
+    font-weight: 600;
+    line-height: 1;
+  }
+}
+
+@media (max-width: 720px) {
+  .consequence-columns .consequence-copy h3 span {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: .42em;
+  }
+
+  .consequence-columns .consequence-copy h3 span::before {
+    content: '\2713';
+    flex: 0 0 auto;
+    color: #FF9900;
+    font-size: .68em;
+    font-weight: 600;
+    line-height: 1;
   }
 }
