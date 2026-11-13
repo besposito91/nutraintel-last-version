@@ -247,7 +247,7 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
 
 .faq-list{border-top-color:rgba(255,255,255,.28)}
 .faq-item{border-bottom-color:rgba(255,255,255,.28)}.faq-item summary{color:#f5fcfd;font-weight:470}.faq-item summary i{border-color:rgba(255,255,255,.45)}.faq-item summary i::before,.faq-item summary i::after{background:#fff}.faq-item[open] summary i{background:rgba(255,255,255,.13)}
-.faq-answer p{color:rgba(238,249,251,.78)}
+.faq-answer p{color:#fff}
 
 .pre-head{max-width:1180px}.pre-head .t-display{max-width:1180px;font-size:clamp(52px,6vw,96px)}
 .pcard-info{display:flex;flex-direction:column;justify-content:center;gap:clamp(24px,4vh,48px);border-color:rgba(255,255,255,.24);background:rgba(3,31,48,.22);color:#f6fcfd;box-shadow:none;backdrop-filter:blur(13px)}
