@@ -1043,15 +1043,10 @@ main{position:relative;background:
 .consequence-columns .consequence-eyebrow {
   width: fit-content;
   margin: 0 auto 0.55rem;
-  padding: 0.42rem 0.75rem;
-  
-  border-radius: 999px;
-  
   color: #fff;
   font-size: clamp(0.72rem, 0.72vw, 0.82rem);
   font-weight: 750;
   letter-spacing: 0.14em;
-  text-shadow: 0 1px 10px rgba(5,44,67,.28);
 }
 
 @media (max-width: 720px) {
