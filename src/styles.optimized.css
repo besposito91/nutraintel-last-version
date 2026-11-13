@@ -1241,9 +1241,9 @@ main{position:relative;background:
 
   .consequence-columns .consequence-image {
     position: absolute;
-    top: 50%;
-    width: clamp(350px, 30vw, 570px);
-    height: clamp(350px, 50vh, 570px);
+    top: 52%;
+    width: clamp(400px, 29vw, 570px);
+    height: clamp(400px, 52vh, 570px);
     translate: 0 -50%;
   }
 
@@ -1253,11 +1253,11 @@ main{position:relative;background:
   }
 
   .consequence-professional .consequence-image {
-    left: 0;
+    left: 1%;
   }
 
   .consequence-patient .consequence-image {
-    right: 0;
+    right: 1%;
   }
 
   .consequence-columns .consequence-copy {
@@ -1271,10 +1271,12 @@ main{position:relative;background:
   }
 
   .consequence-professional .consequence-copy {
+    left: 47%;
     top: 8%;
   }
 
   .consequence-patient .consequence-copy {
+    left: 61.5%;
     bottom: 8%;
   }
 
