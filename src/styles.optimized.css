@@ -1043,7 +1043,7 @@ main{position:relative;background:
 .consequence-columns .consequence-eyebrow {
   width: fit-content;
   margin: 0 auto 0.55rem;
-  color: #fff;
+  color: #052c43;
   font-size: clamp(0.72rem, 0.72vw, 0.82rem);
   font-weight: 750;
   letter-spacing: 0.14em;
