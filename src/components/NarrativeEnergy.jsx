@@ -291,13 +291,22 @@ export default function NarrativeEnergy() {
           renderHero(pendingHeroProgress);
         });
       };
-      // Batch both wheel and touch updates into a single paint. Calling
-      // gsap.set() directly for every touchmove event can produce several
-      // transform writes inside the same frame on mobile browsers.
-      // ScrollTrigger is already frame-synchronised. Rendering directly on
-      // phones removes the extra one-frame delay that was perceptible while
-      // dragging slowly; desktop retains its existing batching behaviour.
-      const commitHeroRender = compactMotion ? renderHero : queueHeroRender;
+      // On mobile several ScrollTriggers share the same sphere. Commit the
+      // hero state at the end of the current JS turn, after the following
+      // timelines have evaluated, but still before the browser paints. This
+      // prevents an inactive later section from restoring the small sphere
+      // without introducing the one-frame delay of requestAnimationFrame.
+      let heroMicrotaskQueued = false;
+      const queueMobileHeroRender = (progress) => {
+        pendingHeroProgress = progress;
+        if (heroMicrotaskQueued) return;
+        heroMicrotaskQueued = true;
+        queueMicrotask(() => {
+          heroMicrotaskQueued = false;
+          renderHero(pendingHeroProgress);
+        });
+      };
+      const commitHeroRender = compactMotion ? queueMobileHeroRender : queueHeroRender;
 
       const heroTrigger = ScrollTrigger.create({
         trigger: hero,
