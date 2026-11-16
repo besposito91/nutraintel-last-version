@@ -11,7 +11,7 @@ export default function SeeDeeper() {
   const nodes = [
     { key: 'scale', label: stages[0].title, src: './images/ecosystem/scale.png' },
     { key: 'portal', label: stages[1].title, src: './images/ecosystem/portal.png' },
-    { key: 'app', label: stages[2].title, src: './images/ecosystem/app.png' },
+    { key: 'app', label: stages[2].title, src: './images/ecosystem/app.png?v=20261116-2' },
   ];
 
   useLayoutEffect(() => {
