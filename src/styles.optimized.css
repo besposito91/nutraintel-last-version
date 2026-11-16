@@ -1495,7 +1495,7 @@ main{position:relative;background:
 @media (min-width: 1500px) {
   .consequences {
     height: 100svh;
-    left: 63%;
+    
     min-height: 760px;
     padding-top: clamp(64px, 7vh, 92px);
   }
