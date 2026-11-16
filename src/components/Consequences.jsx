@@ -32,35 +32,53 @@ export default function Consequences() {
     if (!section) return undefined;
 
     const ctx = gsap.context(() => {
-      const elements = [
-        section.querySelector('.consequences-head'),
-        ...section.querySelectorAll('.consequence-card'),
-      ];
+      const head = section.querySelector('.consequences-head');
+      const professional = section.querySelector('.consequence-professional');
+      const patient = section.querySelector('.consequence-patient');
+      const elements = [head, professional, patient];
 
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
         gsap.set(elements, { autoAlpha: 1, y: 0 });
         return;
       }
 
-      gsap.timeline({
+      const compact = matchMedia('(max-width: 720px)').matches;
+      const timeline = gsap.timeline({
         scrollTrigger: {
           trigger: section,
-          start: 'top 64%',
-          end: 'top 30%',
-          scrub: .55,
+          start: compact ? 'top 54px' : 'top 64px',
+          end: 'bottom bottom',
+          scrub: true,
           invalidateOnRefresh: true,
         },
-      })
+      });
+
+      timeline
         .fromTo(
-          elements[0],
-          { autoAlpha: 0, y: 34 },
-          { autoAlpha: 1, y: 0, duration: .54, ease: 'power2.out', immediateRender: true },
+          head,
+          { autoAlpha: 0, y: 24 },
+          { autoAlpha: 1, y: 0, duration: .18, ease: 'none', immediateRender: true },
         )
         .fromTo(
-          elements.slice(1),
-          { autoAlpha: 0, y: 42 },
-          { autoAlpha: 1, y: 0, duration: .46, stagger: .1, ease: 'power2.out', immediateRender: true },
-          .2,
+          professional,
+          { autoAlpha: 0, x: compact ? 0 : -36, y: compact ? 34 : 0 },
+          { autoAlpha: 1, x: 0, y: 0, duration: .30, ease: 'none', immediateRender: true },
+          .12,
+        );
+
+      if (compact) {
+        timeline.to(
+          professional,
+          { autoAlpha: 0, y: -28, duration: .18, ease: 'none' },
+          .50,
+        );
+      }
+
+      timeline.fromTo(
+          patient,
+          { autoAlpha: 0, x: compact ? 0 : 36, y: compact ? 34 : 0 },
+          { autoAlpha: 1, x: 0, y: 0, duration: .30, ease: 'none', immediateRender: true },
+          .58,
         );
     }, section);
 
@@ -75,6 +93,7 @@ export default function Consequences() {
       aria-labelledby="consequences-title"
       data-section="4"
     >
+      <div className="consequences-sticky">
       <header className="consequences-head">
         <h2 id="consequences-title" className="t-display">
           {t('impact.titleBefore')}
@@ -121,6 +140,7 @@ export default function Consequences() {
             />
           </div>
         </article>
+      </div>
       </div>
     </section>
   );

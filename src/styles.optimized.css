@@ -1562,3 +1562,63 @@ main{position:relative;background:
     height: calc(100svh - 54px);
   }
 }
+
+/* CONSEQUENCES DINAMICA
+   Due passaggi scroll-linked: professionista, poi paziente. */
+.consequences {
+  height: 240svh;
+  min-height: 0;
+  padding: 0;
+  overflow: visible;
+}
+
+.consequences-sticky {
+  position: sticky;
+  top: 64px;
+  height: calc(100svh - 64px);
+  padding: clamp(18px, 3vh, 34px) 0 clamp(12px, 2vh, 24px);
+  overflow: hidden;
+}
+
+@media (max-width: 720px) {
+  .consequences {
+    height: 230svh;
+    min-height: 0;
+    padding: 0;
+  }
+
+  .consequences-sticky {
+    top: 54px;
+    height: calc(100svh - 54px);
+    padding: 3vh 14px 2vh;
+  }
+
+  .consequences-head {
+    margin-bottom: 1.25rem;
+  }
+
+  .consequence-columns {
+    position: relative;
+    display: block;
+    height: calc(100% - 150px);
+    margin: 0;
+  }
+
+  .consequence-columns .consequence-card {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    width: 100%;
+    height: 100%;
+  }
+
+  .consequence-columns .consequence-image {
+    min-height: 0;
+  }
+
+  .consequence-columns .consequence-image .human-cutout {
+    height: 100%;
+    max-height: 42vh;
+  }
+}
