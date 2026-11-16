@@ -1493,9 +1493,22 @@ main{position:relative;background:
 /* Consequences su monitor ampi: immagini verso i bordi e testi separati
    dalle fotografie, mantenendo il centro della composizione libero. */
 @media (min-width: 1500px) {
+  .consequences {
+    height: 100svh;
+    min-height: 760px;
+    padding-top: clamp(64px, 7vh, 92px);
+  }
+
+  .consequences-head {
+    margin-bottom: clamp(8px, 1.2vh, 18px);
+  }
+
   .consequence-columns {
     width: 100%;
     max-width: none;
+    height: clamp(410px, 55vh, 590px);
+    margin-top: clamp(16px, 2vh, 28px);
+    margin-bottom: 0;
   }
 
   .consequence-professional .consequence-image {
