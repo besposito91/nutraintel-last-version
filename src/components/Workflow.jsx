@@ -1,5 +1,6 @@
 
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../i18n.jsx';
 
 const caseImages = [
@@ -26,6 +27,7 @@ function ActorPanel({ src, position, visible = true }) {
 }
 
 export default function Workflow() {
+  const ref = useRef(null);
   const [step, setStep] = useState(0);
   const [revealedStep, setRevealedStep] = useState(-1);
 
@@ -36,29 +38,55 @@ export default function Workflow() {
     images: caseImages[index],
   }));
 
-  // Animazione di comparsa delle immagini a ogni cambio schermata
-  useEffect(() => {
-    setRevealedStep(-1);
+  // MODALITA INFINITE SCROLL: slide e progress seguono la sezione sticky.
+  useLayoutEffect(() => {
+    let activeStep = -1;
+    let scheduledStep = -1;
+    let revealTimer;
+    const compactInput = matchMedia('(max-width: 720px), (pointer: coarse)').matches;
+    const revealDelay = compactInput ? 420 : 700;
 
-    const compactInput = window.matchMedia(
-      '(max-width: 720px), (pointer: coarse)'
-    ).matches;
+    const queueReveal = (next) => {
+      window.clearTimeout(revealTimer);
+      scheduledStep = next;
+      setRevealedStep(-1);
+      revealTimer = window.setTimeout(() => setRevealedStep(next), revealDelay);
+    };
+    const syncStep = (state) => {
+      const next = Math.min(cases.length - 1, Math.floor(state.progress * cases.length * .999));
+      if (next !== activeStep) {
+        activeStep = next;
+        setStep(next);
+      }
+      if (state.isActive && next !== scheduledStep) queueReveal(next);
+    };
+    const resetReveal = () => {
+      window.clearTimeout(revealTimer);
+      scheduledStep = -1;
+      setRevealedStep(-1);
+    };
+    const trigger = ScrollTrigger.create({
+      trigger: ref.current,
+      start: 'top 64px',
+      end: 'bottom bottom',
+      onToggle: (state) => state.isActive ? syncStep(state) : resetReveal(),
+      onRefresh: syncStep,
+      onUpdate: syncStep,
+    });
 
-    const revealDelay = compactInput ? 650 : 1100;
+    return () => {
+      window.clearTimeout(revealTimer);
+      trigger.kill();
+    };
+  }, [cases.length]);
 
-    const timer = window.setTimeout(() => {
-      setRevealedStep(step);
-    }, revealDelay);
-
-    return () => window.clearTimeout(timer);
-  }, [step]);
-
-  // Navigazione circolare
+  /* NAVIGAZIONE CON FRECCE — conservata per un eventuale ripristino.
   const goToStep = (direction) => {
     setStep((current) => (
       (current + direction + cases.length) % cases.length
     ));
   };
+  */
 
   const item = cases[step];
 
@@ -66,6 +94,7 @@ export default function Workflow() {
     <section
       className="usecases wf"
       id="use-case"
+      ref={ref}
       aria-labelledby="usecase-title"
       data-section="3"
       style={{
@@ -109,7 +138,7 @@ export default function Workflow() {
           ))}
         </div>
 
-        {/* Frecce di navigazione */}
+        {/* NAVIGAZIONE CON FRECCE — nascosta durante il test infinite scroll.
         <nav className="solution-controls" aria-label="Navigazione casi d'uso">
 
           <button
@@ -131,6 +160,7 @@ export default function Workflow() {
           </button>
 
         </nav>
+        */}
 
         
         <div className="usecases-progress" aria-hidden="true">

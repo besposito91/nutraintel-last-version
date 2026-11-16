@@ -17,13 +17,33 @@ export default function SeeDeeper() {
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo('.solution-orbit', { opacity: 0, scale: .88 }, { opacity: 1, scale: 1, duration: .8, ease: 'power2.out', scrollTrigger: { trigger: ref.current, start: 'top 70%', end: 'top 15%', scrub: true } });
+
+      // MODALITA INFINITE SCROLL: lo stato segue il progresso della sezione.
+      // Per ripristinare le frecce, rimuovere questo trigger e riattivare i
+      // blocchi "NAVIGAZIONE CON FRECCE" commentati più sotto.
+      let activeStep = -1;
+      const syncStep = ({ progress }) => {
+        const next = Math.min(stages.length - 1, Math.floor(progress * stages.length * .999));
+        if (next === activeStep) return;
+        activeStep = next;
+        setStep(next);
+      };
+      ScrollTrigger.create({
+        trigger: ref.current,
+        start: 'top top',
+        end: 'bottom bottom',
+        onRefresh: syncStep,
+        onUpdate: syncStep,
+      });
     }, ref);
     return () => ctx.revert();
-  }, []);
+  }, [stages.length]);
 
+  /* NAVIGAZIONE CON FRECCE — conservata per un eventuale ripristino.
   const goToStep = (nextStep) => {
     setStep((nextStep + stages.length) % stages.length);
   };
+  */
 
   return (
     <section className="solution-triangle-section" id="ecosistema" ref={ref} aria-labelledby="solution-title" data-section="2">
@@ -50,6 +70,7 @@ export default function SeeDeeper() {
             ))}
           </div>
         </div>
+        {/* NAVIGAZIONE CON FRECCE — nascosta durante il test infinite scroll.
         <nav className="solution-controls" aria-label="Navigazione ecosistema">
   <button
     type="button"
@@ -69,6 +90,7 @@ export default function SeeDeeper() {
     <span aria-hidden="true">›</span>
   </button>
 </nav>
+        */}
         <div className="solution-progress" aria-hidden="true">{stages.map((item, index) => <i key={item.n} className={index === step ? 'on' : ''} />)}</div>
       </div>
     </section>

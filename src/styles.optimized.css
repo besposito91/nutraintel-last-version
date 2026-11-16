@@ -1529,3 +1529,35 @@ main{position:relative;background:
     width: min(27vw, 500px);
   }
 }
+
+/* TEST INFINITE SCROLL CAROSELLI
+   Per tornare alla navigazione con frecce, rimuovere questo blocco e
+   riattivare i blocchi commentati in SeeDeeper.jsx e Workflow.jsx. */
+.solution-triangle-section {
+  height: 300svh;
+}
+
+.solution-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+}
+
+.usecases {
+  height: 510svh;
+  min-height: 0;
+}
+
+.usecases-sticky {
+  position: sticky;
+  top: 64px;
+  height: calc(100svh - 64px);
+  min-height: 0;
+}
+
+@media (max-width: 720px) {
+  .usecases-sticky {
+    top: 54px;
+    height: calc(100svh - 54px);
+  }
+}
