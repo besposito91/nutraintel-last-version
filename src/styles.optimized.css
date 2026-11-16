@@ -1495,7 +1495,6 @@ main{position:relative;background:
 @media (min-width: 1500px) {
   .consequences {
     height: 100svh;
-    
     min-height: 760px;
     padding-top: clamp(64px, 7vh, 92px);
   }
@@ -1526,7 +1525,7 @@ main{position:relative;background:
   }
 
   .consequence-patient .consequence-copy {
-    left: 61%;
+    left: 63%;
     width: min(27vw, 500px);
   }
 }
