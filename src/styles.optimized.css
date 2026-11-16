@@ -246,7 +246,7 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
 .vid-note{color:rgba(242,252,253,.76)}
 
 .faq-list{border-top-color:rgba(255,255,255,.28)}
-.faq-item{}.faq-item summary{color:#f5fcfd;font-weight:600}.faq-item summary i{border-color:rgba(255,255,255,.45)}.faq-item summary i::before,.faq-item summary i::after{background:#fff}.faq-item[open] summary i{background:rgba(255,255,255,.13)}
+.faq-item summary{color:#f5fcfd;font-weight:600}.faq-item summary i{border-color:rgba(255,255,255,.45)}.faq-item summary i::before,.faq-item summary i::after{background:#fff}.faq-item[open] summary i{background:rgba(255,255,255,.13)}
 .faq-answer p{color:#052c43}
 
 .pre-head{max-width:1180px}.pre-head .t-display{max-width:1180px;font-size:clamp(52px,6vw,96px)}
