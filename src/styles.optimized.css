@@ -1230,6 +1230,12 @@ main{position:relative;background:
 /* Mobile motion stability: keep the shared energy layer on the compositor and
    avoid repainting a blurred fixed navigation bar during touch scrolling. */
 @media (max-width: 720px) {
+  /* Quando la sfera riempie l'hero deve essere lo sfondo reale della scena:
+     il precedente alone quasi opaco la copriva sui telefoni portrait. */
+  .hero-story::before {
+    display: none;
+  }
+
   .nav {
     background: rgba(245, 251, 251, 0.96);
     -webkit-backdrop-filter: none;

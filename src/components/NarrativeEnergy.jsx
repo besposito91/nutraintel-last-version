@@ -61,7 +61,7 @@ export default function NarrativeEnergy() {
         // Cover the complete mobile viewport (including its corners) instead
         // of relying on a fixed scale that varies with the screen ratio.
         const diameter = core.offsetWidth || Math.max(innerWidth, innerHeight);
-        return (Math.hypot(innerWidth, innerHeight) / diameter) * 1.1;
+        return (Math.hypot(innerWidth, innerHeight) / diameter) * 1.18;
       };
       const clamp = gsap.utils.clamp;
       const mix = gsap.utils.interpolate;
