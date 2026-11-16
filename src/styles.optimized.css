@@ -1483,3 +1483,36 @@ main{position:relative;background:
     font-size: 69.12px;
   }
 }
+
+/* Superfici traslucide concordate per FAQ e card informativa del form. */
+.faq-item,
+.pcard.pcard-info {
+  background: #ffffff2b;
+}
+
+/* Consequences su monitor ampi: immagini verso i bordi e testi separati
+   dalle fotografie, mantenendo il centro della composizione libero. */
+@media (min-width: 1500px) {
+  .consequence-columns {
+    width: 100%;
+    max-width: none;
+  }
+
+  .consequence-professional .consequence-image {
+    left: 0;
+  }
+
+  .consequence-patient .consequence-image {
+    right: 0;
+  }
+
+  .consequence-professional .consequence-copy {
+    left: 44%;
+    width: min(27vw, 500px);
+  }
+
+  .consequence-patient .consequence-copy {
+    left: 56%;
+    width: min(27vw, 500px);
+  }
+}
