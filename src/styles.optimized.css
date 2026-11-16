@@ -1546,6 +1546,7 @@ main{position:relative;background:
 .usecases {
   height: 510svh;
   min-height: 0;
+  overflow: visible;
 }
 
 .usecases-sticky {
