@@ -19,6 +19,7 @@ export default function Hero() {
         pause: .84, storyOut: .89, end: .97,
       };
       const hint = ref.current?.querySelector('.hero-hint');
+      const mobileFill = ref.current?.querySelector('.hero-mobile-fill');
       gsap.timeline({ delay: .15 })
         .fromTo('.hero-bg', { opacity: 0 }, { opacity: 1, duration: 1.1, ease: 'power2.out' })
         .fromTo(hint, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .8 }, 1.1);
@@ -44,6 +45,22 @@ export default function Hero() {
         .to({}, { duration: .04 }, timing.pause)
         .to('.hero-story', { scale: .94, opacity: 0, duration: .09, ease: 'power2.in' }, timing.storyOut)
         .to({}, { duration: .03 }, timing.end);
+
+      // Mobile-only background sphere. It belongs to the hero timeline, so
+      // later narrative sections cannot overwrite its scale while the user
+      // is still scrolling through the opening scene.
+      if (compactIntro && mobileFill) {
+        tl.fromTo(
+          mobileFill,
+          { autoAlpha: 0, scale: .12 },
+          { autoAlpha: 1, scale: 1.28, duration: .20, ease: 'none', immediateRender: true },
+          .36,
+        ).to(
+          mobileFill,
+          { autoAlpha: 0, scale: .18, duration: .12, ease: 'none' },
+          .86,
+        );
+      }
     }, ref);
     return () => ctx.revert();
   }, []);
@@ -51,6 +68,7 @@ export default function Hero() {
   return (
     <section className="hero energy-hero" id="top" ref={ref} aria-labelledby="hero-title" data-section="0">
       <div className="hero-sticky">
+        <div className="hero-mobile-fill" aria-hidden="true" />
         <div className="hero-bg mesh" aria-hidden="true"><i /><i /><i /><i /></div>
         <div className="grain" aria-hidden="true" />
         <div className="hero-wm" aria-hidden="true"><span className="wm-l">Nutra</span><span className="wm-gap" /><span className="wm-r">Intel<sup>®</sup></span></div>
