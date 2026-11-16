@@ -55,7 +55,14 @@ export default function NarrativeEnergy() {
       // mouse wheel, but becomes visible as lag when a finger moves slowly.
       const storyScrub = true;
       const consequenceScrub = true;
-      const heroFillScale = () => compactMotion ? 1.42 : 4.4;
+      const heroFillScale = () => {
+        if (!compactMotion) return 4.4;
+
+        // Cover the complete mobile viewport (including its corners) instead
+        // of relying on a fixed scale that varies with the screen ratio.
+        const diameter = core.offsetWidth || Math.max(innerWidth, innerHeight);
+        return (Math.hypot(innerWidth, innerHeight) / diameter) * 1.1;
+      };
       const clamp = gsap.utils.clamp;
       const mix = gsap.utils.interpolate;
       const smooth = (start, end, value) => {
@@ -173,15 +180,38 @@ export default function NarrativeEnergy() {
           mobileSet.logoScale(mix(1, .965, logoFade));
           mobileSet.logoOpacity(1 - logoFade);
 
-          const coreIntro = linear(.335, .445, progress);
-          const coreFill = linear(.425, .61, progress);
-          // The filled sphere now stays stable, then closes in a shorter
-          // continuous interval. This removes the long, slow "rubber" phase.
-          const coreExit = linear(.90, .992, progress);
-          const introScale = mix(.12, .42, coreIntro);
-          const filledScale = mix(introScale, heroFillScale(), coreFill);
-          mobileSet.coreScale(mix(filledScale, .18, coreExit));
-          mobileSet.coreOpacity(mix(coreIntro, 1, coreFill));
+          // Use mutually exclusive phases. The old nested interpolations
+          // changed both ends of the same interpolation at once, which made
+          // slow touch scrolling look uneven. The sphere now grows once,
+          // fully covers the viewport, remains stable, then closes once.
+          const introStart = .30;
+          const introEnd = .38;
+          const fillEnd = .53;
+          const holdEnd = .86;
+          const exitEnd = .985;
+          const fillScale = heroFillScale();
+          let coreScale = .12;
+          let coreAlpha = 0;
+
+          if (progress >= introStart && progress < introEnd) {
+            const t = linear(introStart, introEnd, progress);
+            coreScale = mix(.12, .42, t);
+            coreAlpha = t;
+          } else if (progress >= introEnd && progress < fillEnd) {
+            const t = linear(introEnd, fillEnd, progress);
+            coreScale = mix(.42, fillScale, t);
+            coreAlpha = 1;
+          } else if (progress >= fillEnd && progress < holdEnd) {
+            coreScale = fillScale;
+            coreAlpha = 1;
+          } else if (progress >= holdEnd) {
+            const t = linear(holdEnd, exitEnd, progress);
+            coreScale = mix(fillScale, .18, t);
+            coreAlpha = 1;
+          }
+
+          mobileSet.coreScale(coreScale);
+          mobileSet.coreOpacity(coreAlpha);
           return;
         }
 

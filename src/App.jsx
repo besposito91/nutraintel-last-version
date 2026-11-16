@@ -22,12 +22,16 @@ export default function App() {
   useLayoutEffect(() => {
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const touchInput = matchMedia('(pointer: coarse)').matches;
-    const mobileViewport = matchMedia('(max-width: 720px)').matches;
+    const compactViewport = matchMedia('(max-width: 1024px)').matches;
+    // Sotto questa soglia, o in presenza di un input touch, manteniamo lo
+    // scroll nativo: evita che Lenis e le timeline scrubbed si smorzino a
+    // vicenda e rende il movimento più direttamente legato al dito.
+    const useNativeScroll = compactViewport || touchInput;
     // The mobile browser bar changes the visual viewport while the user drags.
     // Ignoring those tiny resizes keeps scrubbed scenes locked to the finger
     // instead of refreshing their measurements halfway through the gesture.
-    ScrollTrigger.config({ ignoreMobileResize: mobileViewport });
-    const lenis = mobileViewport ? null : new Lenis({
+    ScrollTrigger.config({ ignoreMobileResize: useNativeScroll });
+    const lenis = useNativeScroll ? null : new Lenis({
         lerp: touchInput ? .105 : .12,
         smoothWheel: true,
         wheelMultiplier: 1,

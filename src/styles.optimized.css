@@ -656,7 +656,7 @@ main{position:relative;background:
   .solution-arrow{top:61%;width:48px;height:48px}
   .solution-arrow span{font-size:38px}
   /* A denser mobile chapter keeps the sphere responsive to the finger. */
-  .energy-hero{height:215vh}
+  .energy-hero{height:245vh}
   .narrative-core{background:radial-gradient(circle at 31% 27%,#f6fffc 0 3%,#58ddbd 11%,#1bc8a1 30%,#168fa2 68%,#075071 100%);box-shadow:inset -1vmax -.8vmax 1.7vmax rgba(5,59,92,.14),0 0 1.6vmax rgba(26,139,209,.07)}
   .narrative-core>i{display:none}
   .narrative-particle{box-shadow:none}
@@ -844,6 +844,11 @@ main{position:relative;background:
 .pform input[type='email'],
 .pform input[type='tel'] {
   color: #052c43;
+}
+
+/* Solo il paragrafo descrittivo dell'hero. */
+.hero-story-side > p {
+  font-size: 30px !important;
 }
 
 /* Frecce dei caroselli: stesso trattamento dei controlli FAQ. */
