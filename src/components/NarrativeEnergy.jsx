@@ -175,7 +175,9 @@ export default function NarrativeEnergy() {
           mobileSet.patientScale(particleScale * .94);
           mobileSet.patientOpacity(particleAlpha);
 
-          const logoFade = linear(.14, .34, progress);
+          // Il logo condiviso esce prima dell'ingresso del wordmark dell'Hero:
+          // su mobile i due elementi non devono restare sovrapposti.
+          const logoFade = linear(.035, .145, progress);
           mobileSet.logoY(mix(0, -18, logoFade));
           mobileSet.logoScale(mix(1, .965, logoFade));
           mobileSet.logoOpacity(1 - logoFade);
@@ -184,9 +186,12 @@ export default function NarrativeEnergy() {
           // changed both ends of the same interpolation at once, which made
           // slow touch scrolling look uneven. The sphere now grows once,
           // fully covers the viewport, remains stable, then closes once.
-          const introStart = .30;
-          const introEnd = .38;
-          const fillEnd = .53;
+          // La sfera centrale entra solo quando le due particelle hanno quasi
+          // concluso la convergenza, evitando la doppia sfera degli stati
+          // intermedi visibile durante i piccoli trascinamenti.
+          const introStart = .385;
+          const introEnd = .44;
+          const fillEnd = .60;
           const holdEnd = .86;
           const exitEnd = .985;
           const fillScale = heroFillScale();
