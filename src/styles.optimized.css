@@ -432,7 +432,7 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
 .hero-story-side{gap:clamp(16px,2.2vh,24px)}
 .hero-hint{bottom:1.2vh;gap:5px}
 .hero-hint i{height:24px}
-@media(max-height:850px) and (min-width:721px){.hero-story{top:44%;gap:18px;padding-bottom:7vh}.hero-title{max-width:1220px;font-size:clamp(44px,5vw,80px)}.hero-story-side{max-width:900px;padding:20px 38px;gap:14px}.hero-story-side p{font-size:clamp(15px,1.12vw,18px);line-height:1.42}.hero-hint{bottom:.5vh}.hero-hint i{height:18px}}
+@media(max-height:850px) and (min-width:721px){.hero-story{top:30%;gap:18px;padding-bottom:7vh}.hero-title{max-width:1220px;font-size:clamp(44px,5vw,80px)}.hero-story-side{max-width:900px;padding:20px 38px;gap:14px}.hero-story-side p{font-size:clamp(15px,1.12vw,18px);line-height:1.42}.hero-hint{bottom:.5vh}.hero-hint i{height:18px}}
 @media(max-width:720px){.hero-story{top:45%;padding:0 10px 9vh;gap:18px}.hero-title{max-width:620px}.hero-story-side{gap:14px}.hero-hint{bottom:.7vh;font-size:7px}.hero-hint i{height:18px}}
 
 /* Continuous mobile motion, sharp split particles and a tighter ecosystem orbit */
