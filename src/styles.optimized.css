@@ -1742,3 +1742,34 @@ p strong {
     --ecosystem-background-opacity: .28;
   }
 }
+
+/* Challenge: titolo e introduzione condividono sempre lo stesso centro
+   geometrico della griglia composta dalle tre card. */
+.split-problems .problems-head {
+  width: min(1540px, calc(100% - var(--pad) - var(--pad)));
+  max-width: 1540px;
+  margin-inline: auto;
+  padding-inline: 0;
+}
+
+.split-problems .problems-head .t-display {
+  width: 100%;
+  margin-inline: auto;
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* Cursore delle slide: modificare `bottom` per alzarlo o abbassarlo. */
+.usecases-sticky .usecases-progress {
+  bottom: clamp(6px, 1vh, 12px);
+}
+
+@media (max-width: 720px) {
+  .split-problems .problems-head {
+    width: 100%;
+  }
+
+  .usecases-sticky .usecases-progress {
+    bottom: 6px;
+  }
+}

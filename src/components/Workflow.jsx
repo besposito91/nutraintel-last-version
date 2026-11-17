@@ -69,7 +69,17 @@ export default function Workflow() {
       trigger: ref.current,
       start: 'top 64px',
       end: 'bottom bottom',
-      onToggle: (state) => state.isActive ? syncStep(state) : resetReveal(),
+      onToggle: (state) => {
+        if (state.isActive) {
+          syncStep(state);
+          return;
+        }
+
+        // Uscendo verso il basso manteniamo visibile l'ultima slide fino a
+        // quando la sezione ha lasciato davvero il viewport. Il reset serve
+        // soltanto quando si torna prima dell'inizio del carosello.
+        if (state.progress <= 0) resetReveal();
+      },
       onRefresh: syncStep,
       onUpdate: syncStep,
     });
