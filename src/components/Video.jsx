@@ -1,12 +1,11 @@
-import { useState } from 'react';
 import { NUTRAINTEL_CONFIG } from '../config.js';
 import { useLanguage } from '../i18n.jsx';
 
 export default function Video() {
-  const [playing, setPlaying] = useState(false);
-  const [missing, setMissing] = useState(false);
   const { t } = useLanguage();
   const url = (NUTRAINTEL_CONFIG.videoUrl || '').trim();
+  const isDirectVideo = /\.(mp4|webm|ogg)(?:[?#].*)?$/i.test(url);
+
   return (
     <section className="vid" id="video" aria-labelledby="vid-title" data-section="5">
       <div className="vid-head">
@@ -16,13 +15,15 @@ export default function Video() {
         </h2>
       </div>
       <div className="vid-card" data-fade>
-        {playing ? (
+        {isDirectVideo ? (
+          <video className="vid-player" controls playsInline preload="metadata">
+            <source src={url} type="video/mp4" />
+            {t('video.missing')}
+          </video>
+        ) : url ? (
           <iframe src={url} title={t('video.iframe')} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen />
         ) : (
-          <button className="vid-poster" type="button" aria-label={t('video.play')} onClick={() => (url ? setPlaying(true) : setMissing(true))}>
-            <span className="vid-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
-            <span className="vid-note">{missing ? t('video.missing') : t('video.label')}</span>
-          </button>
+          <p className="vid-note">{t('video.missing')}</p>
         )}
       </div>
     </section>
