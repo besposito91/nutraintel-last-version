@@ -32,7 +32,7 @@ export default function Hero() {
           scrub: true,
           ...(compactIntro ? {
             snap: {
-              snapTo: [0, .21, .42, .60, .86, 1],
+              snapTo: [0, .145, .36, .60, .86, 1],
               duration: { min: .18, max: .42 },
               delay: .035,
               ease: 'power2.out',

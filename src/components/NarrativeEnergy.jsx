@@ -156,15 +156,15 @@ export default function NarrativeEnergy() {
          * track the gesture without the former frame-to-frame jumps.
          */
         if (compactMotion) {
-          const pathProgress = linear(.015, .405, progress);
+          const pathProgress = linear(.015, .315, progress);
           const doctorStart = { x: .214, y: -.373 };
           const patientStart = { x: -.224, y: -.253 };
           const doctorPoint = cubicPoint(doctorStart, { x: .42, y: -.08 }, { x: .46, y: .55 }, { x: 0, y: 0 }, pathProgress);
           const patientPoint = cubicPoint(patientStart, { x: -.43, y: -.02 }, { x: -.45, y: .53 }, { x: 0, y: 0 }, pathProgress);
-          const particleGrowth = linear(.04, .20, progress);
-          const particleMerge = linear(.30, .415, progress);
+          const particleGrowth = linear(.04, .16, progress);
+          const particleMerge = linear(.215, .325, progress);
           const particleScale = mix(mix(.275, .315, particleGrowth), .055, particleMerge);
-          const particleAlpha = 1 - linear(.355, .425, progress);
+          const particleAlpha = 1 - linear(.275, .335, progress);
 
           mobileSet.doctorX(doctorPoint.x * measuredLogo);
           mobileSet.doctorY(doctorPoint.y * measuredLogo);
@@ -189,10 +189,10 @@ export default function NarrativeEnergy() {
           // La sfera centrale entra solo quando le due particelle hanno quasi
           // concluso la convergenza, evitando la doppia sfera degli stati
           // intermedi visibile durante i piccoli trascinamenti.
-          const introStart = .385;
-          const introEnd = .44;
-          const fillEnd = .60;
-          const holdEnd = .86;
+          const introStart = .27;
+          const introEnd = .31;
+          const fillEnd = .36;
+          const holdEnd = .90;
           const exitEnd = .985;
           const fillScale = heroFillScale();
           let coreScale = .12;
