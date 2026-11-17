@@ -213,7 +213,7 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
 .vid-card{width:min(1180px,100%);aspect-ratio:16/9;margin:0 auto;overflow:hidden;border:1px solid rgba(255,255,255,.78);border-radius:30px;background:rgba(255,255,255,.48);box-shadow:0 32px 90px rgba(5,44,67,.12);backdrop-filter:blur(16px)}
 .vid-card iframe,.vid-poster{width:100%;height:100%;border:0}.vid-poster{position:relative;display:grid;place-items:center;cursor:pointer;color:var(--ink);background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.92),rgba(231,245,244,.62) 45%,rgba(16,149,167,.13) 100%)}
 .vid-play{width:clamp(76px,8vw,116px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:var(--cta);box-shadow:0 20px 48px rgba(16,149,167,.25);transition:transform .35s var(--ease),box-shadow .35s ease}.vid-poster:hover .vid-play{transform:scale(1.06);box-shadow:0 24px 60px rgba(16,149,167,.35)}
-.vid-play svg{width:34%;fill:#fff;translate:6% 0}.vid-note{position:absolute;left:0;right:0;bottom:7%;font-size:10px;font-weight:650;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.vid-play svg{width:34%;fill:#fff;translate:6% 0}.vid-note{display:none !important;position:absolute;left:0;right:0;bottom:7%;font-size:10px;font-weight:650;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 
 .faq{position:relative;z-index:4;min-height:100svh;padding:13vh var(--pad) 12vh;display:grid;align-content:center;gap:8vh}
 .faq-head{max-width:1100px;margin:0 auto;text-align:center}.faq-head .t-display{font-size:clamp(50px,6.5vw,100px)}
@@ -412,7 +412,7 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
 
 /* Final energy continuity and ecosystem spacing */
 .hero-story{color:var(--ink)}.hero-story::before{display:none}.hero-title{text-shadow:0 3px 38px rgba(255,255,255,.28)}.hero-story-side{max-width:940px;padding:28px clamp(24px,3vw,46px);border:1px solid rgba(255,255,255,.5);border-radius:22px;background:rgba(238,249,247,.5);box-shadow:0 22px 70px rgba(5,44,67,.08);backdrop-filter:blur(9px)}.hero-story-side p{color:#315a6b}.hero-story-side .btn-line{border-color:rgba(5,44,67,.45);background:rgba(255,255,255,.2);color:var(--ink)}
-.solution-copy{left:52%;right:20%;top:50%;max-width:520px}.solution-node.orbit-pos-1{left:95%;top:14%}.solution-node.orbit-pos-2{left:94%;top:86%}.solution-node.orbit-pos-1 .solution-node-inner,.solution-node.orbit-pos-2 .solution-node-inner{transform:scale(.46)}
+.solution-copy{left:52%;right:20%;top:45%;max-width:520px}.solution-node.orbit-pos-1{left:95%;top:14%}.solution-node.orbit-pos-2{left:94%;top:86%}.solution-node.orbit-pos-1 .solution-node-inner,.solution-node.orbit-pos-2 .solution-node-inner{transform:scale(.46)}
 @media(max-width:1100px){.solution-copy{left:49%;right:13%;top:49%}.solution-node.orbit-pos-1{left:93%;top:15%}.solution-node.orbit-pos-2{left:92%;top:85%}}
 @media(max-width:720px){.hero-story-side{padding:20px 16px;border-radius:17px;backdrop-filter:blur(6px)}.solution-copy{left:43%;right:7%;top:48%}.solution-node.orbit-pos-1{left:89%;top:16%}.solution-node.orbit-pos-2{left:90%;top:84%}.solution-node.orbit-pos-1 .solution-node-inner,.solution-node.orbit-pos-2 .solution-node-inner{transform:scale(.38)}}
 
@@ -1772,69 +1772,4 @@ p strong {
   .usecases-sticky .usecases-progress {
     bottom: 6px;
   }
-}
-
-/* Titolo e descrizione seguono automaticamente il cambio delle slide. */
-.usecases-head-animated {
-  animation: usecase-copy-in .62s var(--ease) both;
-  will-change: transform, opacity;
-}
-
-@keyframes usecase-copy-in {
-  from {
-    opacity: 0;
-    transform: translate3d(4vw, 0, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@media (max-width: 720px) {
-  .usecases-head-animated {
-    animation-duration: .5s;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .usecases-head-animated {
-    animation: none;
-  }
-}
-
-/* Player video locale/remoto nella card editoriale. */
-.vid-player {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  border-radius: inherit;
-  object-fit: contain;
-  background: #052c43;
-}
-
-/* Copertina video: fondo blu e comando Play centrale ben visibile. */
-.vid-card .vid-poster {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  color: #fff;
-  cursor: pointer;
-  background:
-    radial-gradient(circle at 50% 45%, rgba(27, 200, 161, .28), transparent 30%),
-    linear-gradient(135deg, #052c43 0%, #075b75 52%, #0e8f72 100%);
-}
-
-.vid-card .vid-play {
-  width: clamp(96px, 10vw, 150px);
-  background: linear-gradient(119deg, rgb(255, 119, 0), rgb(255, 187, 0));
-  box-shadow: 0 24px 65px rgba(3, 31, 48, .38);
-}
-
-.vid-card .vid-note {
-  color: rgba(255, 255, 255, .86) !important;
 }
