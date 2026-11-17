@@ -19,6 +19,12 @@ export default function Hero() {
         pause: .84, storyOut: .89, end: .97,
       };
       const hint = ref.current?.querySelector('.hero-hint');
+      const mobileFill = ref.current?.querySelector('.hero-mobile-fill');
+      const mobileFillScale = () => {
+        if (!mobileFill) return 1;
+        const diameter = mobileFill.offsetWidth || Math.max(innerWidth, innerHeight);
+        return (Math.hypot(innerWidth, innerHeight) / diameter) * 1.18;
+      };
       gsap.timeline({ delay: .15 })
         .fromTo('.hero-bg', { opacity: 0 }, { opacity: 1, duration: 1.1, ease: 'power2.out' })
         .fromTo(hint, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .8 }, 1.1);
@@ -30,6 +36,7 @@ export default function Hero() {
           start: 'top top',
           end: 'bottom bottom',
           scrub: true,
+          invalidateOnRefresh: true,
           ...(compactIntro ? {
             snap: {
               snapTo: [0, .145, .36, .60, .86, 1],
@@ -41,6 +48,19 @@ export default function Hero() {
           } : {}),
         },
       });
+      if (compactIntro && mobileFill) {
+        // On mobile the Hero owns its sphere. Keeping it separate from the
+        // shared narrative sphere prevents the following section timelines
+        // from overwriting its scale while the Hero is still visible.
+        tl.fromTo(
+          mobileFill,
+          { opacity: 0, scale: .12 },
+          { opacity: 1, scale: .42, duration: .04, immediateRender: true },
+          .27,
+        )
+          .to(mobileFill, { opacity: 1, scale: mobileFillScale, duration: .05 }, .31)
+          .to(mobileFill, { opacity: 1, scale: .18, duration: .085 }, .90);
+      }
       tl.to(hint, { opacity: 0, duration: .05 }, .02)
         .fromTo('.wm-r', { opacity: 0, xPercent: 18 }, { opacity: 1, xPercent: 0, duration: compactIntro ? .055 : .08 }, timing.wordRight)
         .fromTo('.wm-l', { opacity: 0, xPercent: -18 }, { opacity: 1, xPercent: 0, duration: compactIntro ? .055 : .08 }, timing.wordLeft)
@@ -63,6 +83,7 @@ export default function Hero() {
       <div className="hero-sticky">
         <div className="hero-bg mesh" aria-hidden="true"><i /><i /><i /><i /></div>
         <div className="grain" aria-hidden="true" />
+        <div className="hero-mobile-fill" aria-hidden="true" />
         <div className="hero-wm" aria-hidden="true"><span className="wm-l">Nutra</span><span className="wm-gap" /><span className="wm-r">Intel<sup>®</sup></span></div>
         <p className="hero-tag">{t('hero.tag')}</p>
         <div className="hero-story">

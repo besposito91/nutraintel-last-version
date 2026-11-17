@@ -182,41 +182,14 @@ export default function NarrativeEnergy() {
           mobileSet.logoScale(mix(1, .965, logoFade));
           mobileSet.logoOpacity(1 - logoFade);
 
-          // Use mutually exclusive phases. The old nested interpolations
-          // changed both ends of the same interpolation at once, which made
-          // slow touch scrolling look uneven. The sphere now grows once,
-          // fully covers the viewport, remains stable, then closes once.
-          // La sfera centrale entra solo quando le due particelle hanno quasi
-          // concluso la convergenza, evitando la doppia sfera degli stati
-          // intermedi visibile durante i piccoli trascinamenti.
-          const introStart = .27;
-          const introEnd = .31;
-          const fillEnd = .36;
-          const holdEnd = .90;
-          const exitEnd = .985;
-          const fillScale = heroFillScale();
-          let coreScale = .12;
-          let coreAlpha = 0;
-
-          if (progress >= introStart && progress < introEnd) {
-            const t = linear(introStart, introEnd, progress);
-            coreScale = mix(.12, .42, t);
-            coreAlpha = t;
-          } else if (progress >= introEnd && progress < fillEnd) {
-            const t = linear(introEnd, fillEnd, progress);
-            coreScale = mix(.42, fillScale, t);
-            coreAlpha = 1;
-          } else if (progress >= fillEnd && progress < holdEnd) {
-            coreScale = fillScale;
-            coreAlpha = 1;
-          } else if (progress >= holdEnd) {
-            const t = linear(holdEnd, exitEnd, progress);
-            coreScale = mix(fillScale, .18, t);
-            coreAlpha = 1;
-          }
-
-          mobileSet.coreScale(coreScale);
-          mobileSet.coreOpacity(coreAlpha);
+          // The shared core is deliberately kept hidden throughout the mobile
+          // Hero. Its transform is also controlled by the later section
+          // timelines, which previously forced it back to the small scale.
+          // HeroNew renders the only visible Hero sphere; at the boundary this
+          // hidden core is already at the same small hand-off scale and can
+          // take over cleanly for the split animation.
+          mobileSet.coreScale(.18);
+          mobileSet.coreOpacity(0);
           return;
         }
 
@@ -296,22 +269,11 @@ export default function NarrativeEnergy() {
           renderHero(pendingHeroProgress);
         });
       };
-      // On mobile several ScrollTriggers share the same sphere. Commit the
-      // hero state at the end of the current JS turn, after the following
-      // timelines have evaluated, but still before the browser paints. This
-      // prevents an inactive later section from restoring the small sphere
-      // without introducing the one-frame delay of requestAnimationFrame.
-      let heroMicrotaskQueued = false;
-      const queueMobileHeroRender = (progress) => {
-        pendingHeroProgress = progress;
-        if (heroMicrotaskQueued) return;
-        heroMicrotaskQueued = true;
-        queueMicrotask(() => {
-          heroMicrotaskQueued = false;
-          renderHero(pendingHeroProgress);
-        });
-      };
-      const commitHeroRender = compactMotion ? queueMobileHeroRender : queueHeroRender;
+      // Tutte le sezioni successive condividono la stessa sfera. Il commit in
+      // requestAnimationFrame avviene dopo che ScrollTrigger ha valutato anche
+      // le timeline inattive, impedendo loro di ripristinare la scala iniziale
+      // sopra lo stato mobile dell'Hero.
+      const commitHeroRender = queueHeroRender;
 
       const heroTrigger = ScrollTrigger.create({
         trigger: hero,
