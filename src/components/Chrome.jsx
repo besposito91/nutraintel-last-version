@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { languageOptions, useLanguage } from '../i18n.jsx';
-
+ 
 function LanguageMenu() {
   const { language, setLanguage } = useLanguage();
   return (
@@ -12,7 +12,7 @@ function LanguageMenu() {
     </label>
   );
 }
-
+ 
 export function Nav() {
   const { t } = useLanguage();
   return (
@@ -25,7 +25,7 @@ export function Nav() {
     </header>
   );
 }
-
+ 
 export function Progress() {
   const [active, setActive] = useState(0);
   useEffect(() => {
@@ -38,7 +38,7 @@ export function Progress() {
   }, []);
   return <div className="progress" aria-hidden="true">{[0, 1, 2, 3, 4, 5, 6, 7].map((i) => <i key={i} className={i === active ? 'on' : ''} />)}</div>;
 }
-
+ 
 export function Outro() {
   const { t } = useLanguage();
   return (
@@ -52,7 +52,7 @@ export function Outro() {
     </section>
   );
 }
-
+ 
 export function Footer() {
   const { t } = useLanguage();
   return (
@@ -70,11 +70,14 @@ export function Footer() {
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" /></svg>
             <span>Instagram</span>
           </a>
-          <a className="foot-back" href="#top">{t('footer.back')} <span>↑</span></a>
+          <a className="foot-back" href="#top">
+  <span aria-hidden="true">↑</span>
+  {t('footer.back')}
+</a>
         </div>
       </div>
       <div className="foot-bot"><span>{t('footer.copyright')}</span></div>
     </footer>
   );
 }
-
+ 
