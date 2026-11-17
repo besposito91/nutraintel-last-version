@@ -1685,3 +1685,54 @@ p strong {
     font-size: 14px !important;
   }
 }
+
+/* Enfasi editoriali: alcuni elementi sono span/titoli e non tag strong. */
+.hero-title .highlight,
+.problem-card-body h3,
+.solution-copy h2,
+.consequences-head .highlight,
+.pre-head .highlight {
+  font-weight: 800 !important;
+}
+
+/* Il form DigitiSuite fornito e' un widget sticky: l'iframe viene attivato
+   dal suo script e non deve lasciare una colonna vuota nella griglia. */
+.pre-grid:has(.digitisuite-form-embed) {
+  grid-template-columns: 1fr;
+}
+
+/*
+  CONTROLLI DIMENSIONE ECOSISTEMA
+  - focus-size: dimensione dell'immagine attiva
+  - background-size: dimensione delle due immagini fuori focus
+  - background-opacity: opacita' delle due immagini fuori focus
+*/
+.solution-triangle-section {
+  --ecosystem-focus-size: 1;
+  --ecosystem-background-size: .54;
+  --ecosystem-background-opacity: .30;
+}
+
+.solution-orbit .solution-node {
+  opacity: var(--ecosystem-background-opacity) !important;
+}
+
+.solution-orbit .solution-node .solution-node-inner {
+  transform: scale(var(--ecosystem-background-size)) !important;
+}
+
+.solution-orbit .solution-node.active {
+  opacity: 1 !important;
+}
+
+.solution-orbit .solution-node.active .solution-node-inner {
+  transform: scale(var(--ecosystem-focus-size)) !important;
+}
+
+@media (max-width: 720px) {
+  .solution-triangle-section {
+    --ecosystem-focus-size: 1;
+    --ecosystem-background-size: .30;
+    --ecosystem-background-opacity: .28;
+  }
+}
