@@ -210,7 +210,7 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
 .consequences,.vid,.faq,.pre,.foot{position:relative;z-index:4;background:transparent}
 .vid{position:relative;z-index:4;min-height:100svh;padding:12vh var(--pad) 10vh;display:grid;align-content:center;gap:7vh}
 .vid-head{max-width:1260px;margin:0 auto;text-align:center}.vid-head .t-display{font-size:clamp(48px,6.5vw,100px)}
-.vid-card{width:min(1180px,100%);aspect-ratio:16/9;margin:0 auto;overflow:hidden;border:1px solid rgba(255,255,255,.78);border-radius:30px;background:rgba(255,255,255,.48);box-shadow:0 32px 90px rgba(5,44,67,.12);backdrop-filter:blur(16px)}
+.vid-card{width:min(1050px,100%);aspect-ratio:16/9;margin:0 auto;overflow:hidden;border:1px solid rgba(255,255,255,.78);border-radius:30px;background:rgba(255,255,255,.48);box-shadow:0 32px 90px rgba(5,44,67,.12);backdrop-filter:blur(16px)}
 .vid-card iframe,.vid-poster{width:100%;height:100%;border:0}.vid-poster{position:relative;display:grid;place-items:center;cursor:pointer;color:var(--ink);background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.92),rgba(231,245,244,.62) 45%,rgba(16,149,167,.13) 100%)}
 .vid-play{width:clamp(76px,8vw,116px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:var(--cta);box-shadow:0 20px 48px rgba(16,149,167,.25);transition:transform .35s var(--ease),box-shadow .35s ease}.vid-poster:hover .vid-play{transform:scale(1.06);box-shadow:0 24px 60px rgba(16,149,167,.35)}
 .vid-play svg{width:34%;fill:#fff;translate:6% 0}.vid-note{display:none !important;position:absolute;left:0;right:0;bottom:7%;font-size:10px;font-weight:650;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
