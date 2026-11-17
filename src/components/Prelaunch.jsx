@@ -44,26 +44,22 @@ export default function Prelaunch() {
           </ul>
           
         </div>
-        <iframe
-          className="digitisuite-form-embed"
-          src="https://api.digitisuite.io/widget/form/feIEsg9uiZD6VjWi0cv4"
-          style={{ display: 'none', width: '100%', height: '100%', border: 'none', borderRadius: '8px' }}
-          id="sticky-sidebar-left-feIEsg9uiZD6VjWi0cv4"
-          data-layout="{'id':'STICKY_SIDEBAR','minimizedTitle':'Contact us','isLeftAligned':true,'isRightAligned':false,'allowMinimize':true,'buttonColor':'#101828','buttonType':'text','buttonSize':'medium','buttonIcon':'chat','cornerRadius':{'tl':8,'tr':8,'bl':8,'br':8},'fontSize':16}"
-          data-trigger-type="alwaysShow"
-          data-trigger-value=""
-          data-activation-type="alwaysActivated"
-          data-activation-value=""
-          data-deactivation-type="neverDeactivate"
-          data-deactivation-value=""
-          data-form-name="Optin Landing NutraIntel"
-          data-height="708"
-          data-layout-iframe-id="sticky-sidebar-left-feIEsg9uiZD6VjWi0cv4"
-          data-form-id="feIEsg9uiZD6VjWi0cv4"
-          data-cookie-consent="true"
-          data-cookie-consent-provider="auto"
-          title="Optin Landing NutraIntel"
-        />
+        <div className="pcard pform pform-embed" data-fade>
+          <iframe
+            className="digitisuite-form-embed"
+            src="https://api.digitisuite.io/widget/form/feIEsg9uiZD6VjWi0cv4"
+            style={{ width: '100%', height: '708px', border: 'none', borderRadius: '8px' }}
+            id="inline-form-feIEsg9uiZD6VjWi0cv4"
+            data-layout="{'id':'INLINE'}"
+            data-form-name="Optin Landing NutraIntel"
+            data-height="708"
+            data-layout-iframe-id="inline-form-feIEsg9uiZD6VjWi0cv4"
+            data-form-id="feIEsg9uiZD6VjWi0cv4"
+            data-cookie-consent="true"
+            data-cookie-consent-provider="auto"
+            title="Optin Landing NutraIntel"
+          />
+        </div>
       </div>
     </section>
   );

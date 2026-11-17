@@ -1695,10 +1695,16 @@ p strong {
   font-weight: 800 !important;
 }
 
-/* Il form DigitiSuite fornito e' un widget sticky: l'iframe viene attivato
-   dal suo script e non deve lasciare una colonna vuota nella griglia. */
-.pre-grid:has(.digitisuite-form-embed) {
-  grid-template-columns: 1fr;
+/* Form DigitiSuite inline nella seconda colonna della sezione finale. */
+.pform-embed {
+  padding: 0;
+  overflow: hidden;
+}
+
+.pform-embed .digitisuite-form-embed {
+  display: block;
+  min-height: 708px;
+  background: transparent;
 }
 
 /*
