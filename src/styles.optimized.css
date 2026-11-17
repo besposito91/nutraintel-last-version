@@ -812,6 +812,7 @@ main{position:relative;background:
   #consequences-title,
   #answer-title {
     font-size: 69.12px;
+    margin-bottom: 30px !important;
   }
 }
 
@@ -1640,5 +1641,47 @@ main{position:relative;background:
   .consequence-columns .consequence-image .human-cutout {
     height: 100%;
     max-height: 42vh;
+  }
+}
+
+.problems-answer-section .problems-answer > p {
+margin-bottom: -30px !important;
+}
+
+.hero-sticky > .hero-tag{
+  font-size: 30px !important;
+}
+
+/* Tipografia globale richiesta: enfasi forte nei titoli e nei paragrafi. */
+h1 strong,
+h2 strong,
+h3 strong,
+h4 strong,
+h5 strong,
+h6 strong,
+p strong {
+  font-weight: 800 !important;
+}
+
+/* Tutti i paragrafi, escluse le card Problems e le risposte FAQ. */
+:root p {
+  font-size: 23px !important;
+  color: #052c43 !important;
+}
+
+/* Le tre card della sezione Problems mantengono la misura compatta. */
+.split-problems .problem-card-body p {
+  font-size: 18px !important;
+  color: var(--muted) !important;
+}
+
+/* Le FAQ mantengono la dimensione già concordata. */
+.faq-item .faq-answer p {
+  font-size: 18px !important;
+}
+
+@media (max-width: 720px) {
+  .faq-item .faq-answer p {
+    font-size: 14px !important;
   }
 }
