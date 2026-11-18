@@ -202,7 +202,7 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
 
 .solution-orbit>svg{animation:solution-orbit-drift 6.4s ease-in-out infinite alternate}
 .solution-orbit>svg ellipse{animation:solution-orbit-flow 5.5s linear infinite}
-.solution-orbit::after{animation:solution-orbit-glow 6.4s ease-in-out infinite alternate}
+.solution-orbit::aft  er{animation:solution-orbit-glow 6.4s ease-in-out infinite alternate}
 @keyframes solution-orbit-drift{0%{transform:translate3d(-1.8%,1.1%,0) rotate(-1.1deg) scaleX(.978)}50%{transform:translate3d(1.2%,-1.2%,0) rotate(.8deg) scaleX(1.025)}100%{transform:translate3d(2%,-.2%,0) rotate(1.3deg) scaleX(.99)}}
 @keyframes solution-orbit-flow{to{stroke-dashoffset:-18}}
 @keyframes solution-orbit-glow{0%{opacity:.42;transform:translate3d(-1%,.6%,0) scale(.985)}100%{opacity:1;transform:translate3d(1.2%,-.8%,0) scale(1.022)}}
@@ -1871,7 +1871,7 @@ p strong {
   }
 
   .problems-answer h3 {
-    font-size: 32px !important;
+    font-size: clamp(30px, 8.5vw, 36px) !important;
     line-height: 1.02;
   }
 
