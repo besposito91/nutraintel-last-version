@@ -16,7 +16,26 @@ export default function SeeDeeper() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo('.solution-orbit', { opacity: 0, scale: .88 }, { opacity: 1, scale: 1, duration: .8, ease: 'power2.out', scrollTrigger: { trigger: ref.current, start: 'top 70%', end: 'top 15%', scrub: true } });
+      const isMobile = window.matchMedia('(max-width: 720px)').matches;
+
+      gsap.fromTo(
+        '.solution-orbit',
+        { opacity: 0, scale: .88 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: .8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: ref.current,
+            // Su mobile il contenuto compare solo quando lo sticky e' agganciato:
+            // in questo modo 50svh coincide davvero con il centro del viewport.
+            start: isMobile ? 'top top' : 'top 70%',
+            end: isMobile ? 'top -8%' : 'top 15%',
+            scrub: true,
+          },
+        },
+      );
 
       // MODALITA INFINITE SCROLL: lo stato segue il progresso della sezione.
       // Per ripristinare le frecce, rimuovere questo trigger e riattivare i
