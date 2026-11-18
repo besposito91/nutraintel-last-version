@@ -2010,7 +2010,7 @@ p strong {
 @media (max-width: 720px) {
   .solution-sticky {
     display: grid;
-    grid-template-rows: 64svh auto minmax(0, 1fr);
+    grid-template-rows: 68svh auto minmax(0, 1fr);
     padding: 0 var(--mobile-outer-gutter) 24px;
   }
 
@@ -2048,7 +2048,8 @@ p strong {
 
   .solution-node.orbit-pos-0 {
     left: 50%;
-    top: 67%;
+    /* Centro reale del viewport per qualunque dispositivo attivo. */
+    top: 50svh;
     z-index: 6;
   }
 
