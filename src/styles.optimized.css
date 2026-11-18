@@ -2053,6 +2053,11 @@ p strong {
     z-index: 6;
   }
 
+  .solution-node {
+    /* <figure> ha di default margin: 1em 40px: spostava tutti i device. */
+    margin: 0;
+  }
+
   .solution-node.orbit-pos-1 {
     left: 22%;
     top: 20%;
