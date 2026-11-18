@@ -481,7 +481,7 @@ main{position:relative;background:
 .usecase-composite-panel.side-right .usecase-composite{justify-self:start}
 
 @media(max-width:720px){
-  .usecases-stage{grid-template-columns:1fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:0}
+  .usecases-stage{display:flex; flex-direction:column; row-gap: 14vhS;}
   .usecase-composite-panel{padding-bottom:28px}
   .usecase-composite{width:92%;height:84%;max-width:min(90vw,430px);max-height:84%;transform:translateY(-10%);justify-self:center!important}
   .usecase-composite-panel.is-waiting{transform:translate3d(0,4vh,0)}
