@@ -1837,8 +1837,12 @@ p strong {
 /* Tipografia mobile compatta. Queste regole sono volutamente in fondo al
    foglio per non essere annullate dalle misure desktop dichiarate sopra. */
 @media (max-width: 720px) {
+  :root {
+    --mobile-paragraph-size: 17px;
+  }
+
   :root p {
-    font-size: 16px !important;
+    font-size: var(--mobile-paragraph-size) !important;
     line-height: 1.5 !important;
   }
 
@@ -1848,7 +1852,7 @@ p strong {
   }
 
   .hero-tag {
-    font-size: 18px !important;
+    font-size: var(--mobile-paragraph-size) !important;
   }
 
   .t-display,
@@ -1867,7 +1871,7 @@ p strong {
   }
 
   .split-problems .problem-card-body p {
-    font-size: 15px !important;
+    font-size: var(--mobile-paragraph-size) !important;
   }
 
   .problems-answer h3 {
@@ -1882,7 +1886,7 @@ p strong {
 
   .solution-copy p,
   .usecases-head p {
-    font-size: 14px !important;
+    font-size: var(--mobile-paragraph-size) !important;
   }
 
   .usecases-head h2 {
@@ -1902,7 +1906,7 @@ p strong {
   }
 
   .faq-item .faq-answer p {
-    font-size: 14px !important;
+    font-size: var(--mobile-paragraph-size) !important;
   }
 
   .pcard h3 {
