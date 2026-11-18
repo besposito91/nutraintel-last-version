@@ -41,29 +41,31 @@ export default function Workflow() {
   // MODALITA INFINITE SCROLL: slide e progress seguono la sezione sticky.
   useLayoutEffect(() => {
     let activeStep = -1;
-    let scheduledStep = -1;
-    let revealTimer;
-    const compactInput = matchMedia('(max-width: 720px), (pointer: coarse)').matches;
-    const revealDelay = compactInput ? 420 : 700;
+    let activeReveal = -1;
+    const revealAt = .46;
 
-    const queueReveal = (next) => {
-      window.clearTimeout(revealTimer);
-      scheduledStep = next;
-      setRevealedStep(-1);
-      revealTimer = window.setTimeout(() => setRevealedStep(next), revealDelay);
+    const updateReveal = (next) => {
+      if (next === activeReveal) return;
+      activeReveal = next;
+      setRevealedStep(next);
     };
     const syncStep = (state) => {
-      const next = Math.min(cases.length - 1, Math.floor(state.progress * cases.length * .999));
+      const scaledProgress = Math.min(
+        cases.length - Number.EPSILON,
+        state.progress * cases.length,
+      );
+      const next = Math.min(cases.length - 1, Math.floor(scaledProgress));
+      const slideProgress = scaledProgress - next;
       if (next !== activeStep) {
         activeStep = next;
         setStep(next);
       }
-      if (state.isActive && next !== scheduledStep) queueReveal(next);
+      if (state.isActive || state.progress >= .999) {
+        updateReveal(slideProgress >= revealAt ? next : -1);
+      }
     };
     const resetReveal = () => {
-      window.clearTimeout(revealTimer);
-      scheduledStep = -1;
-      setRevealedStep(-1);
+      updateReveal(-1);
     };
     const trigger = ScrollTrigger.create({
       trigger: ref.current,
@@ -85,7 +87,6 @@ export default function Workflow() {
     });
 
     return () => {
-      window.clearTimeout(revealTimer);
       trigger.kill();
     };
   }, [cases.length]);

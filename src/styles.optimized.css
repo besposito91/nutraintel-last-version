@@ -198,6 +198,9 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
 
 .vid-card{border-color:rgba(255,255,255,.28);background:rgba(3,31,48,.22);box-shadow:0 32px 90px rgba(3,31,48,.24)}
 .vid-poster{background:radial-gradient(circle at 50% 45%,rgba(27,200,161,.22),rgba(5,59,92,.46) 56%,rgba(3,31,48,.66) 100%)}
+.vid-poster-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.vid-poster::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,31,48,.04),rgba(3,31,48,.18));pointer-events:none}
+.vid-poster .vid-play{position:relative;z-index:1}
 
 .faq-list{border-top-color:rgba(255,255,255,.28)}
 .faq-item summary{font-weight:600}.faq-item summary i{border-color:rgba(255,255,255,.45)}
@@ -1574,7 +1577,23 @@ p strong {
 @media (max-width: 720px) {
 
   .usecases-sticky .usecases-progress {
-    bottom: 6px;
+    top: 50%;
+    right: 4px;
+    bottom: auto;
+    left: auto;
+    translate: 0 -50%;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .usecases-sticky .usecases-progress i {
+    flex: 0 0 30px;
+    width: 2px;
+    height: 30px;
+  }
+
+  .usecases-sticky .usecases-progress i.on {
+    background: linear-gradient(180deg, var(--green), var(--sky));
   }
 
   .usecases-head-animated h2 {

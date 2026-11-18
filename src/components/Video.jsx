@@ -24,13 +24,26 @@ export default function Video() {
             aria-label={t('video.play')}
             onClick={() => url && setPlaying(true)}
           >
+            <img
+              className="vid-poster-image"
+              src="./images/video/nutraintel-video-cover.png"
+              alt=""
+              decoding="async"
+            />
             <span className="vid-play" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
             </span>
             <span className="vid-note">{url ? t('video.label') : t('video.missing')}</span>
           </button>
         ) : isDirectVideo ? (
-          <video className="vid-player" controls autoPlay playsInline preload="metadata">
+          <video
+            className="vid-player"
+            controls
+            autoPlay
+            playsInline
+            preload="metadata"
+            poster="./images/video/nutraintel-video-cover.png"
+          >
             <source src={url} type="video/mp4" />
             {t('video.missing')}
           </video>
