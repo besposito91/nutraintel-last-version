@@ -1737,6 +1737,11 @@ p strong {
     padding-left: var(--mobile-outer-gutter);
   }
 
+  /* Mantiene il carosello sullo stesso fondale continuo della pagina. */
+  .usecases-head {
+    background: transparent;
+  }
+
   .vid,
   .faq,
   .pre,

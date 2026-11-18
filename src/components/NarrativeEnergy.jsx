@@ -369,7 +369,9 @@ export default function NarrativeEnergy() {
         y: innerHeight * (compactMotion ? .1 : .12),
       });
       const usecaseSphereScale = () => compactMotion ? .075 : .05;
-      const usecaseSphereOpacity = .36;
+      // Mobile: the travelling sphere dissolves completely once it reaches
+      // the centre of the use-case carousel. Desktop keeps its current marker.
+      const usecaseSphereOpacity = compactMotion ? 0 : .36;
 
       const placeUsecaseEntry = (progress) => {
         const end = usecasePoint();
@@ -507,7 +509,7 @@ export default function NarrativeEnergy() {
             x: 0,
             y: 0,
             scale: expandedScale,
-            autoAlpha: 0.9,
+            autoAlpha: compactMotion ? 1 : 0.9,
             rotation: 382,
             duration: 0.78,
             ease: 'sine.inOut',
