@@ -1362,6 +1362,7 @@ main{position:relative;background:
   .usecases-sticky {
     top: 54px;
     height: calc(100svh - 54px);
+    margin-top: 15vh;
   }
 }
 
