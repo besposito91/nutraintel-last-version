@@ -2004,3 +2004,92 @@ p strong {
     padding-bottom: 24px;
   }
 }
+
+/* Ecosistema mobile: fascia dispositivi, dispositivo attivo centrale e copy
+   in una riga separata subito sotto. Il desktop resta invariato. */
+@media (max-width: 720px) {
+  .solution-sticky {
+    display: grid;
+    grid-template-rows: 64svh auto minmax(0, 1fr);
+    padding: 0 var(--mobile-outer-gutter) 24px;
+  }
+
+  .solution-stage {
+    position: relative;
+    grid-row: 1;
+    inset: auto;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .solution-copy {
+    position: relative;
+    grid-row: 2;
+    left: auto;
+    right: auto;
+    top: auto;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+    padding: 0;
+    translate: none;
+    text-align: center;
+  }
+
+  .solution-copy h2 {
+    margin: 0;
+  }
+
+  .solution-copy p {
+    max-width: 34ch;
+    margin: 10px auto 0;
+  }
+
+  .solution-node.orbit-pos-0 {
+    left: 50%;
+    top: 67%;
+    z-index: 6;
+  }
+
+  .solution-node.orbit-pos-1 {
+    left: 22%;
+    top: 20%;
+    z-index: 3;
+  }
+
+  .solution-node.orbit-pos-2 {
+    left: 78%;
+    top: 20%;
+    z-index: 3;
+  }
+
+  .solution-node .ecosystem-product {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    margin: auto;
+    transform: none !important;
+    object-fit: contain;
+  }
+
+  .solution-node.active .ecosystem-product {
+    max-height: 34svh;
+  }
+
+  .solution-node:not(.active) .ecosystem-product {
+    max-height: 22svh;
+  }
+
+  .solution-orbit > svg,
+  .solution-orbit::after {
+    inset: 8% 2% 4%;
+    width: 96%;
+    height: 88%;
+  }
+
+  .solution-progress {
+    bottom: 18px;
+  }
+}
