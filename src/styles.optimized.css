@@ -420,7 +420,7 @@ html[lang="de"] .nav-cta .btn{padding-inline:14px;font-size:9px}
   .usecases-head h2{max-width:370px;font-size:clamp(28px,8vw,35px);line-height:1.03}
   .usecases-head p{max-width:360px;margin-top:11px;font-size:13px;line-height:1.4;color:#1f455c}
   .usecases-scenes{height:calc(100% - clamp(150px,19vh,176px) - 8px)}
-  .usecases-stage{gap:8px}
+  .usecases-stage{gap:14vh}
   .uc-actor-panel{overflow:visible}
   .uc-actor-panel::before{content:'';position:absolute;z-index:0;left:5%;right:5%;top:18%;bottom:9%;border-radius:50%;background:radial-gradient(circle,rgba(27,200,161,.11),rgba(26,139,209,.055) 48%,transparent 72%);pointer-events:none}
   .usecases-progress{left:12px;right:12px;bottom:12px}
