@@ -1839,6 +1839,9 @@ p strong {
 @media (max-width: 720px) {
   :root {
     --mobile-paragraph-size: 17px;
+    --mobile-outer-gutter: 20px;
+    --mobile-section-space: clamp(52px, 8svh, 68px);
+    --pad: var(--mobile-outer-gutter);
   }
 
   :root p {
@@ -1912,5 +1915,92 @@ p strong {
   .pcard h3 {
     font-size: 28px !important;
     line-height: 1.05;
+  }
+}
+
+/* Spaziatura esterna mobile: tutte le sezioni condividono lo stesso bordo
+   laterale. Le scene e le timeline interne conservano dimensioni e logica. */
+@media (max-width: 720px) {
+  .hero-story {
+    left: var(--mobile-outer-gutter);
+    right: var(--mobile-outer-gutter);
+    padding-inline: 0;
+  }
+
+  .split-problems {
+    padding-top: var(--mobile-section-space);
+    padding-right: var(--mobile-outer-gutter);
+    padding-bottom: var(--mobile-section-space);
+    padding-left: var(--mobile-outer-gutter);
+  }
+
+  .split-problems .problems-head,
+  .split-problems .problems-list {
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .split-problems .problems-list {
+    margin-top: clamp(36px, 6svh, 52px);
+  }
+
+  .problems-answer-section {
+    padding: 0 var(--mobile-outer-gutter) var(--mobile-section-space);
+  }
+
+  .problems-answer-section .problems-answer {
+    width: 100%;
+    margin-top: 0;
+    padding-top: var(--mobile-section-space);
+  }
+
+  .problems-answer-section .problems-answer > h3,
+  .problems-answer-section .problems-answer > p {
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .solution-copy {
+    left: var(--mobile-outer-gutter);
+    right: var(--mobile-outer-gutter);
+  }
+
+  .usecases {
+    margin-top: 0;
+  }
+
+  .usecases-sticky,
+  .consequences-sticky {
+    padding-right: var(--mobile-outer-gutter);
+    padding-left: var(--mobile-outer-gutter);
+  }
+
+  .vid,
+  .faq,
+  .pre,
+  .foot {
+    padding-right: var(--mobile-outer-gutter);
+    padding-left: var(--mobile-outer-gutter);
+  }
+
+  .vid,
+  .faq,
+  .pre {
+    padding-top: var(--mobile-section-space);
+    padding-bottom: var(--mobile-section-space);
+  }
+
+  .vid,
+  .faq {
+    gap: clamp(30px, 5svh, 44px);
+  }
+
+  .pre-grid {
+    margin-top: clamp(36px, 6svh, 52px);
+  }
+
+  .foot {
+    padding-top: clamp(42px, 6svh, 56px);
+    padding-bottom: 24px;
   }
 }
