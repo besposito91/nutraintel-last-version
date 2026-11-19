@@ -1813,6 +1813,7 @@ p strong {
 
   .problems-answer-section {
     padding: 0 var(--mobile-outer-gutter) var(--mobile-section-space);
+    padding-bottom: 1vh;
   }
 
   .problems-answer-section .problems-answer {
@@ -2053,8 +2054,8 @@ p strong {
 
   .usecases-stage {
     height: 100%;
-    gap: clamp(2px, 1svh, 8px);
-    transform: translateY(-4svh);
+    gap: 11vh;
+    transform: translateY(-8svh);
     overflow: visible;
   }
 
