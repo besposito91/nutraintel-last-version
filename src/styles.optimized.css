@@ -2085,3 +2085,12 @@ p strong {
     height: 690svh;
   }
 }
+
+/* Sfida, solo mobile: le bolle sono incorporate nelle immagini delle card.
+   Una lieve riduzione del gruppo grafico le tiene lontane dal testo. */
+@media (max-width: 720px) {
+  .split-problems .problem-card-image img {
+    transform: scale(0.92);
+    transform-origin: center top;
+  }
+}
