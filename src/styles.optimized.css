@@ -662,6 +662,79 @@ main{position:relative;background:
   }
 }
 
+/* Carosello use case desktop: maggiore corsa di scroll e transizioni
+   simmetriche sia avanzando sia tornando alla slide precedente. */
+@media (min-width: 721px) {
+  .usecases-scene {
+    transition: opacity .78s ease, transform 1s var(--ease);
+  }
+
+  .usecases-scene.is-before {
+    z-index: 1;
+    opacity: 0;
+    transform: translate3d(-5vw, 0, 0);
+  }
+
+  .usecases-scene.is-after {
+    z-index: 1;
+    opacity: 0;
+    transform: translate3d(5vw, 0, 0);
+  }
+
+  .usecases-scene.is-active {
+    z-index: 2;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .uc-actor-panel {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition: opacity .82s ease, transform 1s var(--ease);
+  }
+
+  .uc-actor-panel.is-visible {
+    animation: none;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .uc-actor-panel.is-waiting {
+    opacity: 0;
+    transform: translate3d(5vw, 0, 0);
+  }
+
+  .uc-actor-panel.side-right.is-visible {
+    animation: usecase-right-image-in 1.05s var(--ease) both;
+  }
+
+  .uc-actor-panel.side-right.is-waiting {
+    animation: usecase-right-image-out 1.05s var(--ease) both;
+  }
+}
+
+@keyframes usecase-right-image-in {
+  from {
+    opacity: 0;
+    transform: translate3d(5vw, 0, 0) scale(.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes usecase-right-image-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(5vw, 0, 0) scale(.985);
+  }
+}
+
 /* Dalla sezione Conseguenze al form: tipografia blu, footer escluso. */
 .consequences,
 .consequences-head .t-display,
@@ -1997,5 +2070,13 @@ p strong {
     object-fit: contain;
     object-position: center;
     transform: none;
+  }
+}
+
+/* Override conclusivo: la sezione desktop resta piu' lunga delle sei slide,
+   cosi' ogni cambio richiede una corsa di scroll meno sensibile. */
+@media (min-width: 721px) {
+  .usecases {
+    height: 690svh;
   }
 }

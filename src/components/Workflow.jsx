@@ -127,7 +127,13 @@ export default function Workflow() {
         <div className="usecases-scenes">
           {cases.map((caseItem, index) => (
             <div
-              className={`usecases-scene ${index === step ? 'is-active' : ''}`}
+              className={`usecases-scene ${
+                index === step
+                  ? 'is-active'
+                  : index < step
+                    ? 'is-before'
+                    : 'is-after'
+              }`}
               key={caseItem.title}
               aria-hidden={index !== step}
             >
