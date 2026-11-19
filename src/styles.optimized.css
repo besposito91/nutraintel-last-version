@@ -1675,7 +1675,9 @@ p strong {
 
   .solution-copy p,
   .usecases-head p {
-    font-size: var(--mobile-paragraph-size) !important;
+    
+    font-size: 15px !important; 
+    line-height: 1.2 !important;
   }
 
   .usecases-head h2 {
