@@ -1578,9 +1578,9 @@ p strong {
 
   .usecases-sticky .usecases-progress {
     top: 50%;
-    right: 4px;
+    right: auto;
     bottom: auto;
-    left: auto;
+    left: 4px;
     translate: 0 -50%;
     flex-direction: column;
     gap: 6px;
@@ -1884,6 +1884,18 @@ p strong {
   }
 
   .solution-progress {
-    bottom: 18px;
+    top: 50%;
+    right: auto;
+    bottom: auto;
+    left: 4px;
+    translate: 0 -50%;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .solution-progress i {
+    flex: 0 0 30px;
+    width: 2px;
+    height: 30px;
   }
 }
