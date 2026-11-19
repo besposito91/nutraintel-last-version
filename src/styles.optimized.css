@@ -1900,3 +1900,100 @@ p strong {
     height: 30px;
   }
 }
+
+/* Rifinitura finale mobile: indicatori piu' leggibili, composizioni piu'
+   compatte e immagini sempre interamente visibili. Il desktop non cambia. */
+@media (max-width: 720px) {
+  /* Riduce il vuoto tra ecosistema e use case. */
+  .usecases-sticky {
+    margin-top: 4svh;
+  }
+
+  /* Barre verticali piu' spesse e contrastate. */
+  .solution-progress i,
+  .usecases-sticky .usecases-progress i {
+    width: 4px;
+    height: 32px;
+    flex-basis: 32px;
+    border-radius: 999px;
+    background: rgba(5, 44, 67, .28);
+  }
+
+  .solution-progress i.on {
+    background: var(--green);
+  }
+
+  /* Ecosistema: triangolo piu' piatto e gruppo piu' vicino al testo alto. */
+  .solution-sticky {
+    grid-template-rows: 63svh auto minmax(0, 1fr);
+  }
+
+  .solution-node.orbit-pos-0 {
+    top: 43svh;
+  }
+
+  .solution-node.orbit-pos-1,
+  .solution-node.orbit-pos-2 {
+    top: 29%;
+  }
+
+  .solution-orbit > svg,
+  .solution-orbit::after {
+    inset: 17% 2% 13%;
+    width: 96%;
+    height: 70%;
+  }
+
+  /* Un leggero aumento uniforme dei tre prodotti quando sono in focus. */
+  .solution-triangle-section {
+    --ecosystem-focus-size: 1.06;
+  }
+
+  .solution-node-0 .solution-node-inner {
+    width: min(78vw, 42svh);
+  }
+
+  .solution-node-1 .solution-node-inner {
+    width: 96vw;
+  }
+
+  .solution-node-2 .solution-node-inner {
+    width: min(68vw, 41svh);
+  }
+
+  .solution-node.active .ecosystem-product {
+    max-height: 38svh;
+  }
+
+  /* Use case: il gruppo sale verso titolo e paragrafo. Ogni pannello occupa
+     meta' dello spazio disponibile e usa contain, evitando il taglio basso. */
+  .usecases-scenes {
+    margin-top: 0;
+    padding-bottom: 8px;
+    overflow: visible;
+  }
+
+  .usecases-stage {
+    height: 100%;
+    gap: clamp(2px, 1svh, 8px);
+    transform: translateY(-2.5svh);
+    overflow: visible;
+  }
+
+  .usecase-composite-panel {
+    flex: 1 1 0;
+    min-height: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .usecase-composite {
+    width: min(96%, 460px) !important;
+    height: auto !important;
+    max-width: 96vw;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transform: none;
+  }
+}
