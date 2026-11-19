@@ -539,7 +539,7 @@ main{position:relative;background:
 /* Final use-case navigation: arrows change slides, page scroll leaves the section. */
 @media(max-width:720px){
   .usecases{height:100svh;min-height:620px}
-  .usecases-sticky{height:100svh;min-height:620px; overflow: visible;}
+  .usecases-sticky{height:100svh;min-height:620px;}
 
 }
 
