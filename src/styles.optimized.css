@@ -2094,3 +2094,27 @@ p strong {
     transform-origin: center top;
   }
 }
+
+/* Rifiniture mobile: transizione ecosistema/use case piu' compatta e
+   spaziature della sezione finale allineate alla viewport ridotta. */
+@media (max-width: 720px) {
+  .usecases {
+    margin-top: -12svh;
+  }
+
+  .usecases-sticky {
+    margin-top: 0;
+  }
+
+  .pcard-info > p {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .nav-cta .btn {
+    max-width: 139px;
+    padding-inline: 5px;
+    font-size: 9px;
+  }
+}
