@@ -1480,7 +1480,7 @@ main{position:relative;background:
   .consequence-columns {
     position: relative;
     display: block;
-    height: calc(100% - 150px);
+    height: calc(100% - 300px);
     margin: 0;
   }
 
