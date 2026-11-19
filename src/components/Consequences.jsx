@@ -69,16 +69,16 @@ export default function Consequences() {
       if (compact) {
         timeline.to(
           professional,
-          { autoAlpha: 0, y: -28, duration: .18, ease: 'none' },
-          .50,
+          { autoAlpha: 0, y: -28, duration: .16, ease: 'none' },
+          .44,
         );
       }
 
       timeline.fromTo(
           patient,
           { autoAlpha: 0, x: compact ? 0 : 36, y: compact ? 34 : 0 },
-          { autoAlpha: 1, x: 0, y: 0, duration: .30, ease: 'none', immediateRender: true },
-          .58,
+          { autoAlpha: 1, x: 0, y: 0, duration: compact ? .28 : .30, ease: 'none', immediateRender: true },
+          compact ? .64 : .58,
         );
     }, section);
 

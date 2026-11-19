@@ -453,6 +453,20 @@ export default function NarrativeEnergy() {
         },
       });
 
+      // Su mobile la sfera narrativa non deve apparire sopra le immagini del
+      // carosello. Rimane nascosta per tutta la permanenza negli use case e
+      // torna disponibile soltanto nel raccordo con consequences.
+      if (compactMotion) {
+        ScrollTrigger.create({
+          trigger: usecases,
+          start: 'top bottom',
+          end: 'bottom bottom',
+          onToggle: ({ isActive }) => {
+            root.classList.toggle('is-mobile-usecase', isActive);
+          },
+        });
+      }
+
       const initialMarkerCall = gsap.delayedCall(.2, () => {
         const rect = usecases.getBoundingClientRect();
         if (!usecaseTrigger.isActive && !(rect.top <= 1 && rect.bottom > 0)) return;
@@ -630,7 +644,10 @@ export default function NarrativeEnergy() {
       };
     }, root);
 
-    return () => ctx.revert();
+    return () => {
+      root.classList.remove('is-mobile-usecase');
+      ctx.revert();
+    };
   }, []);
 
   return (

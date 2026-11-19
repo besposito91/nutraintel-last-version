@@ -1650,6 +1650,11 @@ p strong {
 
 @media (max-width: 720px) {
 
+  .narrative-energy.is-mobile-usecase .narrative-core {
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
   .usecases-sticky .usecases-progress {
     top: 50%;
     right: auto;
