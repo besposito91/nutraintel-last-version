@@ -1976,7 +1976,7 @@ p strong {
   .usecases-stage {
     height: 100%;
     gap: clamp(2px, 1svh, 8px);
-    transform: translateY(-2.5svh);
+    transform: translateY(-4svh);
     overflow: visible;
   }
 
@@ -1985,13 +1985,15 @@ p strong {
     min-height: 0;
     padding: 0;
     overflow: visible;
+    place-items: start center;
+    align-content: start;
   }
 
   .usecase-composite {
     width: min(96%, 460px) !important;
     height: auto !important;
     max-width: 96vw;
-    max-height: 100%;
+    max-height: calc(100% - 2px);
     object-fit: contain;
     object-position: center;
     transform: none;
