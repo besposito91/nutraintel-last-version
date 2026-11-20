@@ -1,12 +1,16 @@
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../i18n.jsx';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
   const ref = useRef(null);
   const { t } = useLanguage();
 
   useLayoutEffect(() => {
+    let mobileFrame = 0;
     const ctx = gsap.context(() => {
       const compactIntro = matchMedia('(max-width: 720px), (pointer: coarse)').matches;
       const timing = compactIntro ? {
@@ -20,14 +24,125 @@ export default function Hero() {
       };
       const hint = ref.current?.querySelector('.hero-hint');
       const mobileFill = ref.current?.querySelector('.hero-mobile-fill');
+      const sticky = ref.current?.querySelector('.hero-sticky');
       const mobileFillScale = () => {
         if (!mobileFill) return 1;
-        const diameter = mobileFill.offsetWidth || Math.max(innerWidth, innerHeight);
-        return (Math.hypot(innerWidth, innerHeight) / diameter) * 1.18;
+        const width = sticky?.clientWidth || innerWidth;
+        const height = sticky?.clientHeight || innerHeight;
+        const diameter = mobileFill.offsetWidth || Math.max(width, height);
+        return (Math.hypot(width, height) / diameter) * 1.12;
       };
-      gsap.timeline({ delay: .15 })
-        .fromTo('.hero-bg', { opacity: 0 }, { opacity: 1, duration: 1.1, ease: 'power2.out' })
-        .fromTo(hint, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .8 }, 1.1);
+      const intro = gsap.timeline({ delay: .15 })
+        .fromTo('.hero-bg', { opacity: 0 }, { opacity: 1, duration: 1.1, ease: 'power2.out' });
+
+      if (!compactIntro) {
+        intro.fromTo(hint, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .8 }, 1.1);
+      }
+
+      if (compactIntro) {
+        const wordmark = ref.current?.querySelector('.hero-wm');
+        const wordLeft = ref.current?.querySelector('.wm-l');
+        const wordRight = ref.current?.querySelector('.wm-r');
+        const tag = ref.current?.querySelector('.hero-tag');
+        const story = ref.current?.querySelector('.hero-story');
+        const storySide = ref.current?.querySelector('.hero-story-side');
+        const clamp = gsap.utils.clamp;
+        const mix = gsap.utils.interpolate;
+        const smooth = (start, end, value) => {
+          const amount = clamp(0, 1, (value - start) / (end - start));
+          return amount * amount * (3 - 2 * amount);
+        };
+
+        gsap.set(mobileFill, { xPercent: -50, yPercent: -50, scale: .12, opacity: 0, force3D: true });
+        gsap.set([wordmark, wordLeft, wordRight, tag, story, storySide], { force3D: true });
+        gsap.set(wordmark, { yPercent: 0, scale: 1, opacity: 1, transformOrigin: '50% 50%' });
+        gsap.set(wordLeft, { xPercent: -18, opacity: 0 });
+        gsap.set(wordRight, { xPercent: 18, opacity: 0 });
+        gsap.set(tag, { y: 30, opacity: 0 });
+        gsap.set(story, { y: 20, scale: 1, opacity: 0, transformOrigin: '50% 50%' });
+        gsap.set(storySide, { y: 18, opacity: 0 });
+        gsap.set(hint, { y: 0, opacity: 1 });
+
+        const set = {
+          fillScale: gsap.quickSetter(mobileFill, 'scale'),
+          fillOpacity: gsap.quickSetter(mobileFill, 'opacity'),
+          leftX: gsap.quickSetter(wordLeft, 'xPercent'),
+          leftOpacity: gsap.quickSetter(wordLeft, 'opacity'),
+          rightX: gsap.quickSetter(wordRight, 'xPercent'),
+          rightOpacity: gsap.quickSetter(wordRight, 'opacity'),
+          wordY: gsap.quickSetter(wordmark, 'yPercent'),
+          wordScale: gsap.quickSetter(wordmark, 'scale'),
+          wordOpacity: gsap.quickSetter(wordmark, 'opacity'),
+          tagY: gsap.quickSetter(tag, 'y', 'px'),
+          tagOpacity: gsap.quickSetter(tag, 'opacity'),
+          storyY: gsap.quickSetter(story, 'y', 'px'),
+          storyScale: gsap.quickSetter(story, 'scale'),
+          storyOpacity: gsap.quickSetter(story, 'opacity'),
+          sideY: gsap.quickSetter(storySide, 'y', 'px'),
+          sideOpacity: gsap.quickSetter(storySide, 'opacity'),
+          hintY: gsap.quickSetter(hint, 'y', 'px'),
+          hintOpacity: gsap.quickSetter(hint, 'opacity'),
+        };
+
+        const renderMobile = (progress) => {
+          const leftIn = smooth(.16, .28, progress);
+          const rightIn = smooth(.12, .24, progress);
+          const tagIn = smooth(.24, .36, progress);
+          const lift = smooth(.36, .50, progress);
+          const wordOut = smooth(.46, .56, progress);
+          const tagOut = smooth(.40, .52, progress);
+          const storyIn = smooth(.48, .62, progress);
+          const sideIn = smooth(.55, .69, progress);
+          const storyOut = smooth(.86, .97, progress);
+          const hintOut = smooth(.01, .09, progress);
+          const fillIn = smooth(.24, .34, progress);
+          const fillGrow = smooth(.31, .45, progress);
+          const fillOut = smooth(.86, .99, progress);
+          const coverScale = mobileFillScale();
+          const enteringScale = mix(.12, .42, fillIn);
+          const expandedScale = mix(enteringScale, coverScale, fillGrow);
+
+          set.fillScale(mix(expandedScale, .18, fillOut));
+          set.fillOpacity(fillIn);
+          set.leftX(mix(-18, 0, leftIn));
+          set.leftOpacity(leftIn);
+          set.rightX(mix(18, 0, rightIn));
+          set.rightOpacity(rightIn);
+          set.wordY(mix(0, -150, lift));
+          set.wordScale(mix(1, .72, lift));
+          set.wordOpacity(1 - wordOut);
+          set.tagY(mix(mix(30, 0, tagIn), -30, tagOut));
+          set.tagOpacity(tagIn * (1 - tagOut));
+          set.storyY(mix(20, 0, storyIn));
+          set.storyScale(mix(1, .94, storyOut));
+          set.storyOpacity(storyIn * (1 - storyOut));
+          set.sideY(mix(18, 0, sideIn));
+          set.sideOpacity(sideIn);
+          set.hintY(mix(0, -8, hintOut));
+          set.hintOpacity(1 - hintOut);
+        };
+
+        let pendingProgress = 0;
+        const queueMobileRender = (progress) => {
+          pendingProgress = progress;
+          if (mobileFrame) return;
+          mobileFrame = requestAnimationFrame(() => {
+            mobileFrame = 0;
+            renderMobile(pendingProgress);
+          });
+        };
+
+        const mobileTrigger = ScrollTrigger.create({
+          trigger: ref.current,
+          start: 'top top',
+          end: 'bottom bottom',
+          invalidateOnRefresh: true,
+          onUpdate: ({ progress }) => queueMobileRender(progress),
+          onRefresh: ({ progress }) => queueMobileRender(progress),
+        });
+        renderMobile(mobileTrigger.progress);
+        return;
+      }
 
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
@@ -37,30 +152,8 @@ export default function Hero() {
           end: 'bottom bottom',
           scrub: true,
           invalidateOnRefresh: true,
-          ...(compactIntro ? {
-            snap: {
-              snapTo: [0, .145, .36, .60, .86, 1],
-              duration: { min: .18, max: .42 },
-              delay: .035,
-              ease: 'power2.out',
-              directional: true,
-            },
-          } : {}),
         },
       });
-      if (compactIntro && mobileFill) {
-        // On mobile the Hero owns its sphere. Keeping it separate from the
-        // shared narrative sphere prevents the following section timelines
-        // from overwriting its scale while the Hero is still visible.
-        tl.fromTo(
-          mobileFill,
-          { opacity: 0, scale: .12 },
-          { opacity: 1, scale: .42, duration: .04, immediateRender: true },
-          .27,
-        )
-          .to(mobileFill, { opacity: 1, scale: mobileFillScale, duration: .05 }, .31)
-          .to(mobileFill, { opacity: 1, scale: .18, duration: .085 }, .90);
-      }
       tl.to(hint, { opacity: 0, duration: .05 }, .02)
         .fromTo('.wm-r', { opacity: 0, xPercent: 18 }, { opacity: 1, xPercent: 0, duration: compactIntro ? .055 : .08 }, timing.wordRight)
         .fromTo('.wm-l', { opacity: 0, xPercent: -18 }, { opacity: 1, xPercent: 0, duration: compactIntro ? .055 : .08 }, timing.wordLeft)
@@ -75,7 +168,10 @@ export default function Hero() {
         .to({}, { duration: .03 }, timing.end);
 
     }, ref);
-    return () => ctx.revert();
+    return () => {
+      if (mobileFrame) cancelAnimationFrame(mobileFrame);
+      ctx.revert();
+    };
   }, []);
 
   return (
