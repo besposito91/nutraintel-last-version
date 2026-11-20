@@ -71,7 +71,6 @@ export function Footer() {
         <div className="foot-actions">
           <a className="foot-instagram" href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label={t('footer.instagram')}>
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" /></svg>
-            <span>Instagram</span>
           </a>
           <a className="foot-back" href="#top">
   <span aria-hidden="true">↑</span>

@@ -2164,9 +2164,36 @@ p strong {
   gap: 14px;
 }
 
+.foot-big {
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.foot-powered {
+  font-size: 8px;
+}
+
+.foot-instagram,
+.foot-back {
+  font-size: 9px;
+}
+
+.foot-instagram {
+  width: 32px;
+  height: 32px;
+  justify-content: center;
+  gap: 0;
+}
+
+.foot-instagram svg {
+  width: 19px;
+  height: 19px;
+}
+
 .foot-bot {
   margin-top: 28px;
   padding-top: 16px;
+  font-size: 9px;
 }
 
 @media (max-width: 720px) {
@@ -2193,6 +2220,10 @@ p strong {
 
   .foot-actions {
     gap: 12px;
+  }
+
+  .foot-big {
+    font-size: 15px;
   }
 
   .foot-bot {
