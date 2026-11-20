@@ -32,20 +32,20 @@ export default function NarrativeEnergy() {
     const logoSize = () => logo.getBoundingClientRect().width;
     const blueHead = () => ({
       x: logoSize() * .263,
-      y: logoSize() * -.275
+      y: logoSize() * -.305
     });
     
     const greenHead = () => ({
       x: logoSize() * -.233,
-      y: logoSize() * -.270
+      y: logoSize() * -.300
     });
 
     const ctx = gsap.context(() => {
       gsap.set(core, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: .14, rotation: 0, autoAlpha: 0, force3D: true });
       gsap.set(logo, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 1, rotation: 0, autoAlpha: 1, force3D: true });
       gsap.set(pair, { xPercent: -50, yPercent: -50, rotation: 0, autoAlpha: 1 });
-      gsap.set(doctor, { x: () => blueHead().x, y: () => blueHead().y, scale: .275, rotation: 0, autoAlpha: 1, force3D: true });
-      gsap.set(patient, { x: () => greenHead().x, y: () => greenHead().y, scale: .24, rotation: 0, autoAlpha: 1, force3D: true });
+      gsap.set(doctor, { x: () => blueHead().x, y: () => blueHead().y, scale: .39, rotation: 0, autoAlpha: 1, force3D: true });
+      gsap.set(patient, { x: () => greenHead().x, y: () => greenHead().y, scale: .37, rotation: 0, autoAlpha: 1, force3D: true });
       gsap.set(rings, { scale: .5, autoAlpha: 0 });
       gsap.set(shade, { autoAlpha: 0 });
       gsap.set(fracture, { xPercent: -50, yPercent: -50, scale: .45, rotation: -16, autoAlpha: 0 });
@@ -103,14 +103,14 @@ export default function NarrativeEnergy() {
       let measuredLogo = logoSize();
       const desktopReach = compactMotion ? .54 : .40;
       const doctorPath = [
-        { x: .263, y: -.275 },
-        { x: .29, y: -.245 },
+        { x: .263, y: -.305 },
+        { x: .29, y: -.270 },
         { x: desktopReach, y: .04 }, { x: desktopReach * .98, y: .70 },
         { x: .24, y: .60 }, { x: .075, y: .20 }, { x: 0, y: 0 },
       ];
       const patientPath = [
-        { x: -.233, y: -.270 },
-        { x: -.30, y: -.235 },
+        { x: -.233, y: -.300 },
+        { x: -.30, y: -.265 },
         { x: -desktopReach, y: .09 }, { x: -desktopReach * .98, y: .65 },
         { x: -.24, y: .57 }, { x: -.075, y: .18 }, { x: 0, y: 0 },
       ];
@@ -205,7 +205,7 @@ export default function NarrativeEnergy() {
         const pathProgress = clamp(0, 1, progress / heroPhases.pathEnd);
         const doctorPoint = sampleCurve(doctorPath, pathProgress);
         const patientPoint = sampleCurve(patientPath, pathProgress);
-        const travelScale = mix(.275, .31, smooth(heroPhases.travelStart, heroPhases.travelEnd, progress));
+        const travelScale = mix(.39, .43, smooth(heroPhases.travelStart, heroPhases.travelEnd, progress));
         const gatherScale = mix(travelScale, .23, smooth(heroPhases.gatherStart, heroPhases.gatherEnd, progress));
         const particleScale = mix(gatherScale, .055, smooth(heroPhases.fadeStart, heroPhases.fadeEnd, progress));
         const particleAlpha = 1 - smooth(heroPhases.fadeStart + .005, heroPhases.fadeEnd, progress);
