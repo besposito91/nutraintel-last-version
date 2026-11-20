@@ -1968,7 +1968,7 @@ p strong {
     top: 50%;
     right: auto;
     bottom: auto;
-    left: 4px;
+    left: 9px;
     translate: 0 -50%;
     flex-direction: column;
     gap: 6px;
