@@ -61,7 +61,7 @@ export function Footer() {
       <div className="foot-top">
         <div className="foot-brand">
           <a className="nav-logo" href="#top" aria-label={t('nav.home')}>
-            <img src="./images/brand/nutraintel-logo.svg" alt="NutraIntel" />
+            <img src="./images/brand/nutraintel-logo-white.svg" alt="NutraIntel" />
           </a>
           <span className="foot-powered">Powered by <a href="https://digiticompany.it/" target="_blank" rel="noreferrer"><strong>DiGiTi Company srl</strong></a></span>
         </div>
