@@ -32,12 +32,12 @@ export default function NarrativeEnergy() {
     const logoSize = () => logo.getBoundingClientRect().width;
     const blueHead = () => ({
       x: logoSize() * .263,
-      y: logoSize() * -.255
+      y: logoSize() * -.275
     });
     
     const greenHead = () => ({
       x: logoSize() * -.233,
-      y: logoSize() * -.250
+      y: logoSize() * -.270
     });
 
     const ctx = gsap.context(() => {
@@ -103,14 +103,14 @@ export default function NarrativeEnergy() {
       let measuredLogo = logoSize();
       const desktopReach = compactMotion ? .54 : .40;
       const doctorPath = [
-        { x: .263, y: -.255 },
-        { x: .29, y: -.29 },
+        { x: .263, y: -.275 },
+        { x: .29, y: -.245 },
         { x: desktopReach, y: .04 }, { x: desktopReach * .98, y: .70 },
         { x: .24, y: .60 }, { x: .075, y: .20 }, { x: 0, y: 0 },
       ];
       const patientPath = [
-        { x: -.233, y: -.250 },
-        { x: -.30, y: -.20 },
+        { x: -.233, y: -.270 },
+        { x: -.30, y: -.235 },
         { x: -desktopReach, y: .09 }, { x: -desktopReach * .98, y: .65 },
         { x: -.24, y: .57 }, { x: -.075, y: .18 }, { x: 0, y: 0 },
       ];
