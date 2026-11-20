@@ -12,12 +12,13 @@ function LanguageMenu() {
     </label>
   );
 }
- 
 export function Nav() {
   const { t } = useLanguage();
   return (
     <header className="nav" aria-label={t('nav.aria')}>
-      <a className="nav-logo" href="#top" aria-label={t('nav.home')}>Nutra<span>Intel</span><sup>®</sup></a>
+      <a className="nav-logo" href="#top" aria-label={t('nav.home')}>
+        <img src="./images/brand/nutraintel-logo.svg" alt="NutraIntel" />
+      </a>
       <nav className="nav-links" aria-label={t('nav.sections')}>
         <a href="#problema">{t('nav.challenge')}</a><a href="#monitoraggio">{t('nav.solution')}</a><a href="#use-case">{t('nav.usecases')}</a><a href="#video">{t('nav.video')}</a><a href="#faq">{t('nav.faq')}</a>
       </nav>
@@ -59,7 +60,9 @@ export function Footer() {
     <footer className="foot">
       <div className="foot-top">
         <div className="foot-brand">
-          <a className="nav-logo" href="#top">Nutra<span>Intel</span></a>
+          <a className="nav-logo" href="#top" aria-label={t('nav.home')}>
+            <img src="./images/brand/nutraintel-logo.svg" alt="NutraIntel" />
+          </a>
           <span className="foot-powered">Powered by <a href="https://digiticompany.it/" target="_blank" rel="noreferrer"><strong>DiGiTi Company srl</strong></a></span>
         </div>
         <nav className="foot-big" aria-label="Footer">
@@ -80,4 +83,3 @@ export function Footer() {
     </footer>
   );
 }
- 

@@ -29,7 +29,6 @@ function ActorPanel({ src, position, visible = true }) {
 export default function Workflow() {
   const ref = useRef(null);
   const [step, setStep] = useState(0);
-  const [revealedStep, setRevealedStep] = useState(-1);
 
   const { t } = useLanguage();
 
@@ -41,31 +40,16 @@ export default function Workflow() {
   // MODALITA INFINITE SCROLL: slide e progress seguono la sezione sticky.
   useLayoutEffect(() => {
     let activeStep = -1;
-    let activeReveal = -1;
-    const revealAt = .46;
-
-    const updateReveal = (next) => {
-      if (next === activeReveal) return;
-      activeReveal = next;
-      setRevealedStep(next);
-    };
     const syncStep = (state) => {
       const scaledProgress = Math.min(
         cases.length - Number.EPSILON,
         state.progress * cases.length,
       );
       const next = Math.min(cases.length - 1, Math.floor(scaledProgress));
-      const slideProgress = scaledProgress - next;
       if (next !== activeStep) {
         activeStep = next;
         setStep(next);
       }
-      if (state.isActive || state.progress >= .999) {
-        updateReveal(slideProgress >= revealAt ? next : -1);
-      }
-    };
-    const resetReveal = () => {
-      updateReveal(-1);
     };
     const trigger = ScrollTrigger.create({
       trigger: ref.current,
@@ -77,10 +61,7 @@ export default function Workflow() {
           return;
         }
 
-        // Uscendo verso il basso manteniamo visibile l'ultima slide fino a
-        // quando la sezione ha lasciato davvero il viewport. Il reset serve
-        // soltanto quando si torna prima dell'inizio del carosello.
-        if (state.progress <= 0) resetReveal();
+        // Le due immagini fanno ora parte dello stesso ingresso di slide.
       },
       onRefresh: syncStep,
       onUpdate: syncStep,
@@ -147,7 +128,6 @@ export default function Workflow() {
                 <ActorPanel
                   src={caseItem.images[1]}
                   position="right"
-                  visible={index === step && revealedStep === step}
                 />
 
               </div>
