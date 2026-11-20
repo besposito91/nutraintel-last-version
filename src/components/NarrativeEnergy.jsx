@@ -32,20 +32,20 @@ export default function NarrativeEnergy() {
     const logoSize = () => logo.getBoundingClientRect().width;
     const blueHead = () => ({
       x: logoSize() * .263,
-      y: logoSize() * -.305
+      y: logoSize() * (compactMotion ? -.285 : -.305)
     });
     
     const greenHead = () => ({
       x: logoSize() * -.233,
-      y: logoSize() * -.300
+      y: logoSize() * (compactMotion ? -.280 : -.300)
     });
 
     const ctx = gsap.context(() => {
       gsap.set(core, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: .14, rotation: 0, autoAlpha: 0, force3D: true });
       gsap.set(logo, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 1, rotation: 0, autoAlpha: 1, force3D: true });
       gsap.set(pair, { xPercent: -50, yPercent: -50, rotation: 0, autoAlpha: 1 });
-      gsap.set(doctor, { x: () => blueHead().x, y: () => blueHead().y, scale: .39, rotation: 0, autoAlpha: 1, force3D: true });
-      gsap.set(patient, { x: () => greenHead().x, y: () => greenHead().y, scale: .37, rotation: 0, autoAlpha: 1, force3D: true });
+      gsap.set(doctor, { x: () => blueHead().x, y: () => blueHead().y, scale: compactMotion ? .275 : .39, rotation: 0, autoAlpha: 1, force3D: true });
+      gsap.set(patient, { x: () => greenHead().x, y: () => greenHead().y, scale: compactMotion ? .26 : .37, rotation: 0, autoAlpha: 1, force3D: true });
       gsap.set(rings, { scale: .5, autoAlpha: 0 });
       gsap.set(shade, { autoAlpha: 0 });
       gsap.set(fracture, { xPercent: -50, yPercent: -50, scale: .45, rotation: -16, autoAlpha: 0 });
@@ -166,8 +166,8 @@ export default function NarrativeEnergy() {
          */
         if (compactMotion) {
           const pathProgress = linear(.015, .315, progress);
-          const doctorStart = { x: .214, y: -.373 };
-          const patientStart = { x: -.224, y: -.253 };
+          const doctorStart = { x: .263, y: -.285 };
+          const patientStart = { x: -.233, y: -.280 };
           const doctorPoint = cubicPoint(doctorStart, { x: .42, y: -.08 }, { x: .46, y: .55 }, { x: 0, y: 0 }, pathProgress);
           const patientPoint = cubicPoint(patientStart, { x: -.43, y: -.02 }, { x: -.45, y: .53 }, { x: 0, y: 0 }, pathProgress);
           const particleGrowth = linear(.04, .16, progress);
