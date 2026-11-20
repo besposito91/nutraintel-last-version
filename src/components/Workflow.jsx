@@ -12,17 +12,67 @@ const caseImages = [
   ['./images/usecases/slide-6-left.webp', './images/usecases/slide-6-right.webp'],
 ];
 
-function ActorPanel({ src, position, visible = true }) {
+function ActorPanel({ src, position, priority, onReady }) {
+  const handleLoad = (event) => {
+    const image = event.currentTarget;
+    if (typeof image.decode !== 'function') {
+      onReady();
+      return;
+    }
+
+    image.decode().catch(() => undefined).finally(onReady);
+  };
+
   return (
-    <article className={`uc-actor-panel side-${position} usecase-composite-panel ${visible ? 'is-visible' : 'is-waiting'}`}>
+    <article className={`uc-actor-panel side-${position} usecase-composite-panel is-visible`}>
       <img
         className="usecase-composite"
         src={src}
         alt=""
-        loading="lazy"
+        loading={priority ? 'eager' : 'lazy'}
         decoding="async"
+        onLoad={handleLoad}
+        onError={onReady}
       />
     </article>
+  );
+}
+
+function UsecaseScene({ caseItem, index, step }) {
+  const [loaded, setLoaded] = useState([false, false]);
+  const active = index === step;
+  const ready = loaded[0] && loaded[1];
+  const positionClass = active ? 'is-active' : index < step ? 'is-before' : 'is-after';
+
+  const markReady = (imageIndex) => {
+    setLoaded((current) => {
+      if (current[imageIndex]) return current;
+      const next = [...current];
+      next[imageIndex] = true;
+      return next;
+    });
+  };
+
+  return (
+    <div
+      className={`usecases-scene ${positionClass} ${ready ? 'is-ready' : 'is-loading'}`}
+      aria-hidden={!active}
+    >
+      <div className="usecases-stage">
+        <ActorPanel
+          src={caseItem.images[0]}
+          position="left"
+          priority={active}
+          onReady={() => markReady(0)}
+        />
+        <ActorPanel
+          src={caseItem.images[1]}
+          position="right"
+          priority={active}
+          onReady={() => markReady(1)}
+        />
+      </div>
+    </div>
   );
 }
 
@@ -107,31 +157,12 @@ export default function Workflow() {
 
         <div className="usecases-scenes">
           {cases.map((caseItem, index) => (
-            <div
-              className={`usecases-scene ${
-                index === step
-                  ? 'is-active'
-                  : index < step
-                    ? 'is-before'
-                    : 'is-after'
-              }`}
+            <UsecaseScene
               key={caseItem.title}
-              aria-hidden={index !== step}
-            >
-              <div className="usecases-stage">
-
-                <ActorPanel
-                  src={caseItem.images[0]}
-                  position="left"
-                />
-
-                <ActorPanel
-                  src={caseItem.images[1]}
-                  position="right"
-                />
-
-              </div>
-            </div>
+              caseItem={caseItem}
+              index={index}
+              step={step}
+            />
           ))}
         </div>
 

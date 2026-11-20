@@ -2221,3 +2221,15 @@ p strong {
     background: var(--green);
   }
 }
+
+/* La slide diventa visibile soltanto quando entrambe le immagini sono state
+   caricate e decodificate: nessuna delle due puo' anticipare l'altra. */
+.usecases-scene .uc-actor-panel.is-visible {
+  animation: none;
+}
+
+.usecases-scene.is-active.is-loading {
+  opacity: 0;
+  transform: translate3d(4vw, 0, 0);
+  pointer-events: none;
+}
