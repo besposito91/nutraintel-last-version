@@ -30,14 +30,19 @@ export default function NarrativeEnergy() {
     // finger-locked renderer is used only by the actual mobile layout.
     const compactMotion = matchMedia('(max-width: 720px)').matches;
     const logoSize = () => logo.getBoundingClientRect().width;
+    const mobileStemTop = -.188;
+    const mobileHeadGap = 8;
+    const mobileHeadY = (particle, scale, size = logoSize()) => (
+      size * mobileStemTop - particle.offsetWidth * scale * .5 - mobileHeadGap
+    );
     const blueHead = () => ({
       x: logoSize() * .263,
-      y: logoSize() * (compactMotion ? -.285 : -.305)
+      y: compactMotion ? mobileHeadY(doctor, .275) : logoSize() * -.305
     });
     
     const greenHead = () => ({
       x: logoSize() * -.233,
-      y: logoSize() * (compactMotion ? -.280 : -.300)
+      y: compactMotion ? mobileHeadY(patient, .26) : logoSize() * -.300
     });
 
     const ctx = gsap.context(() => {
@@ -166,8 +171,8 @@ export default function NarrativeEnergy() {
          */
         if (compactMotion) {
           const pathProgress = linear(.015, .315, progress);
-          const doctorStart = { x: .263, y: -.285 };
-          const patientStart = { x: -.233, y: -.280 };
+          const doctorStart = { x: .263, y: mobileHeadY(doctor, .275, measuredLogo) / measuredLogo };
+          const patientStart = { x: -.233, y: mobileHeadY(patient, .26, measuredLogo) / measuredLogo };
           const doctorPoint = cubicPoint(doctorStart, { x: .42, y: -.08 }, { x: .46, y: .55 }, { x: 0, y: 0 }, pathProgress);
           const patientPoint = cubicPoint(patientStart, { x: -.43, y: -.02 }, { x: -.45, y: .53 }, { x: 0, y: 0 }, pathProgress);
           const particleGrowth = linear(.04, .16, progress);
