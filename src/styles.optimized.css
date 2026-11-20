@@ -2178,16 +2178,33 @@ p strong {
   font-size: 9px;
 }
 
-.foot-instagram {
+.foot-socials {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.foot-social {
   width: 32px;
   height: 32px;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
   gap: 0;
 }
 
-.foot-instagram svg {
+.foot-social svg {
   width: 19px;
   height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.foot-social-mobile {
+  display: none;
 }
 
 .foot-bot {
@@ -2209,9 +2226,9 @@ p strong {
   }
 
   .foot .nav-logo {
-    width: 44px;
-    height: 44px;
-    flex-basis: 44px;
+    width: 64px;
+    height: 64px;
+    flex-basis: 64px;
   }
 
   .foot-top {
@@ -2220,6 +2237,10 @@ p strong {
 
   .foot-actions {
     gap: 12px;
+  }
+
+  .foot-social-mobile {
+    display: inline-flex;
   }
 
   .foot-big {

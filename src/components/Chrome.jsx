@@ -69,9 +69,17 @@ export function Footer() {
           <a href="#problema">{t('nav.challenge')}</a><a href="#monitoraggio">{t('nav.solution')}</a><a href="#use-case">{t('nav.usecases')}</a><a href="#video">{t('nav.video')}</a><a href="#faq">{t('nav.faq')}</a>
         </nav>
         <div className="foot-actions">
-          <a className="foot-instagram" href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label={t('footer.instagram')}>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" /></svg>
-          </a>
+          <div className="foot-socials">
+            <a className="foot-social foot-instagram" href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label={t('footer.instagram')}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" /></svg>
+            </a>
+            <a className="foot-social foot-social-mobile" href="https://www.facebook.com/" target="_blank" rel="noreferrer" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h3V4h-3c-3 0-5 2-5 5v3H6v4h3v5h4v-5h3l1-4h-4V9c0-.7.3-1 1-1Z" /></svg>
+            </a>
+            <a className="foot-social foot-social-mobile" href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M8 10v7M8 7.5v.01M12 17v-7M12 13.5c0-2 1-3.5 3-3.5s3 1.5 3 4v3" /></svg>
+            </a>
+          </div>
           <a className="foot-back" href="#top">
   <span aria-hidden="true">↑</span>
   {t('footer.back')}
