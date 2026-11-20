@@ -30,8 +30,15 @@ export default function NarrativeEnergy() {
     // finger-locked renderer is used only by the actual mobile layout.
     const compactMotion = matchMedia('(max-width: 720px)').matches;
     const logoSize = () => logo.getBoundingClientRect().width;
-    const blueHead = () => ({ x: logoSize() * .214, y: logoSize() * -.373 });
-    const greenHead = () => ({ x: logoSize() * -.224, y: logoSize() * -.253 });
+    const blueHead = () => ({
+      x: logoSize() * .263,
+      y: logoSize() * -.255
+    });
+    
+    const greenHead = () => ({
+      x: logoSize() * -.233,
+      y: logoSize() * -.250
+    });
 
     const ctx = gsap.context(() => {
       gsap.set(core, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: .14, rotation: 0, autoAlpha: 0, force3D: true });
@@ -96,12 +103,14 @@ export default function NarrativeEnergy() {
       let measuredLogo = logoSize();
       const desktopReach = compactMotion ? .54 : .40;
       const doctorPath = [
-        { x: .214, y: -.373 }, { x: .29, y: -.29 },
+        { x: .263, y: -.255 },
+        { x: .29, y: -.29 },
         { x: desktopReach, y: .04 }, { x: desktopReach * .98, y: .70 },
         { x: .24, y: .60 }, { x: .075, y: .20 }, { x: 0, y: 0 },
       ];
       const patientPath = [
-        { x: -.224, y: -.253 }, { x: -.30, y: -.20 },
+        { x: -.233, y: -.250 },
+        { x: -.30, y: -.20 },
         { x: -desktopReach, y: .09 }, { x: -desktopReach * .98, y: .65 },
         { x: -.24, y: .57 }, { x: -.075, y: .18 }, { x: 0, y: 0 },
       ];
