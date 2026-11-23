@@ -11,6 +11,7 @@ export default function NarrativeEnergy() {
     const root = ref.current;
     const hero = get('.hero');
     const problems = get('.split-problems');
+    const lastProblemCard = problems?.querySelector('.problem-card:last-child');
     const solution = get('.solution-triangle-section');
     const usecases = get('.usecases');
     const consequences = get('.consequences');
@@ -376,13 +377,132 @@ export default function NarrativeEnergy() {
       };
 
       const solutionTimeline = gsap.timeline({
-        scrollTrigger: { trigger: solution, start: 'top bottom', end: 'top top', scrub: storyScrub, invalidateOnRefresh: true },
-      })
-        .to(particles, { x: 0, y: 0, scale: .68, duration: .09, ease: 'power2.inOut' }, 0)
-        .to(core, { autoAlpha: 1, scale: .17, rotation: 160, duration: .07, ease: 'power2.out' }, .045)
-        .set(particles, { autoAlpha: 0, scale: .06 }, .075)
-        .to(core, { scale: ecosystemScale, autoAlpha: .16, rotation: 215, duration: .18, ease: 'power3.out' }, .08)
-        .to(core, { scale: ecosystemScale, autoAlpha: .14, rotation: 246, duration: .74, ease: 'none' }, .26);
+        scrollTrigger: compactMotion ? {
+          // La fusione comincia mentre l'ultima card sta lasciando il
+          // viewport e prosegue lungo il raccordo testuale. In questo modo le
+          // due bolle hanno abbastanza corsa per essere davvero percepite.
+          trigger: lastProblemCard || problems,
+          start: 'bottom 90%',
+          endTrigger: solution,
+          end: 'top 10%',
+          scrub: storyScrub,
+          invalidateOnRefresh: true,
+        } : {
+          trigger: solution,
+          start: 'top bottom',
+          end: 'top top',
+          scrub: storyScrub,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      if (compactMotion) {
+        solutionTimeline
+          // Primo avvicinamento: le bolle emergono dai lati dell'ultima card
+          // e salgono verso il centro mantenendo distinti i due colori.
+          .to(doctor, {
+            x: () => -innerWidth * .20,
+            y: () => innerHeight * .08,
+            scale: .82,
+            autoAlpha: .96,
+            duration: .28,
+            ease: 'sine.inOut',
+          }, 0)
+          .to(patient, {
+            x: () => innerWidth * .20,
+            y: () => innerHeight * .08,
+            scale: .82,
+            autoAlpha: .96,
+            duration: .28,
+            ease: 'sine.inOut',
+          }, 0)
+          // Secondo avvicinamento: le due superfici si sovrappongono prima
+          // che la sfera comune prenda il loro posto.
+          .to(doctor, {
+            x: () => -innerWidth * .055,
+            y: 0,
+            scale: .74,
+            duration: .30,
+            ease: 'power2.inOut',
+          }, .26)
+          .to(patient, {
+            x: () => innerWidth * .055,
+            y: 0,
+            scale: .74,
+            duration: .30,
+            ease: 'power2.inOut',
+          }, .26)
+          // Cross-fade nel punto di contatto: per alcuni frame si leggono
+          // ancora entrambe le bolle mentre nasce quella unica.
+          .fromTo(core, {
+            autoAlpha: 0,
+            scale: .08,
+            rotation: 138,
+          }, {
+            autoAlpha: .82,
+            scale: .16,
+            rotation: 176,
+            duration: .20,
+            ease: 'power2.out',
+            immediateRender: false,
+          }, .48)
+          .to(doctor, {
+            x: 0,
+            y: 0,
+            scale: .34,
+            autoAlpha: 0,
+            duration: .22,
+            ease: 'power2.in',
+          }, .50)
+          .to(patient, {
+            x: 0,
+            y: 0,
+            scale: .34,
+            autoAlpha: 0,
+            duration: .22,
+            ease: 'power2.in',
+          }, .50)
+          .fromTo(rings, {
+            autoAlpha: 0,
+            scale: .72,
+          }, {
+            autoAlpha: .5,
+            scale: 1.18,
+            duration: .16,
+            stagger: .025,
+            ease: 'power2.out',
+            immediateRender: false,
+          }, .53)
+          .to(rings, {
+            autoAlpha: 0,
+            scale: 1.55,
+            duration: .18,
+            ease: 'power2.in',
+          }, .67)
+          // La bolla nata dalla fusione cresce senza scatti fino alla misura
+          // usata come fondale dell'Ecosistema.
+          .to(core, {
+            scale: ecosystemScale,
+            autoAlpha: .16,
+            rotation: 232,
+            duration: .36,
+            ease: 'power2.inOut',
+          }, .66)
+          .to(core, {
+            scale: ecosystemScale,
+            autoAlpha: .14,
+            rotation: 246,
+            duration: .12,
+            ease: 'none',
+          }, 1.02);
+      } else {
+        solutionTimeline
+          .to(particles, { x: 0, y: 0, scale: .68, duration: .09, ease: 'power2.inOut' }, 0)
+          .to(core, { autoAlpha: 1, scale: .17, rotation: 160, duration: .07, ease: 'power2.out' }, .045)
+          .set(particles, { autoAlpha: 0, scale: .06 }, .075)
+          .to(core, { scale: ecosystemScale, autoAlpha: .16, rotation: 215, duration: .18, ease: 'power3.out' }, .08)
+          .to(core, { scale: ecosystemScale, autoAlpha: .14, rotation: 246, duration: .74, ease: 'none' }, .26);
+      }
 
       const setX = gsap.quickSetter(core, 'x', 'px');
       const setY = gsap.quickSetter(core, 'y', 'px');
