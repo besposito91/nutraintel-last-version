@@ -2016,7 +2016,7 @@ p strong {
 
   /* Ecosistema: triangolo piu' piatto e gruppo piu' vicino al testo alto. */
   .solution-sticky {
-    grid-template-rows: 63svh auto minmax(0, 1fr);
+    grid-template-rows: 76svh auto minmax(0, 1fr);
   }
 
   .solution-node.orbit-pos-0 {
@@ -2112,7 +2112,7 @@ p strong {
    spaziature della sezione finale allineate alla viewport ridotta. */
 @media (max-width: 720px) {
   .usecases {
-    margin-top: -22svh;
+    margin-top: -12svh;
   }
 
   .usecases-sticky {
