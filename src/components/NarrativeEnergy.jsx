@@ -331,11 +331,12 @@ export default function NarrativeEnergy() {
 
       if (compactMotion) {
         splitTimeline
-          .to(core, { autoAlpha: .96, scale: .20, rotation: 0, duration: .16, ease: 'none' }, 0)
-          .to(core, { autoAlpha: 0, scale: .09, duration: .12, ease: 'none' }, .15)
-          .set(pair, { rotation: 0 }, .19)
-          .fromTo(doctor, { x: 0, y: 0, scale: .10, autoAlpha: 0 }, { x: () => -innerWidth * .34, y: () => innerHeight * .23, scale: .76, autoAlpha: 1, duration: .66, ease: 'none', immediateRender: false }, .19)
-          .fromTo(patient, { x: 0, y: 0, scale: .10, autoAlpha: 0 }, { x: () => innerWidth * .34, y: () => innerHeight * .25, scale: .76, autoAlpha: 1, duration: .66, ease: 'none', immediateRender: false }, .19);
+          // La sfera piena appartiene all'Hero: nella separazione mobile non
+          // deve ricomparire insieme alle due particelle risultanti.
+          .set(core, { autoAlpha: 0, scale: .08, rotation: 0 }, 0)
+          .set(pair, { rotation: 0 }, 0)
+          .fromTo(doctor, { x: 0, y: 0, scale: .10, autoAlpha: 0 }, { x: () => -innerWidth * .34, y: () => innerHeight * .23, scale: .76, autoAlpha: 1, duration: .82, ease: 'none', immediateRender: false }, 0)
+          .fromTo(patient, { x: 0, y: 0, scale: .10, autoAlpha: 0 }, { x: () => innerWidth * .34, y: () => innerHeight * .25, scale: .76, autoAlpha: 1, duration: .82, ease: 'none', immediateRender: false }, 0);
       } else {
         splitTimeline
           .to(core, { autoAlpha: 1, scale: .22, rotation: 132, duration: .05 }, 0)

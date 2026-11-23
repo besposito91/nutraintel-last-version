@@ -23,6 +23,7 @@ export default function Hero() {
         pause: .84, storyOut: .89, end: .97,
       };
       const hint = ref.current?.querySelector('.hero-hint');
+      const mobileBackdrop = ref.current?.querySelector('.hero-mobile-backdrop');
       const mobileFill = ref.current?.querySelector('.hero-mobile-fill');
       const sticky = ref.current?.querySelector('.hero-sticky');
       const mobileFillScale = () => {
@@ -57,6 +58,7 @@ export default function Hero() {
           return amount * amount * (3 - 2 * amount);
         };
 
+        gsap.set(mobileBackdrop, { opacity: 0, force3D: true });
         gsap.set(mobileFill, { opacity: 0, force3D: true });
         mobileFill.style.transform = 'translate3d(-50%, -50%, 0) scale(.085)';
         gsap.set([wordmark, wordLeft, wordRight, tag, story, storySide], { force3D: true });
@@ -69,6 +71,7 @@ export default function Hero() {
         gsap.set(hint, { y: 0, opacity: 1 });
 
         const set = {
+          backdropOpacity: gsap.quickSetter(mobileBackdrop, 'opacity'),
           // Scriviamo l'intera trasformazione: su alcuni browser mobile il
           // quickSetter della sola scala perde il valore quando convive con
           // la traslazione percentuale, lasciando la bolla alla misura iniziale.
@@ -101,6 +104,7 @@ export default function Hero() {
           const hintOut = smooth(.01, .09, progress);
           const fillIn = smooth(.22, .32, progress);
           const fillGrow = smooth(.28, .50, progress);
+          const backdropIn = smooth(.44, .58, progress);
           const fillOut = smooth(.94, .999, progress);
           const coverScale = mobileFillScale();
           const enteringScale = mix(.085, .34, fillIn);
@@ -108,6 +112,7 @@ export default function Hero() {
 
           set.fillScale(mix(expandedScale, .18, fillOut));
           set.fillOpacity(fillIn);
+          set.backdropOpacity(backdropIn);
           set.leftX(-18);
           set.leftOpacity(0);
           set.rightX(18);
@@ -192,6 +197,7 @@ export default function Hero() {
       <div className="hero-sticky">
         <div className="hero-bg mesh" aria-hidden="true"><i /><i /><i /><i /></div>
         <div className="grain" aria-hidden="true" />
+        <div className="hero-mobile-backdrop" aria-hidden="true" />
         <div className="hero-mobile-fill" aria-hidden="true" />
         <div className="hero-wm" aria-hidden="true"><span className="wm-l">Nutra</span><span className="wm-gap" /><span className="wm-r">Intel<sup>®</sup></span></div>
         <p className="hero-tag">{t('hero.tag')}</p>
