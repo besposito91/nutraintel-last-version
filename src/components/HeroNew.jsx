@@ -54,7 +54,8 @@ export default function Hero() {
           return amount * amount * (3 - 2 * amount);
         };
 
-        gsap.set(mobileFill, { xPercent: -50, yPercent: -50, scale: .085, opacity: 0, force3D: true });
+        gsap.set(mobileFill, { opacity: 0, force3D: true });
+        mobileFill.style.transform = 'translate3d(-50%, -50%, 0) scale(.085)';
         gsap.set([wordmark, wordLeft, wordRight, tag, story, storySide], { force3D: true });
         gsap.set(wordmark, { yPercent: 0, scale: 1, opacity: 0, transformOrigin: '50% 50%' });
         gsap.set(wordLeft, { xPercent: -18, opacity: 0 });
@@ -65,7 +66,12 @@ export default function Hero() {
         gsap.set(hint, { y: 0, opacity: 1 });
 
         const set = {
-          fillScale: gsap.quickSetter(mobileFill, 'scale'),
+          // Scriviamo l'intera trasformazione: su alcuni browser mobile il
+          // quickSetter della sola scala perde il valore quando convive con
+          // la traslazione percentuale, lasciando la bolla alla misura iniziale.
+          fillScale: (scale) => {
+            mobileFill.style.transform = `translate3d(-50%, -50%, 0) scale(${scale})`;
+          },
           fillOpacity: gsap.quickSetter(mobileFill, 'opacity'),
           leftX: gsap.quickSetter(wordLeft, 'xPercent'),
           leftOpacity: gsap.quickSetter(wordLeft, 'opacity'),
