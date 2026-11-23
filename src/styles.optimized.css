@@ -2446,3 +2446,185 @@ p strong {
     bottom: 18svh;
   }
 }
+
+/* Telefoni compatti (circa 6.5/6.6\" con barre browser visibili).
+   Le correzioni dipendono dall'altezza utile: il desktop e i telefoni alti
+   mantengono la composizione originale. */
+@media (max-width: 720px) and (max-height: 820px) {
+  :root {
+    --mobile-outer-gutter: clamp(14px, 4.5vw, 18px);
+  }
+
+  .hero-story {
+    top: 54px;
+    bottom: 24px;
+    gap: clamp(10px, 2svh, 15px);
+    padding-block: 8px 28px;
+  }
+
+  .hero-title {
+    max-width: 560px;
+    font-size: clamp(29px, min(8.8vw, 5.4svh), 36px) !important;
+    line-height: .97;
+  }
+
+  .hero-story-side {
+    gap: 10px;
+  }
+
+  .hero-story-side p {
+    max-width: 34rem;
+    font-size: clamp(14px, min(4.2vw, 2.35svh), 16px) !important;
+    line-height: 1.34 !important;
+  }
+
+  .hero-story-side .btn {
+    height: 36px;
+    padding-inline: clamp(10px, 3vw, 14px);
+    font-size: 8px;
+  }
+
+  /* L'ultima slide dell'ecosistema non viene spinta sotto la navbar e la
+     sezione seguente non la invade mentre termina il suo tratto sticky. */
+  .solution-sticky {
+    grid-template-rows: 73svh auto minmax(0, 1fr);
+    padding-bottom: 12px;
+  }
+
+  .solution-node.orbit-pos-0 {
+    top: 40svh;
+  }
+
+  .solution-node.active .ecosystem-product {
+    max-height: 34svh;
+  }
+
+  .solution-node-0 .solution-node-inner {
+    width: min(74vw, 38svh);
+  }
+
+  .solution-node-1 .solution-node-inner {
+    width: min(92vw, 70svh);
+  }
+
+  .solution-node-2 .solution-node-inner {
+    width: min(64vw, 37svh);
+  }
+
+  .solution-copy h2 {
+    font-size: 26px !important;
+  }
+
+  .solution-copy p,
+  .usecases-head p {
+    font-size: 14px !important;
+    line-height: 1.28 !important;
+  }
+
+  .usecases {
+    margin-top: -4svh;
+  }
+
+  .usecases-head {
+    height: clamp(132px, 20svh, 154px);
+  }
+
+  .usecases-head h2 {
+    font-size: clamp(24px, 6.8vw, 28px) !important;
+  }
+
+  .usecases-scenes {
+    height: calc(100% - clamp(132px, 20svh, 154px) - 4px);
+  }
+
+  .usecases-stage {
+    gap: clamp(44px, 7svh, 64px);
+    transform: translateY(-4svh);
+  }
+
+  /* Nel blocco conclusivo il vecchio valore fisso sottraeva troppo spazio
+     sui viewport bassi. Ora immagini e testi restano leggibili e centrati. */
+  .consequences-sticky {
+    padding: 14px var(--mobile-outer-gutter) 10px;
+  }
+
+  .consequences-head {
+    margin-bottom: 8px;
+  }
+
+  .consequences-head .t-display {
+    font-size: clamp(27px, 8vw, 32px) !important;
+    line-height: 1.02;
+  }
+
+  .consequence-columns {
+    height: calc(100% - clamp(148px, 25svh, 196px));
+  }
+
+  .consequence-columns .consequence-image .human-cutout {
+    max-height: min(43svh, 340px);
+  }
+
+  .consequence-columns .consequence-copy {
+    padding-top: 2px;
+  }
+
+  .consequence-columns .consequence-eyebrow {
+    margin-bottom: 5px;
+    font-size: 11px;
+  }
+
+  .consequence-columns .consequence-copy h3 {
+    font-size: clamp(20px, 6vw, 24px) !important;
+  }
+}
+
+/* Larghezze molto strette: preserva il respiro laterale senza ridurre i
+   testi sotto una dimensione leggibile. */
+@media (max-width: 360px) {
+  :root {
+    --mobile-outer-gutter: 14px;
+    --mobile-paragraph-size: 16px;
+  }
+
+  .hero-story-side .btns {
+    gap: 6px;
+  }
+
+  .hero-story-side .btn {
+    padding-inline: 10px;
+    letter-spacing: .08em;
+  }
+
+  .nav-cta .btn {
+    max-width: 134px;
+    font-size: 8px;
+  }
+}
+
+/* Marchio leggermente piu' presente in navbar e footer. */
+.nav-logo {
+  width: 48px;
+  height: 48px;
+  flex-basis: 48px;
+}
+
+.foot .nav-logo {
+  width: 72px;
+  height: 72px;
+  flex-basis: 72px;
+}
+
+@media (max-width: 720px) {
+  .nav-logo {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .foot .nav-logo {
+    width: 52px;
+    height: 52px;
+    flex-basis: 52px;
+  }
+}
