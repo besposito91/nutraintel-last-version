@@ -517,6 +517,12 @@ export default function NarrativeEnergy() {
       // Mobile: the travelling sphere dissolves completely once it reaches
       // the centre of the use-case carousel. Desktop keeps its current marker.
       const usecaseSphereOpacity = compactMotion ? 0 : .36;
+      const usecaseEntryOpacity = (progress) => {
+        if (!compactMotion) return gsap.utils.interpolate(.14, usecaseSphereOpacity, progress);
+        const fadeProgress = gsap.utils.clamp(0, 1, (progress - .62) / .38);
+        const easedFade = gsap.parseEase('sine.inOut')(fadeProgress);
+        return gsap.utils.interpolate(.14, 0, easedFade);
+      };
 
       const placeUsecaseEntry = (progress) => {
         const end = usecasePoint();
@@ -526,7 +532,7 @@ export default function NarrativeEnergy() {
         setY(gsap.utils.interpolate(0, end.y, eased));
         setRotation(gsap.utils.interpolate(246, 305, eased));
         setScale(gsap.utils.interpolate(ecosystemScale(), usecaseSphereScale(), eased));
-        setOpacity(gsap.utils.interpolate(.14, usecaseSphereOpacity, eased));
+        setOpacity(usecaseEntryOpacity(progress));
         core.style.visibility = 'inherit';
       };
 
@@ -561,7 +567,7 @@ export default function NarrativeEnergy() {
           x: 0,
           y: () => usecasePoint().y,
           scale: usecaseSphereScale,
-          autoAlpha: usecaseSphereOpacity,
+          autoAlpha: compactMotion ? .14 : usecaseSphereOpacity,
           rotation: 305,
           force3D: false,
           duration: 1,
@@ -569,6 +575,14 @@ export default function NarrativeEnergy() {
           immediateRender: false,
         },
       );
+
+      if (compactMotion) {
+        usecaseEntryTimeline.to(core, {
+          autoAlpha: 0,
+          duration: .38,
+          ease: 'sine.inOut',
+        }, .62);
+      }
       const usecaseEntryTrigger = usecaseEntryTimeline.scrollTrigger;
 
       const usecaseTrigger = ScrollTrigger.create({
@@ -604,7 +618,11 @@ export default function NarrativeEnergy() {
       if (compactMotion) {
         ScrollTrigger.create({
           trigger: usecases,
-          start: 'top bottom',
+          // La classe di sicurezza entra soltanto quando la sfera ha gia'
+          // concluso il raccordo. Prima di questo punto la timeline deve
+          // poterla rimpicciolire e dissolvere in modo continuo, anche al
+          // contrario quando si risale la pagina.
+          start: 'top -25%',
           end: 'bottom bottom',
           onToggle: ({ isActive }) => {
             root.classList.toggle('is-mobile-usecase', isActive);

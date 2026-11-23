@@ -2347,6 +2347,10 @@ p strong {
 
   .hero-mobile-fill {
     contain: strict;
+    /* La coda blu del gradiente precedente diventava una fascia netta sul
+       fondo dei telefoni portrait. L'ultimo tratto ora resta nello stesso
+       spettro verde/teal dell'hero. */
+    background: radial-gradient(circle at 31% 27%, #f6fffc 0 3%, #58ddbd 11%, #1bc8a1 30%, #16a99e 72%, #149da5 100%);
     transform: translate3d(-50%, -50%, 0) scale(.12);
   }
 
@@ -2566,7 +2570,9 @@ p strong {
   }
 
   .consequence-columns .consequence-copy {
-    padding-top: 2px;
+    /* Mantiene una pausa visiva chiara tra il ritaglio fotografico e il
+       relativo messaggio anche sui display bassi da 6.5/6.6 pollici. */
+    padding-top: clamp(22px, 3.2svh, 30px) !important;
   }
 
   .consequence-columns .consequence-eyebrow {
