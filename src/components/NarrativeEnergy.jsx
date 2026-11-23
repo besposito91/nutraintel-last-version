@@ -17,6 +17,7 @@ export default function NarrativeEnergy() {
     if (!root || !hero || !problems || !solution || !usecases || !consequences) return undefined;
 
     const core = root.querySelector('.narrative-core');
+    const mobileBackdrop = root.querySelector('.narrative-mobile-backdrop');
     const logo = root.querySelector('.narrative-logo');
     const pair = root.querySelector('.narrative-pair');
     const doctor = root.querySelector('.narrative-particle-doctor');
@@ -47,6 +48,7 @@ export default function NarrativeEnergy() {
 
     const ctx = gsap.context(() => {
       gsap.set(core, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: .14, rotation: 0, autoAlpha: 0, force3D: true });
+      gsap.set(mobileBackdrop, { opacity: 0, visibility: 'visible', force3D: true });
       gsap.set(logo, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 1, rotation: 0, autoAlpha: 1, force3D: true });
       gsap.set(pair, { xPercent: -50, yPercent: -50, rotation: 0, autoAlpha: 1 });
       gsap.set(doctor, { x: () => blueHead().x, y: () => blueHead().y, scale: compactMotion ? .275 : .39, rotation: 0, autoAlpha: 1, force3D: true });
@@ -159,6 +161,7 @@ export default function NarrativeEnergy() {
         logoOpacity: gsap.quickSetter(logo, 'opacity'),
         coreScale: gsap.quickSetter(core, 'scale'),
         coreOpacity: gsap.quickSetter(core, 'opacity'),
+        backdropOpacity: gsap.quickSetter(mobileBackdrop, 'opacity'),
       } : null;
       if (compactMotion) core.style.visibility = 'visible';
 
@@ -205,6 +208,7 @@ export default function NarrativeEnergy() {
           // take over cleanly for the split animation.
           mobileSet.coreScale(.18);
           mobileSet.coreOpacity(0);
+          mobileSet.backdropOpacity(smooth(.44, .58, progress));
           return;
         }
 
@@ -335,6 +339,7 @@ export default function NarrativeEnergy() {
           // deve ricomparire insieme alle due particelle risultanti.
           .set(core, { autoAlpha: 0, scale: .08, rotation: 0 }, 0)
           .set(pair, { rotation: 0 }, 0)
+          .fromTo(mobileBackdrop, { autoAlpha: 1 }, { autoAlpha: 0, duration: .74, ease: 'none', immediateRender: false }, 0)
           .fromTo(doctor, { x: 0, y: 0, scale: .10, autoAlpha: 0 }, { x: () => -innerWidth * .34, y: () => innerHeight * .23, scale: .76, autoAlpha: 1, duration: .82, ease: 'none', immediateRender: false }, 0)
           .fromTo(patient, { x: 0, y: 0, scale: .10, autoAlpha: 0 }, { x: () => innerWidth * .34, y: () => innerHeight * .25, scale: .76, autoAlpha: 1, duration: .82, ease: 'none', immediateRender: false }, 0);
       } else {
@@ -668,6 +673,7 @@ export default function NarrativeEnergy() {
 
   return (
     <div className="narrative-energy" ref={ref} aria-hidden="true">
+      <div className="narrative-mobile-backdrop" />
       <div className="narrative-logo"><img src="./images/brand/nutraintel-product-logo.svg" alt="" /></div>
       <div className="narrative-core"><i /><i /><span className="narrative-shade" /><span className="narrative-ring narrative-ring-a" /><span className="narrative-ring narrative-ring-b" /></div>
       <div className="narrative-fracture"><i /><i /><i /><i /><b /></div>
