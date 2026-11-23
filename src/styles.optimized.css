@@ -2300,7 +2300,7 @@ p strong {
    transform/opacity durante lo scroll. Il desktop resta invariato. */
 @media (max-width: 720px) {
   .energy-hero {
-    height: 260svh;
+    height: 320svh;
   }
 
   .hero-sticky {

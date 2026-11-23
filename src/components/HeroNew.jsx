@@ -30,7 +30,10 @@ export default function Hero() {
         const width = sticky?.clientWidth || innerWidth;
         const height = sticky?.clientHeight || innerHeight;
         const diameter = mobileFill.offsetWidth || Math.max(width, height);
-        return (Math.hypot(width, height) / diameter) * 1.12;
+        // Lasciamo un'abbondanza generosa oltre la diagonale: le barre del
+        // browser mobile possono cambiare l'altezza visibile durante lo scroll
+        // e non devono mai far riaffiorare il fondo chiaro ai bordi.
+        return Math.max((Math.hypot(width, height) / diameter) * 1.42, 1.35);
       };
       const intro = gsap.timeline({ delay: .15 })
         .fromTo('.hero-bg', { opacity: 0 }, { opacity: 1, duration: 1.1, ease: 'power2.out' });
@@ -143,8 +146,8 @@ export default function Hero() {
               if (trigger.direction > 0) return value < .90 ? .72 : 1;
               return value > .72 ? .72 : 0;
             },
-            duration: { min: .55, max: .9 },
-            delay: .04,
+            duration: { min: 1.1, max: 1.65 },
+            delay: .08,
             ease: 'power2.inOut',
           },
           onUpdate: ({ progress }) => queueMobileRender(progress),
