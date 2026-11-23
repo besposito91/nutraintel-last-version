@@ -340,8 +340,12 @@ export default function NarrativeEnergy() {
           .set(core, { autoAlpha: 0, scale: .08, rotation: 0 }, 0)
           .set(pair, { rotation: 0 }, 0)
           .fromTo(mobileBackdrop, { autoAlpha: 1 }, { autoAlpha: 0, duration: .74, ease: 'none', immediateRender: false }, 0)
-          .fromTo(doctor, { x: 0, y: 0, scale: .10, autoAlpha: 0 }, { x: () => -innerWidth * .34, y: () => innerHeight * .23, scale: .76, autoAlpha: 1, duration: .82, ease: 'none', immediateRender: false }, 0)
-          .fromTo(patient, { x: 0, y: 0, scale: .10, autoAlpha: 0 }, { x: () => innerWidth * .34, y: () => innerHeight * .25, scale: .76, autoAlpha: 1, duration: .82, ease: 'none', immediateRender: false }, 0);
+          // Un impulso breve rende leggibile la rottura senza ricreare una
+          // terza sfera: prima compare la frattura, poi escono le due parti.
+          .fromTo(fracture, { autoAlpha: 0, scale: .36, rotation: -14 }, { autoAlpha: 1, scale: 1.08, rotation: 8, duration: .22, ease: 'power2.out', immediateRender: false }, 0)
+          .to(fracture, { autoAlpha: 0, scale: 1.72, rotation: 25, duration: .28, ease: 'power2.in' }, .22)
+          .fromTo(doctor, { x: 0, y: 0, scale: .08, autoAlpha: 0 }, { x: () => -innerWidth * .34, y: () => innerHeight * .23, scale: .76, autoAlpha: 1, duration: .70, ease: 'power1.out', immediateRender: false }, .12)
+          .fromTo(patient, { x: 0, y: 0, scale: .08, autoAlpha: 0 }, { x: () => innerWidth * .34, y: () => innerHeight * .25, scale: .76, autoAlpha: 1, duration: .70, ease: 'power1.out', immediateRender: false }, .12);
       } else {
         splitTimeline
           .to(core, { autoAlpha: 1, scale: .22, rotation: 132, duration: .05 }, 0)

@@ -2112,7 +2112,7 @@ p strong {
    spaziature della sezione finale allineate alla viewport ridotta. */
 @media (max-width: 720px) {
   .usecases {
-    margin-top: -12svh;
+    margin-top: -22svh;
   }
 
   .usecases-sticky {
@@ -2121,6 +2121,29 @@ p strong {
 
   .pcard-info > p {
     margin-top: 0;
+  }
+}
+
+/* Mobile: la rottura deve essere un evento visibile tra il fondale pieno e
+   le due particelle, senza introdurre una terza bolla. */
+@media (max-width: 720px) {
+  .narrative-fracture {
+    width: min(40vw, 156px);
+    filter: drop-shadow(0 0 18px rgba(246, 255, 252, .72))
+      drop-shadow(0 0 26px rgba(26, 139, 209, .26));
+  }
+
+  .narrative-fracture::before,
+  .narrative-fracture::after {
+    border-width: 3px;
+  }
+
+  .narrative-fracture i {
+    height: 4px;
+  }
+
+  .narrative-fracture b {
+    width: 54px;
   }
 }
 
