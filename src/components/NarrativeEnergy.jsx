@@ -170,15 +170,16 @@ export default function NarrativeEnergy() {
          * track the gesture without the former frame-to-frame jumps.
          */
         if (compactMotion) {
-          const pathProgress = smooth(.015, .34, progress);
+          const pathProgress = smooth(.015, .36, progress);
           const doctorStart = { x: .263, y: mobileHeadY(doctor, .275, measuredLogo) / measuredLogo };
           const patientStart = { x: -.233, y: mobileHeadY(patient, .26, measuredLogo) / measuredLogo };
-          const doctorPoint = cubicPoint(doctorStart, { x: .42, y: -.08 }, { x: .46, y: .55 }, { x: 0, y: 0 }, pathProgress);
-          const patientPoint = cubicPoint(patientStart, { x: -.43, y: -.02 }, { x: -.45, y: .53 }, { x: 0, y: 0 }, pathProgress);
-          const particleGrowth = smooth(.035, .19, progress);
-          const particleMerge = smooth(.22, .36, progress);
-          const particleScale = mix(mix(.275, .315, particleGrowth), .055, particleMerge);
-          const particleAlpha = 1 - smooth(.285, .37, progress);
+          const mergePoint = { x: 0, y: .08 };
+          const doctorPoint = cubicPoint(doctorStart, { x: .28, y: -.13 }, { x: .20, y: .035 }, mergePoint, pathProgress);
+          const patientPoint = cubicPoint(patientStart, { x: -.25, y: -.11 }, { x: -.18, y: .04 }, mergePoint, pathProgress);
+          const particleGrowth = smooth(.035, .20, progress);
+          const particleMerge = smooth(.21, .36, progress);
+          const particleScale = mix(mix(.275, .335, particleGrowth), .06, particleMerge);
+          const particleAlpha = 1 - smooth(.30, .375, progress);
 
           mobileSet.doctorX(doctorPoint.x * measuredLogo);
           mobileSet.doctorY(doctorPoint.y * measuredLogo);
@@ -191,7 +192,7 @@ export default function NarrativeEnergy() {
 
           // Il logo condiviso esce prima dell'ingresso del wordmark dell'Hero:
           // su mobile i due elementi non devono restare sovrapposti.
-          const logoFade = smooth(.035, .17, progress);
+          const logoFade = smooth(.045, .20, progress);
           mobileSet.logoY(mix(0, -18, logoFade));
           mobileSet.logoScale(mix(1, .965, logoFade));
           mobileSet.logoOpacity(1 - logoFade);

@@ -40,6 +40,7 @@ export default function Hero() {
       }
 
       if (compactIntro) {
+        const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
         const wordmark = ref.current?.querySelector('.hero-wm');
         const wordLeft = ref.current?.querySelector('.wm-l');
         const wordRight = ref.current?.querySelector('.wm-r');
@@ -53,12 +54,12 @@ export default function Hero() {
           return amount * amount * (3 - 2 * amount);
         };
 
-        gsap.set(mobileFill, { xPercent: -50, yPercent: -50, scale: .12, opacity: 0, force3D: true });
+        gsap.set(mobileFill, { xPercent: -50, yPercent: -50, scale: .085, opacity: 0, force3D: true });
         gsap.set([wordmark, wordLeft, wordRight, tag, story, storySide], { force3D: true });
-        gsap.set(wordmark, { yPercent: 0, scale: 1, opacity: 1, transformOrigin: '50% 50%' });
+        gsap.set(wordmark, { yPercent: 0, scale: 1, opacity: 0, transformOrigin: '50% 50%' });
         gsap.set(wordLeft, { xPercent: -18, opacity: 0 });
         gsap.set(wordRight, { xPercent: 18, opacity: 0 });
-        gsap.set(tag, { y: 30, opacity: 0 });
+        gsap.set(tag, { y: 24, opacity: 0 });
         gsap.set(story, { y: 20, scale: 1, opacity: 0, transformOrigin: '50% 50%' });
         gsap.set(storySide, { y: 18, opacity: 0 });
         gsap.set(hint, { y: 0, opacity: 1 });
@@ -85,39 +86,33 @@ export default function Hero() {
         };
 
         const renderMobile = (progress) => {
-          const leftIn = smooth(.16, .28, progress);
-          const rightIn = smooth(.12, .24, progress);
-          const tagIn = smooth(.24, .36, progress);
-          const lift = smooth(.36, .50, progress);
-          const wordOut = smooth(.46, .56, progress);
-          const tagOut = smooth(.40, .52, progress);
-          const storyIn = smooth(.48, .62, progress);
-          const sideIn = smooth(.55, .69, progress);
-          const storyOut = smooth(.86, .97, progress);
+          const storyIn = smooth(.43, .58, progress);
+          const sideIn = smooth(.50, .64, progress);
+          const storyOut = smooth(.93, .995, progress);
           const hintOut = smooth(.01, .09, progress);
-          const fillIn = smooth(.24, .34, progress);
-          const fillGrow = smooth(.31, .45, progress);
-          const fillOut = smooth(.86, .99, progress);
+          const fillIn = smooth(.22, .32, progress);
+          const fillGrow = smooth(.28, .50, progress);
+          const fillOut = smooth(.94, .999, progress);
           const coverScale = mobileFillScale();
-          const enteringScale = mix(.12, .42, fillIn);
+          const enteringScale = mix(.085, .34, fillIn);
           const expandedScale = mix(enteringScale, coverScale, fillGrow);
 
           set.fillScale(mix(expandedScale, .18, fillOut));
           set.fillOpacity(fillIn);
-          set.leftX(mix(-18, 0, leftIn));
-          set.leftOpacity(leftIn);
-          set.rightX(mix(18, 0, rightIn));
-          set.rightOpacity(rightIn);
-          set.wordY(mix(0, -150, lift));
-          set.wordScale(mix(1, .72, lift));
-          set.wordOpacity(1 - wordOut);
-          set.tagY(mix(mix(30, 0, tagIn), -30, tagOut));
-          set.tagOpacity(tagIn * (1 - tagOut));
-          set.storyY(mix(20, 0, storyIn));
-          set.storyScale(mix(1, .94, storyOut));
+          set.leftX(-18);
+          set.leftOpacity(0);
+          set.rightX(18);
+          set.rightOpacity(0);
+          set.wordY(0);
+          set.wordScale(1);
+          set.wordOpacity(0);
+          set.tagY(24);
+          set.tagOpacity(0);
+          set.storyY(mix(28, 0, storyIn));
+          set.storyScale(mix(1, .975, storyOut));
           set.storyOpacity(storyIn * (1 - storyOut));
-          set.sideY(mix(18, 0, sideIn));
-          set.sideOpacity(sideIn);
+          set.sideY(mix(24, 0, sideIn));
+          set.sideOpacity(sideIn * (1 - storyOut));
           set.hintY(mix(0, -8, hintOut));
           set.hintOpacity(1 - hintOut);
         };
@@ -137,6 +132,15 @@ export default function Hero() {
           start: 'top top',
           end: 'bottom bottom',
           invalidateOnRefresh: true,
+          snap: reducedMotion ? false : {
+            snapTo: (value, trigger) => {
+              if (trigger.direction > 0) return value < .90 ? .72 : 1;
+              return value > .72 ? .72 : 0;
+            },
+            duration: { min: .55, max: .9 },
+            delay: .04,
+            ease: 'power2.inOut',
+          },
           onUpdate: ({ progress }) => queueMobileRender(progress),
           onRefresh: ({ progress }) => queueMobileRender(progress),
         });
