@@ -101,13 +101,15 @@ export default function Hero() {
           const hintOut = smooth(.01, .09, progress);
           const fillIn = smooth(.22, .32, progress);
           const fillGrow = smooth(.28, .50, progress);
-          const fillOut = smooth(.88, .96, progress);
           const coverScale = mobileFillScale();
           const enteringScale = mix(.085, .34, fillIn);
           const expandedScale = mix(enteringScale, coverScale, fillGrow);
 
-          set.fillScale(mix(expandedScale, .18, fillOut));
-          set.fillOpacity(fillIn * (1 - fillOut));
+          // Manteniamo il riempimento fino a quando l'intero capitolo hero
+          // esce dal viewport. Ridurlo prima della fine lasciava intravedere
+          // sul bordo inferiore lo sfondo blu della sezione sottostante.
+          set.fillScale(expandedScale);
+          set.fillOpacity(fillIn);
           set.leftX(-18);
           set.leftOpacity(0);
           set.rightX(18);
