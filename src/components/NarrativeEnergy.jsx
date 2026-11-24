@@ -201,15 +201,12 @@ export default function NarrativeEnergy() {
           mobileSet.logoScale(mix(1, .965, logoFade));
           mobileSet.logoOpacity(1 - logoFade);
 
-          // The shared core is deliberately kept hidden throughout the mobile
-          // Hero. Its transform is also controlled by the later section
-          // timelines, which previously forced it back to the small scale.
-          // HeroNew renders the only visible Hero sphere; at the boundary this
-          // hidden core is already at the same small hand-off scale and can
-          // take over cleanly for the split animation.
+          // HeroNew disegna la sfera mobile dell'Hero. Il core condiviso resta
+          // pronto alla stessa scala per prendere il suo posto esattamente al
+          // confine con la sequenza di rottura.
           mobileSet.coreScale(.18);
           mobileSet.coreOpacity(0);
-          mobileSet.backdropOpacity(smooth(.44, .58, progress));
+          mobileSet.backdropOpacity(0);
           return;
         }
 
@@ -336,17 +333,28 @@ export default function NarrativeEnergy() {
 
       if (compactMotion) {
         splitTimeline
-          // La sfera piena appartiene all'Hero: nella separazione mobile non
-          // deve ricomparire insieme alle due particelle risultanti.
-          .set(core, { autoAlpha: 0, scale: .08, rotation: 0 }, 0)
+          // Handoff dalla sfera dell'Hero al core condiviso: stessa posizione
+          // e stessa misura finale, quindi nessun salto al cambio sezione.
+          .fromTo(core, {
+            autoAlpha: 1,
+            scale: .18,
+            rotation: 118,
+          }, {
+            autoAlpha: 1,
+            scale: .14,
+            rotation: 132,
+            duration: .14,
+            ease: 'sine.inOut',
+            immediateRender: false,
+          }, 0)
           .set(pair, { rotation: 0 }, 0)
-          .fromTo(mobileBackdrop, { autoAlpha: 1 }, { autoAlpha: 0, duration: .74, ease: 'none', immediateRender: false }, 0)
-          // Un impulso breve rende leggibile la rottura senza ricreare una
-          // terza sfera: prima compare la frattura, poi escono le due parti.
-          .fromTo(fracture, { autoAlpha: 0, scale: .36, rotation: -14 }, { autoAlpha: 1, scale: 1.08, rotation: 8, duration: .22, ease: 'power2.out', immediateRender: false }, 0)
-          .to(fracture, { autoAlpha: 0, scale: 1.72, rotation: 25, duration: .28, ease: 'power2.in' }, .22)
-          .fromTo(doctor, { x: 0, y: 0, scale: .08, autoAlpha: 0 }, { x: () => -innerWidth * .34, y: () => innerHeight * .23, scale: .76, autoAlpha: 1, duration: .70, ease: 'power1.out', immediateRender: false }, .12)
-          .fromTo(patient, { x: 0, y: 0, scale: .08, autoAlpha: 0 }, { x: () => innerWidth * .34, y: () => innerHeight * .25, scale: .76, autoAlpha: 1, duration: .70, ease: 'power1.out', immediateRender: false }, .12);
+          // Prima compare la frattura sopra la sfera, poi il core si spegne e
+          // le due parti escono dal centro con una corsa leggibile al dito.
+          .fromTo(fracture, { autoAlpha: 0, scale: .36, rotation: -14 }, { autoAlpha: 1, scale: 1.08, rotation: 8, duration: .20, ease: 'power2.out', immediateRender: false }, .07)
+          .to(core, { autoAlpha: 0, scale: .06, duration: .16, ease: 'power2.in' }, .13)
+          .to(fracture, { autoAlpha: 0, scale: 1.72, rotation: 25, duration: .28, ease: 'power2.in' }, .24)
+          .fromTo(doctor, { x: 0, y: 0, scale: .08, autoAlpha: 0 }, { x: () => -innerWidth * .34, y: () => innerHeight * .23, scale: .76, autoAlpha: 1, duration: .66, ease: 'power1.out', immediateRender: false }, .17)
+          .fromTo(patient, { x: 0, y: 0, scale: .08, autoAlpha: 0 }, { x: () => innerWidth * .34, y: () => innerHeight * .25, scale: .76, autoAlpha: 1, duration: .66, ease: 'power1.out', immediateRender: false }, .17);
       } else {
         splitTimeline
           .to(core, { autoAlpha: 1, scale: .22, rotation: 132, duration: .05 }, 0)

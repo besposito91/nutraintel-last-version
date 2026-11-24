@@ -531,7 +531,7 @@ main{position:relative;background:
   .solution-node-2 .solution-node-inner{width:min(62vw,38vh)}
   /* A denser mobile chapter keeps the sphere responsive to the finger. */
   .energy-hero{height:245vh}
-  .narrative-core{background:radial-gradient(circle at 31% 27%,#f6fffc 0 3%,#58ddbd 11%,#1bc8a1 30%,#168fa2 68%,#075071 100%);box-shadow:inset -1vmax -.8vmax 1.7vmax rgba(5,59,92,.14),0 0 1.6vmax rgba(26,139,209,.07)}
+  .narrative-core{background:radial-gradient(circle at 31% 27%,#f6fffc 0 3%,#58ddbd 11%,#1bc8a1 30%,#16a99e 72%,#149da5 100%);box-shadow:inset -1vmax -.8vmax 1.7vmax rgba(5,59,92,.14),0 0 1.6vmax rgba(26,139,209,.07)}
   .narrative-core>i{display:none}
   .narrative-particle{box-shadow:none}
 }
@@ -1100,7 +1100,7 @@ main{position:relative;background:
     position: absolute;
     z-index: -1;
     inset: -2px;
-    display: block;
+    display: none !important;
     background: radial-gradient(circle at 31% 27%,#f6fffc 0 3%,#58ddbd 11%,#1bc8a1 30%,#168fa2 68%,#075071 100%);
     opacity: 0;
     pointer-events: none;

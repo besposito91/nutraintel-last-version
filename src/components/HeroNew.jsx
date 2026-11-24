@@ -101,15 +101,18 @@ export default function Hero() {
           const hintOut = smooth(.01, .09, progress);
           const fillIn = smooth(.22, .32, progress);
           const fillGrow = smooth(.28, .50, progress);
+          const fillShrink = smooth(.84, .975, progress);
+          const fillFade = smooth(.975, 1, progress);
           const coverScale = mobileFillScale();
           const enteringScale = mix(.085, .34, fillIn);
           const expandedScale = mix(enteringScale, coverScale, fillGrow);
 
-          // Manteniamo il riempimento fino a quando l'intero capitolo hero
-          // esce dal viewport. Ridurlo prima della fine lasciava intravedere
-          // sul bordo inferiore lo sfondo blu della sezione sottostante.
-          set.fillScale(expandedScale);
-          set.fillOpacity(fillIn);
+          // Replica sul solo layout mobile il finale desktop: il fondale torna
+          // a essere una sfera centrale prima del passaggio alla frattura.
+          // Il fondale narrativo separato resta disattivato, quindi attorno
+          // alla sfera ricompare uniformemente il fondo chiaro della pagina.
+          set.fillScale(mix(expandedScale, .18, fillShrink));
+          set.fillOpacity(fillIn * (1 - fillFade));
           set.leftX(-18);
           set.leftOpacity(0);
           set.rightX(18);
