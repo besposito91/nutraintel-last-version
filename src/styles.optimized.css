@@ -2634,3 +2634,19 @@ p strong {
     flex-basis: 52px;
   }
 }
+@media (max-width: 720px) {
+  .hero-story-side .btns {
+    width: min(100%, 320px);
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .hero-story-side .btn {
+    width: 100%;
+    height: 48px;
+    padding-inline: 22px;
+    font-size: 10px;
+  }
+}
