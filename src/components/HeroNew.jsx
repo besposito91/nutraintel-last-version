@@ -213,6 +213,7 @@ export default function Hero() {
             <p>
               {t('hero.subtitleBefore')}
               <strong>{t('hero.subtitleEmphasis')}</strong>
+              {t('hero.subtitleBreak') && <br className="hero-subtitle-break" />}
               {t('hero.subtitleAfter')}
             </p>
             <div className="btns">

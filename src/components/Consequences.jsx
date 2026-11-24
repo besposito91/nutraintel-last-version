@@ -25,7 +25,7 @@ function ImpactLines({ strong, rest }) {
 
 export default function Consequences() {
   const sectionRef = useRef(null);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -97,9 +97,14 @@ export default function Consequences() {
       <header className="consequences-head">
         <h2 id="consequences-title" className="t-display">
           {t('impact.titleBefore')}
+          {language === 'it' && <br />}
           <span className="highlight">{t('impact.titleHighlight')}</span>
           {t('impact.titleAfter')}
         </h2>
+        <p className="consequences-summary">
+          {t('impact.summaryBefore')}
+          <strong>{t('impact.summaryEmphasis')}</strong>
+        </p>
       </header>
 
       <div className="consequence-columns">

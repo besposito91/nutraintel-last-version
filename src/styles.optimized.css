@@ -2650,3 +2650,27 @@ p strong {
     font-size: 10px;
   }
 }
+
+/* I nuovi testi mantengono la gerarchia richiesta su desktop e mobile. */
+.hero-subtitle-break {
+  display: block;
+  content: '';
+  margin-top: .28em;
+}
+
+.consequences-summary {
+  max-width: 980px;
+  margin: 18px auto 0;
+  font-size: clamp(16px, 1.25vw, 20px) !important;
+  line-height: 1.45;
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .consequences-summary {
+    max-width: 34rem;
+    margin-top: 10px;
+    font-size: clamp(14px, 4vw, 16px) !important;
+    line-height: 1.35;
+  }
+}

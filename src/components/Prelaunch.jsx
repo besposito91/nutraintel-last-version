@@ -7,7 +7,7 @@ export default function Prelaunch() {
   const titleBefore = titleParts ? `${titleParts[1]}${titleParts[2].trim()}` : t('pre.title');
   const titleHighlight = titleParts?.[3] || '';
   const cardFocus = {
-    it: 'Non aspettare',
+    it: 'Il tuo prossimo vantaggio competitivo inizia qui.',
     en: 'Do not wait',
     de: 'Warten Sie nicht',
   }[language] || '';
