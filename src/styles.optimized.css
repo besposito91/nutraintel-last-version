@@ -2687,3 +2687,21 @@ p strong {
     margin-top: clamp(72px, 9vh, 112px);
   }
 }
+
+/* Sui notebook la finestra e' meno alta: manteniamo l'intera composizione
+   dei benefici dentro il suo pannello, senza alterare desktop ampi o mobile. */
+@media (min-width: 721px) and (max-height: 960px) {
+  .consequence-columns .consequence-image {
+    top: 47%;
+    width: clamp(360px, 27vw, 520px);
+    height: clamp(360px, 47vh, 500px);
+  }
+
+  .consequence-professional .consequence-copy {
+    top: 9%;
+  }
+
+  .consequence-patient .consequence-copy {
+    bottom: 15%;
+  }
+}
