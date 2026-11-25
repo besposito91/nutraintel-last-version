@@ -2675,8 +2675,8 @@ p strong {
 .impact-summary {
   position: relative;
   z-index: 5;
-  min-height: clamp(100px, 18svh, 280px);
-  padding: clamp(28px, 4vh, 48px) var(--pad)
+  min-height: clamp(100px, 15svh, 280px);
+  padding: clamp(24px, 2vh, 44px) var(--pad)
   clamp(40px, 6vh, 64px);
   display: grid;
   place-items: start center;
