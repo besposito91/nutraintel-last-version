@@ -2642,7 +2642,7 @@ p strong {
 }
 @media (max-width: 720px) {
   .hero-story-side .btns {
-    width: min(110%, 320px);
+    width: min(100%, 320px);
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: stretch;
@@ -2650,7 +2650,7 @@ p strong {
   }
 
   .hero-story-side .btn {
-    width: 110%;
+    width: 100%;
     height: 48px;
     padding-inline: 22px;
     font-size: 10px;
