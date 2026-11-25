@@ -2675,10 +2675,11 @@ p strong {
 .impact-summary {
   position: relative;
   z-index: 5;
-  min-height: clamp(240px, 34svh, 380px);
-  padding: clamp(76px, 11vh, 128px) var(--pad) clamp(46px, 7vh, 84px);
+  min-height: clamp(100px, 26svh, 280px);
+  padding: clamp(28px, 4vh, 48px) var(--pad)
+  clamp(40px, 6vh, 64px);
   display: grid;
-  place-items: center;
+  place-items: start center;
   isolation: isolate;
   color: var(--ink);
 }
