@@ -3,8 +3,11 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import HumanCutout from './HumanCutout.jsx';
 import { useLanguage } from '../i18n.jsx';
+import useSlideGestureSnap from '../lib/useSlideGestureSnap.js';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const mobileImpactSnapPoints = [0, .2, .5, .94];
 
 function ImpactLines({ strong, rest }) {
   const lines = `${strong} ${rest}`
@@ -26,6 +29,12 @@ function ImpactLines({ strong, rest }) {
 export default function Consequences() {
   const sectionRef = useRef(null);
   const { t, language } = useLanguage();
+
+  // Ingresso, testo, professionista, paziente: un passaggio per ogni swipe.
+  useSlideGestureSnap(sectionRef, mobileImpactSnapPoints.length, 54, {
+    snapPoints: mobileImpactSnapPoints,
+    mobileOnly: true,
+  });
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -62,23 +71,23 @@ export default function Consequences() {
         .fromTo(
           professional,
           { autoAlpha: 0, x: compact ? 0 : -36, y: compact ? 34 : 0 },
-          { autoAlpha: 1, x: 0, y: 0, duration: .30, ease: 'none', immediateRender: true },
-          .12,
+          { autoAlpha: 1, x: 0, y: 0, duration: compact ? .24 : .30, ease: 'none', immediateRender: true },
+          compact ? .25 : .12,
         );
 
       if (compact) {
         timeline.to(
           professional,
-          { autoAlpha: 0, y: -28, duration: .16, ease: 'none' },
-          .44,
+          { autoAlpha: 0, y: -28, duration: .12, ease: 'none' },
+          .54,
         );
       }
 
       timeline.fromTo(
           patient,
           { autoAlpha: 0, x: compact ? 0 : 36, y: compact ? 34 : 0 },
-          { autoAlpha: 1, x: 0, y: 0, duration: compact ? .28 : .30, ease: 'none', immediateRender: true },
-          compact ? .64 : .58,
+          { autoAlpha: 1, x: 0, y: 0, duration: compact ? .24 : .30, ease: 'none', immediateRender: true },
+          compact ? .68 : .58,
         );
     }, section);
 

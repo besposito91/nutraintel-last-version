@@ -2,16 +2,26 @@ import { useLayoutEffect } from 'react';
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
-export default function useSlideGestureSnap(ref, slideCount, startOffset = 0) {
+export default function useSlideGestureSnap(
+  ref,
+  slideCount,
+  startOffset = 0,
+  { snapPoints = null, mobileOnly = false } = {},
+) {
   useLayoutEffect(() => {
     const section = ref.current;
-    if (!section || slideCount < 2) return undefined;
+    if (
+      !section
+      || slideCount < 2
+      || (mobileOnly && !window.matchMedia('(max-width: 720px)').matches)
+    ) return undefined;
 
     let locked = false;
     let unlockTimer = 0;
     let touchStartX = 0;
     let touchStartY = 0;
     let touchConsumed = false;
+    let touchCaptured = false;
 
     const offset = () => (
       typeof startOffset === 'function' ? startOffset() : startOffset
@@ -24,7 +34,13 @@ export default function useSlideGestureSnap(ref, slideCount, startOffset = 0) {
       const end = pageTop + section.offsetHeight - window.innerHeight;
       const range = Math.max(1, end - start);
       const progress = clamp((window.scrollY - start) / range, 0, 1);
-      const step = clamp(Math.floor(progress * slideCount), 0, slideCount - 1);
+      const step = snapPoints
+        ? snapPoints.reduce((closest, point, index) => (
+          Math.abs(point - progress) < Math.abs(snapPoints[closest] - progress)
+            ? index
+            : closest
+        ), 0)
+        : clamp(Math.floor(progress * slideCount), 0, slideCount - 1);
       const active = window.scrollY >= start - 3 && window.scrollY <= end + 3;
       return { start, end, range, step, active };
     };
@@ -55,6 +71,8 @@ export default function useSlideGestureSnap(ref, slideCount, startOffset = 0) {
         target = state.start - window.innerHeight * .9;
       } else if (next >= slideCount) {
         target = state.end + window.innerHeight * .9;
+      } else if (snapPoints) {
+        target = state.start + state.range * snapPoints[next];
       } else {
         // Il centro di ogni intervallo evita soste a cavallo tra due slide.
         target = state.start + state.range * ((next + .5) / slideCount);
@@ -83,14 +101,18 @@ export default function useSlideGestureSnap(ref, slideCount, startOffset = 0) {
       touchStartX = touch.clientX;
       touchStartY = touch.clientY;
       touchConsumed = false;
+      touchCaptured = metrics().active;
     };
 
     const onTouchMove = (event) => {
       const touch = event.touches[0];
-      if (!touch) return;
+      if (!touch || !touchCaptured) return;
+
+      // Blocchiamo il movimento nativo fin dal primo pixel. Su mobile questo
+      // impedisce all'inerzia di partire prima che lo swipe venga riconosciuto.
+      blockGesture(event);
 
       if (touchConsumed) {
-        blockGesture(event);
         return;
       }
 
@@ -101,11 +123,11 @@ export default function useSlideGestureSnap(ref, slideCount, startOffset = 0) {
       // Il dito sale per avanzare, scende per tornare alla slide precedente.
       if (!move(deltaY < 0 ? 1 : -1)) return;
       touchConsumed = true;
-      blockGesture(event);
     };
 
     const onTouchEnd = () => {
       touchConsumed = false;
+      touchCaptured = false;
       if (locked) scheduleUnlock();
     };
 
@@ -123,5 +145,5 @@ export default function useSlideGestureSnap(ref, slideCount, startOffset = 0) {
       window.removeEventListener('touchend', onTouchEnd, true);
       window.removeEventListener('touchcancel', onTouchEnd, true);
     };
-  }, [ref, slideCount, startOffset]);
+  }, [ref, slideCount, startOffset, snapPoints, mobileOnly]);
 }
