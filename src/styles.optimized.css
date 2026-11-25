@@ -2684,6 +2684,15 @@ p strong {
   color: var(--ink);
 }
 
+/* Il blocco precedente conserva una coda di scroll per concludere
+   l'animazione: compensiamola qui per avvicinare il testo alle immagini. */
+@media (min-width: 721px) {
+  .impact-summary {
+    margin-top: clamp(-170px, -17vh, -120px);
+    padding-top: 0;
+  }
+}
+
 @media (max-width: 720px) {
   .consequences-summary {
     max-width: 34rem;
@@ -2694,6 +2703,36 @@ p strong {
   .impact-summary {
     min-height: clamp(210px, 30svh, 300px);
     padding: clamp(60px, 9svh, 88px) var(--mobile-outer-gutter) clamp(34px, 5svh, 52px);
+  }
+}
+
+/* Logo orizzontale nella sola navbar; il footer mantiene il marchio compatto. */
+.nav > .nav-logo {
+  width: 154px;
+  height: 48px;
+  flex-basis: 154px;
+}
+
+@media (max-width: 1100px) {
+  .nav > .nav-logo {
+    width: 130px;
+    flex-basis: 130px;
+  }
+}
+
+@media (max-width: 720px) {
+  .nav > .nav-logo {
+    width: 122px;
+    height: 40px;
+    flex-basis: 122px;
+  }
+}
+
+@media (max-width: 420px) {
+  .nav > .nav-logo {
+    width: 108px;
+    height: 36px;
+    flex-basis: 108px;
   }
 }
 

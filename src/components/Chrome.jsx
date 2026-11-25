@@ -17,7 +17,7 @@ export function Nav() {
   return (
     <header className="nav" aria-label={t('nav.aria')}>
       <a className="nav-logo" href="#top" aria-label={t('nav.home')}>
-        <img src="./images/brand/nutraintel-logo.svg" alt="NutraIntel" />
+        <img src="./images/brand/nutraintel-logo-full-row.svg" alt="NutraIntel" />
       </a>
       <nav className="nav-links" aria-label={t('nav.sections')}>
         <a href="#problema">{t('nav.challenge')}</a><a href="#monitoraggio">{t('nav.solution')}</a><a href="#use-case">{t('nav.usecases')}</a><a href="#video">{t('nav.video')}</a><a href="#faq">{t('nav.faq')}</a>
