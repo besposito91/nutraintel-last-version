@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../i18n.jsx';
+import useSlideGestureSnap from '../lib/useSlideGestureSnap.js';
 
 export default function SeeDeeper() {
   const ref = useRef(null);
@@ -13,6 +14,8 @@ export default function SeeDeeper() {
     { key: 'portal', label: stages[1].title, src: './images/ecosystem/portal.webp' },
     { key: 'app', label: stages[2].title, src: './images/ecosystem/app.webp?v=20261123' },
   ];
+
+  useSlideGestureSnap(ref, stages.length, 0);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {

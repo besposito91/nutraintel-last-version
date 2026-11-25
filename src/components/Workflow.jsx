@@ -2,6 +2,7 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../i18n.jsx';
+import useSlideGestureSnap from '../lib/useSlideGestureSnap.js';
 
 const caseImages = [
   ['./images/usecases/slide-1-left.webp', './images/usecases/slide-1-right.webp'],
@@ -86,6 +87,8 @@ export default function Workflow() {
     ...copy,
     images: caseImages[index],
   }));
+
+  useSlideGestureSnap(ref, cases.length, 64);
 
   // MODALITA INFINITE SCROLL: slide e progress seguono la sezione sticky.
   useLayoutEffect(() => {
