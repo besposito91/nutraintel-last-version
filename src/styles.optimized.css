@@ -2717,13 +2717,12 @@ p strong {
   }
 }
 
-/* Mobile: ogni carosello occupa una schermata. Quando il pannello e' allineato
-   al viewport, la sequenza richiede swipe laterali e libera lo scroll verticale
-   in modo automatico sull'ultima slide. */
+/* Mobile: ecosistema e use case restano contenuti in una schermata, ma non
+   congelano piu' lo scroll verticale della pagina. La sezione conclusiva
+   conserva invece i due passaggi collegati allo scroll. */
 @media (max-width: 720px) {
   .solution-triangle-section,
-  .usecases,
-  .consequences {
+  .usecases {
     height: calc(100svh - 54px) !important;
     min-height: 620px !important;
     overflow: hidden !important;
@@ -2735,13 +2734,15 @@ p strong {
   }
 
   .consequences {
+    height: 230svh !important;
+    min-height: 0 !important;
     margin-top: 6svh !important;
     padding: 0 !important;
+    overflow: visible !important;
   }
 
   .solution-sticky,
-  .usecases-sticky,
-  .consequences-sticky {
+  .usecases-sticky {
     position: relative !important;
     top: 0 !important;
     height: 100% !important;
@@ -2749,33 +2750,13 @@ p strong {
     margin-top: 0 !important;
   }
 
-  .consequences .consequences-head {
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-  }
-
-  .consequences .consequence-card {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translate3d(9vw, 0, 0);
-    transition: opacity .34s ease, visibility .34s ease, transform .48s var(--ease);
-  }
-
-  .consequences.mobile-impact-step-0 .consequence-professional,
-  .consequences.mobile-impact-step-1 .consequence-patient {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translate3d(0, 0, 0);
-  }
-
-  #ecosistema.is-carousel-locked,
-  #use-case.is-carousel-locked,
-  #impatto.is-carousel-locked {
-    touch-action: none !important;
-    overscroll-behavior: none;
+  .consequences-sticky {
+    position: sticky !important;
+    top: 54px !important;
+    height: calc(100svh - 54px) !important;
+    min-height: 0 !important;
+    margin-top: 0 !important;
+    overflow: hidden !important;
   }
 
   .mobile-swipe-hint {
@@ -2835,6 +2816,51 @@ p strong {
 
   .consequences .mobile-swipe-hint {
     bottom: 12px;
+  }
+}
+
+/* Le composizioni degli use case diventano card vere e proprie: il contenuto
+   resta interamente visibile, con una cornice leggera e profondita' discreta. */
+@media (max-width: 720px) {
+  .usecases-scenes {
+    padding: 6px 8px 32px;
+    overflow: hidden;
+  }
+
+  .usecases-scene {
+    inset: 6px 8px 30px;
+    width: auto;
+    height: auto;
+    padding: clamp(12px, 2.4svh, 20px);
+    overflow: hidden;
+    border: 1px solid rgba(5, 44, 67, .14);
+    border-radius: clamp(22px, 6vw, 30px);
+    background: rgba(255, 255, 255, .76);
+    box-shadow: 0 14px 34px rgba(5, 44, 67, .11);
+  }
+
+  .usecases-stage {
+    gap: clamp(22px, 4svh, 36px);
+    padding: 0;
+    transform: none;
+  }
+
+  .usecase-composite-panel {
+    padding: 0;
+    overflow: hidden;
+    border-radius: clamp(14px, 4vw, 20px);
+  }
+
+  .usecase-composite-panel::before {
+    display: none;
+  }
+
+  .usecase-composite {
+    width: auto !important;
+    height: 100% !important;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
   }
 }
 

@@ -38,6 +38,7 @@ export default function useHorizontalSwipe(
     let startY = 0;
     let gestureAxis = null;
     let consumed = false;
+    let gestureStartedInSection = false;
     let lastScrollY = window.scrollY;
     let lockScrollY = 0;
     let scrollFrame = 0;
@@ -107,6 +108,7 @@ export default function useHorizontalSwipe(
     const resetGesture = () => {
       gestureAxis = null;
       consumed = false;
+      gestureStartedInSection = false;
     };
 
     const sectionIsInFocus = () => {
@@ -124,6 +126,7 @@ export default function useHorizontalSwipe(
       startY = touch.clientY;
       gestureAxis = null;
       consumed = false;
+      gestureStartedInSection = section.contains(event.target);
     };
 
     const onTouchMove = (event) => {
@@ -157,7 +160,7 @@ export default function useHorizontalSwipe(
         event.preventDefault();
         if (gestureAxis !== 'horizontal' || consumed || distanceX < threshold) return;
       } else {
-        if (gestureAxis !== 'horizontal') return;
+        if (!gestureStartedInSection || gestureAxis !== 'horizontal') return;
         event.preventDefault();
         if (consumed || distanceX < threshold) return;
       }

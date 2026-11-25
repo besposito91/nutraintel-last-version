@@ -91,8 +91,8 @@ export default function Workflow() {
   }));
 
   useSlideGestureSnap(ref, cases.length, 64, { desktopOnly: true });
-  const mobileLocked = useHorizontalSwipe(ref, step, setStep, cases.length, {
-    lockUntilComplete: true,
+  useHorizontalSwipe(ref, step, setStep, cases.length, {
+    lockUntilComplete: false,
   });
 
   // MODALITA INFINITE SCROLL: slide e progress seguono la sezione sticky.
@@ -211,7 +211,7 @@ export default function Workflow() {
 
         </div>
         <MobileSwipeHint
-          visible={mobileLocked || step === cases.length - 1}
+          visible
           label={step === cases.length - 1 ? t('carousel.back') : t('carousel.swipe')}
           current={step + 1}
           total={cases.length}

@@ -1,10 +1,8 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import HumanCutout from './HumanCutout.jsx';
 import { useLanguage } from '../i18n.jsx';
-import useHorizontalSwipe from '../lib/useHorizontalSwipe.js';
-import MobileSwipeHint from './MobileSwipeHint.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,17 +25,7 @@ function ImpactLines({ strong, rest }) {
 
 export default function Consequences() {
   const sectionRef = useRef(null);
-  const [mobileStep, setMobileStep] = useState(0);
   const { t, language } = useLanguage();
-
-  // Il titolo resta visibile: professionista e paziente sono i due passaggi.
-  const mobileLocked = useHorizontalSwipe(
-    sectionRef,
-    mobileStep,
-    setMobileStep,
-    2,
-    { lockUntilComplete: true },
-  );
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -49,13 +37,6 @@ export default function Consequences() {
       const patient = section.querySelector('.consequence-patient');
       const elements = [head, professional, patient];
       const compact = matchMedia('(max-width: 720px)').matches;
-
-      // Su mobile lo stato e' controllato dallo swipe orizzontale, non dalla
-      // posizione verticale della pagina.
-      if (compact) {
-        gsap.set(elements, { clearProps: 'all' });
-        return;
-      }
 
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
         gsap.set(elements, { autoAlpha: 1, y: 0 });
@@ -106,7 +87,7 @@ export default function Consequences() {
 
   return (
     <section
-      className={`consequences mobile-impact-step-${mobileStep}`}
+      className="consequences"
       id="impatto"
       ref={sectionRef}
       aria-labelledby="consequences-title"
@@ -161,12 +142,6 @@ export default function Consequences() {
           </div>
         </article>
       </div>
-      <MobileSwipeHint
-        visible={mobileLocked || mobileStep === 1}
-        label={mobileStep === 1 ? t('carousel.back') : t('carousel.swipe')}
-        current={mobileStep + 1}
-        total={2}
-      />
       </div>
     </section>
   );
