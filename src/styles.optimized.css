@@ -2697,7 +2697,7 @@ p strong {
   #ecosistema,
   #use-case,
   #impatto {
-    touch-action: none;
+    touch-action: pan-y pinch-zoom;
     overscroll-behavior-x: contain;
   }
 
@@ -2710,6 +2710,60 @@ p strong {
   .impact-summary {
     min-height: clamp(210px, 30svh, 300px);
     padding: clamp(60px, 9svh, 88px) var(--mobile-outer-gutter) clamp(34px, 5svh, 52px);
+  }
+}
+
+/* Mobile: i caroselli non dipendono piu' da centinaia di viewport verticali.
+   Lo swipe orizzontale cambia stato; il gesto verticale resta scroll nativo. */
+@media (max-width: 720px) {
+  .solution-triangle-section,
+  .usecases,
+  .consequences {
+    height: calc(100svh - 54px) !important;
+    min-height: 620px !important;
+    overflow: hidden !important;
+  }
+
+  .solution-triangle-section,
+  .usecases {
+    margin-top: 0 !important;
+  }
+
+  .consequences {
+    margin-top: 6svh !important;
+    padding: 0 !important;
+  }
+
+  .solution-sticky,
+  .usecases-sticky,
+  .consequences-sticky {
+    position: relative !important;
+    top: 0 !important;
+    height: 100% !important;
+    min-height: inherit !important;
+    margin-top: 0 !important;
+  }
+
+  .consequences .consequences-head {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .consequences .consequence-card {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate3d(9vw, 0, 0);
+    transition: opacity .34s ease, visibility .34s ease, transform .48s var(--ease);
+  }
+
+  .consequences.mobile-impact-step-1 .consequence-professional,
+  .consequences.mobile-impact-step-2 .consequence-patient {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate3d(0, 0, 0);
   }
 }
 

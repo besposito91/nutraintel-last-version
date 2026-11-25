@@ -6,14 +6,21 @@ export default function useSlideGestureSnap(
   ref,
   slideCount,
   startOffset = 0,
-  { snapPoints = null, mobileOnly = false, touchAxis = 'vertical' } = {},
+  {
+    snapPoints = null,
+    mobileOnly = false,
+    touchAxis = 'vertical',
+    desktopOnly = false,
+  } = {},
 ) {
   useLayoutEffect(() => {
     const section = ref.current;
+    const mobileViewport = window.matchMedia('(max-width: 720px)').matches;
     if (
       !section
       || slideCount < 2
-      || (mobileOnly && !window.matchMedia('(max-width: 720px)').matches)
+      || (mobileOnly && !mobileViewport)
+      || (desktopOnly && mobileViewport)
     ) return undefined;
 
     let locked = false;
@@ -200,5 +207,5 @@ export default function useSlideGestureSnap(
       window.removeEventListener('touchend', onTouchEnd, true);
       window.removeEventListener('touchcancel', onTouchEnd, true);
     };
-  }, [ref, slideCount, startOffset, snapPoints, mobileOnly, touchAxis]);
+  }, [ref, slideCount, startOffset, snapPoints, mobileOnly, touchAxis, desktopOnly]);
 }

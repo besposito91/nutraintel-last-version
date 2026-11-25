@@ -1,13 +1,11 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import HumanCutout from './HumanCutout.jsx';
 import { useLanguage } from '../i18n.jsx';
-import useSlideGestureSnap from '../lib/useSlideGestureSnap.js';
+import useHorizontalSwipe from '../lib/useHorizontalSwipe.js';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const mobileImpactSnapPoints = [0, .2, .5, .94];
 
 function ImpactLines({ strong, rest }) {
   const lines = `${strong} ${rest}`
@@ -28,14 +26,11 @@ function ImpactLines({ strong, rest }) {
 
 export default function Consequences() {
   const sectionRef = useRef(null);
+  const [mobileStep, setMobileStep] = useState(0);
   const { t, language } = useLanguage();
 
-  // Ingresso, testo, professionista, paziente: un passaggio per ogni swipe.
-  useSlideGestureSnap(sectionRef, mobileImpactSnapPoints.length, 54, {
-    snapPoints: mobileImpactSnapPoints,
-    mobileOnly: true,
-    touchAxis: 'horizontal',
-  });
+  // Titolo, professionista, paziente: una schermata per ogni swipe orizzontale.
+  useHorizontalSwipe(sectionRef, setMobileStep, 3);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -46,13 +41,20 @@ export default function Consequences() {
       const professional = section.querySelector('.consequence-professional');
       const patient = section.querySelector('.consequence-patient');
       const elements = [head, professional, patient];
+      const compact = matchMedia('(max-width: 720px)').matches;
+
+      // Su mobile lo stato e' controllato dallo swipe orizzontale, non dalla
+      // posizione verticale della pagina.
+      if (compact) {
+        gsap.set(elements, { clearProps: 'all' });
+        return;
+      }
 
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
         gsap.set(elements, { autoAlpha: 1, y: 0 });
         return;
       }
 
-      const compact = matchMedia('(max-width: 720px)').matches;
       const timeline = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -97,7 +99,7 @@ export default function Consequences() {
 
   return (
     <section
-      className="consequences"
+      className={`consequences mobile-impact-step-${mobileStep}`}
       id="impatto"
       ref={sectionRef}
       aria-labelledby="consequences-title"

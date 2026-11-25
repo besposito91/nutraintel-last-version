@@ -3,6 +3,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../i18n.jsx';
 import useSlideGestureSnap from '../lib/useSlideGestureSnap.js';
+import useHorizontalSwipe from '../lib/useHorizontalSwipe.js';
 
 const caseImages = [
   ['./images/usecases/slide-1-left.webp', './images/usecases/slide-1-right.webp'],
@@ -88,10 +89,13 @@ export default function Workflow() {
     images: caseImages[index],
   }));
 
-  useSlideGestureSnap(ref, cases.length, 64, { touchAxis: 'horizontal' });
+  useSlideGestureSnap(ref, cases.length, 64, { desktopOnly: true });
+  useHorizontalSwipe(ref, setStep, cases.length);
 
   // MODALITA INFINITE SCROLL: slide e progress seguono la sezione sticky.
   useLayoutEffect(() => {
+    if (window.matchMedia('(max-width: 720px)').matches) return undefined;
+
     let activeStep = -1;
     const syncStep = (state) => {
       const scaledProgress = Math.min(

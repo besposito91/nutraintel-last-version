@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../i18n.jsx';
 import useSlideGestureSnap from '../lib/useSlideGestureSnap.js';
+import useHorizontalSwipe from '../lib/useHorizontalSwipe.js';
 
 export default function SeeDeeper() {
   const ref = useRef(null);
@@ -15,7 +16,8 @@ export default function SeeDeeper() {
     { key: 'app', label: stages[2].title, src: './images/ecosystem/app.webp?v=20261123' },
   ];
 
-  useSlideGestureSnap(ref, stages.length, 0, { touchAxis: 'horizontal' });
+  useSlideGestureSnap(ref, stages.length, 0, { desktopOnly: true });
+  useHorizontalSwipe(ref, setStep, stages.length);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -47,20 +49,22 @@ export default function SeeDeeper() {
       // MODALITA INFINITE SCROLL: lo stato segue il progresso della sezione.
       // Per ripristinare le frecce, rimuovere questo trigger e riattivare i
       // blocchi "NAVIGAZIONE CON FRECCE" commentati più sotto.
-      let activeStep = -1;
-      const syncStep = ({ progress }) => {
-        const next = Math.min(stages.length - 1, Math.floor(progress * stages.length * .999));
-        if (next === activeStep) return;
-        activeStep = next;
-        setStep(next);
-      };
-      ScrollTrigger.create({
-        trigger: ref.current,
-        start: 'top top',
-        end: 'bottom bottom',
-        onRefresh: syncStep,
-        onUpdate: syncStep,
-      });
+      if (!isMobile) {
+        let activeStep = -1;
+        const syncStep = ({ progress }) => {
+          const next = Math.min(stages.length - 1, Math.floor(progress * stages.length * .999));
+          if (next === activeStep) return;
+          activeStep = next;
+          setStep(next);
+        };
+        ScrollTrigger.create({
+          trigger: ref.current,
+          start: 'top top',
+          end: 'bottom bottom',
+          onRefresh: syncStep,
+          onUpdate: syncStep,
+        });
+      }
     }, ref);
     return () => ctx.revert();
   }, [stages.length]);
