@@ -161,11 +161,10 @@ export default function useSlideGestureSnap(
 
         if (distanceY < 42 || distanceY <= distanceX * 1.12) return;
         const direction = deltaY < 0 ? 1 : -1;
-        const state = metrics();
-        const canLeave = direction > 0
-          ? state.step === slideCount - 1
-          : state.step === 0;
-        if (canLeave) leave(direction);
+        // Lo swipe verticale serve sempre a lasciare il carosello. In questo
+        // modo l'utente non puo' restare intrappolato se il gesto orizzontale
+        // non viene riconosciuto o se vuole semplicemente continuare la pagina.
+        leave(direction);
         touchConsumed = true;
         return;
       }
