@@ -2819,36 +2819,53 @@ p strong {
   }
 }
 
-/* Le composizioni degli use case diventano card vere e proprie: il contenuto
-   resta interamente visibile, con una cornice leggera e profondita' discreta. */
+/* Mobile: e' l'intera sezione use case a comportarsi come una card. Titolo,
+   testo e composizioni condividono la stessa superficie; le immagini restano
+   libere, senza cornici interne che possano ritagliarle. */
 @media (max-width: 720px) {
+  .usecases-sticky {
+    width: calc(100% - 20px);
+    height: calc(100% - 20px) !important;
+    min-height: 0 !important;
+    margin: 10px auto !important;
+    box-sizing: border-box;
+    border: 1px solid rgba(5, 44, 67, .14);
+    border-radius: clamp(24px, 7vw, 32px);
+    background: rgba(255, 255, 255, .78);
+    box-shadow: 0 16px 38px rgba(5, 44, 67, .12);
+    overflow: hidden !important;
+  }
+
   .usecases-scenes {
-    padding: 6px 8px 32px;
-    overflow: hidden;
+    padding: 0 4px 34px;
+    overflow: visible;
   }
 
   .usecases-scene {
-    inset: 6px 8px 30px;
-    width: auto;
-    height: auto;
-    padding: clamp(12px, 2.4svh, 20px);
-    overflow: hidden;
-    border: 1px solid rgba(5, 44, 67, .14);
-    border-radius: clamp(22px, 6vw, 30px);
-    background: rgba(255, 255, 255, .76);
-    box-shadow: 0 14px 34px rgba(5, 44, 67, .11);
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
   }
 
   .usecases-stage {
-    gap: clamp(22px, 4svh, 36px);
+    gap: clamp(18px, 3svh, 28px);
     padding: 0;
     transform: none;
   }
 
   .usecase-composite-panel {
     padding: 0;
-    overflow: hidden;
-    border-radius: clamp(14px, 4vw, 20px);
+    overflow: visible;
+    border-radius: 0;
+    grid-template-rows: minmax(0, 1fr);
+    place-items: stretch;
+    align-content: stretch;
   }
 
   .usecase-composite-panel::before {
@@ -2856,7 +2873,7 @@ p strong {
   }
 
   .usecase-composite {
-    width: auto !important;
+    width: 100% !important;
     height: 100% !important;
     max-width: 100%;
     max-height: 100%;
