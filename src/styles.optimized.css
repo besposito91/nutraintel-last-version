@@ -2688,7 +2688,7 @@ p strong {
    l'animazione: compensiamola qui per avvicinare il testo alle immagini. */
 @media (min-width: 721px) {
   .impact-summary {
-    margin-top: clamp(-170px, -17vh, -120px);
+    margin-top: clamp(-110px, -17vh, -120px);
     padding-top: 0;
   }
 }
