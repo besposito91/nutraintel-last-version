@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../i18n.jsx';
 import useSlideGestureSnap from '../lib/useSlideGestureSnap.js';
 import useHorizontalSwipe from '../lib/useHorizontalSwipe.js';
+import MobileSwipeHint from './MobileSwipeHint.jsx';
 
 const caseImages = [
   ['./images/usecases/slide-1-left.webp', './images/usecases/slide-1-right.webp'],
@@ -90,7 +91,9 @@ export default function Workflow() {
   }));
 
   useSlideGestureSnap(ref, cases.length, 64, { desktopOnly: true });
-  useHorizontalSwipe(ref, setStep, cases.length);
+  const mobileLocked = useHorizontalSwipe(ref, step, setStep, cases.length, {
+    lockUntilComplete: true,
+  });
 
   // MODALITA INFINITE SCROLL: slide e progress seguono la sezione sticky.
   useLayoutEffect(() => {
@@ -207,6 +210,12 @@ export default function Workflow() {
           ))}
 
         </div>
+        <MobileSwipeHint
+          visible={mobileLocked}
+          label={t('carousel.swipe')}
+          current={step + 1}
+          total={cases.length}
+        />
       </div>
     </section>
   );

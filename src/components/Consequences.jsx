@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import HumanCutout from './HumanCutout.jsx';
 import { useLanguage } from '../i18n.jsx';
 import useHorizontalSwipe from '../lib/useHorizontalSwipe.js';
+import MobileSwipeHint from './MobileSwipeHint.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,8 +30,14 @@ export default function Consequences() {
   const [mobileStep, setMobileStep] = useState(0);
   const { t, language } = useLanguage();
 
-  // Titolo, professionista, paziente: una schermata per ogni swipe orizzontale.
-  useHorizontalSwipe(sectionRef, setMobileStep, 3);
+  // Il titolo resta visibile: professionista e paziente sono i due passaggi.
+  const mobileLocked = useHorizontalSwipe(
+    sectionRef,
+    mobileStep,
+    setMobileStep,
+    2,
+    { lockUntilComplete: true },
+  );
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -154,6 +161,12 @@ export default function Consequences() {
           </div>
         </article>
       </div>
+      <MobileSwipeHint
+        visible={mobileLocked}
+        label={t('carousel.swipe')}
+        current={mobileStep + 1}
+        total={2}
+      />
       </div>
     </section>
   );
