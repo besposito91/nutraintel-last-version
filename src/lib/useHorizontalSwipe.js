@@ -109,6 +109,14 @@ export default function useHorizontalSwipe(
       consumed = false;
     };
 
+    const sectionIsInFocus = () => {
+      const rect = section.getBoundingClientRect();
+      return (
+        rect.top < window.innerHeight * .55
+        && rect.bottom > window.innerHeight * .45
+      );
+    };
+
     const onTouchStart = (event) => {
       const touch = event.touches[0];
       if (!touch) return;
@@ -131,11 +139,21 @@ export default function useHorizontalSwipe(
         gestureAxis = distanceX > distanceY * 1.08 ? 'horizontal' : 'vertical';
       }
 
+      const direction = deltaX < 0 ? 1 : -1;
+
       if (lockUntilComplete) {
-        if (!lockedRef.current) return;
+        if (!lockedRef.current) {
+          const canRewind = (
+            gestureAxis === 'horizontal'
+            && direction < 0
+            && stepRef.current === slideCount - 1
+            && sectionIsInFocus()
+          );
+          if (!canRewind) return;
+        }
 
         // Durante la sequenza nessun gesto verticale puo' trascinare la pagina.
-        // Lo scroll viene liberato in modo deterministico sull'ultima slide.
+        // Sull'ultima slide uno swipe inverso riaggancia il carosello.
         event.preventDefault();
         if (gestureAxis !== 'horizontal' || consumed || distanceX < threshold) return;
       } else {
@@ -144,12 +162,19 @@ export default function useHorizontalSwipe(
         if (consumed || distanceX < threshold) return;
       }
 
-      const direction = deltaX < 0 ? 1 : -1;
-      setStep((current) => {
-        const next = clamp(current + direction, 0, slideCount - 1);
-        stepRef.current = next;
-        return next;
-      });
+      const current = stepRef.current;
+      const next = clamp(current + direction, 0, slideCount - 1);
+      if (next === current) {
+        consumed = true;
+        return;
+      }
+
+      stepRef.current = next;
+      setStep(next);
+
+      if (lockUntilComplete && !lockedRef.current && next < slideCount - 1) {
+        engage();
+      }
       consumed = true;
     };
 

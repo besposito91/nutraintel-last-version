@@ -162,8 +162,8 @@ export default function Consequences() {
         </article>
       </div>
       <MobileSwipeHint
-        visible={mobileLocked}
-        label={t('carousel.swipe')}
+        visible={mobileLocked || mobileStep === 1}
+        label={mobileStep === 1 ? t('carousel.back') : t('carousel.swipe')}
         current={mobileStep + 1}
         total={2}
       />

@@ -126,8 +126,8 @@ export default function SeeDeeper() {
         */}
         <div className="solution-progress" aria-hidden="true">{stages.map((item, index) => <i key={item.n} className={index === step ? 'on' : ''} />)}</div>
         <MobileSwipeHint
-          visible={mobileLocked}
-          label={t('carousel.swipe')}
+          visible={mobileLocked || step === stages.length - 1}
+          label={step === stages.length - 1 ? t('carousel.back') : t('carousel.swipe')}
           current={step + 1}
           total={stages.length}
         />

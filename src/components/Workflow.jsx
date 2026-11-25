@@ -211,8 +211,8 @@ export default function Workflow() {
 
         </div>
         <MobileSwipeHint
-          visible={mobileLocked}
-          label={t('carousel.swipe')}
+          visible={mobileLocked || step === cases.length - 1}
+          label={step === cases.length - 1 ? t('carousel.back') : t('carousel.swipe')}
           current={step + 1}
           total={cases.length}
         />

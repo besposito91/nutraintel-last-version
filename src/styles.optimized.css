@@ -637,6 +637,10 @@ main{position:relative;background:
   display: block;
 }
 
+.mobile-swipe-hint {
+  display: none;
+}
+
 @media (max-width: 720px) {
 
   .consequence-columns {
