@@ -2666,18 +2666,28 @@ p strong {
 
 .consequences-summary {
   max-width: 980px;
-  margin: 18px auto 0;
+  margin: 0 auto;
   font-size: clamp(16px, 1.25vw, 20px) !important;
   line-height: 1.45;
   text-align: center;
 }
 
+.impact-summary {
+  position: relative;
+  z-index: 5;
+  padding: clamp(64px, 9vh, 112px) var(--pad) clamp(22px, 3vh, 42px);
+  color: var(--ink);
+}
+
 @media (max-width: 720px) {
   .consequences-summary {
     max-width: 34rem;
-    margin-top: 10px;
     font-size: clamp(14px, 4vw, 16px) !important;
     line-height: 1.35;
+  }
+
+  .impact-summary {
+    padding: clamp(52px, 8svh, 76px) var(--mobile-outer-gutter) 18px;
   }
 }
 

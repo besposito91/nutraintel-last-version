@@ -95,6 +95,7 @@ export default function Consequences() {
   }, []);
 
   return (
+    <>
     <section
       className="consequences"
       id="impatto"
@@ -110,10 +111,6 @@ export default function Consequences() {
           <span className="highlight">{t('impact.titleHighlight')}</span>
           {t('impact.titleAfter')}
         </h2>
-        <p className="consequences-summary">
-          {t('impact.summaryBefore')}
-          <strong>{t('impact.summaryEmphasis')}</strong>
-        </p>
       </header>
 
       <div className="consequence-columns">
@@ -157,5 +154,12 @@ export default function Consequences() {
       </div>
       </div>
     </section>
+    <section className="impact-summary" aria-label={t('impact.titleHighlight')}>
+      <p className="consequences-summary">
+        {t('impact.summaryBefore')}
+        <strong>{t('impact.summaryEmphasis')}</strong>
+      </p>
+    </section>
+    </>
   );
 }
