@@ -95,7 +95,6 @@ export default function Consequences() {
   }, []);
 
   return (
-    <>
     <section
       className="consequences"
       id="impatto"
@@ -154,12 +153,5 @@ export default function Consequences() {
       </div>
       </div>
     </section>
-    <section className="impact-summary" aria-label={t('impact.titleHighlight')}>
-      <p className="consequences-summary">
-        {t('impact.summaryBefore')}
-        <strong>{t('impact.summaryEmphasis')}</strong>
-      </p>
-    </section>
-    </>
   );
 }

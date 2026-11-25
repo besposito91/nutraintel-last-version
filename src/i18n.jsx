@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 const messages = {
   it: {
-    meta: { title: 'NutraIntel | Software per il monitoraggio nutrizionale', description: 'NutraIntel è il software per nutrizionisti che collega bilancia smart, app paziente e portale professionale per il monitoraggio e il follow-up nutrizionale.' },
+    meta: { title: 'NutraIntel | Ecosistema smart per professionisti della nutrizione', description: 'NutraIntel è il software per nutrizionisti che collega bilancia smart, app paziente e portale professionale per il monitoraggio e il follow-up nutrizionale.' },
     nav: { challenge: 'La sfida', solution: 'La soluzione', usecases: 'Cosa fa NutraIntel', video: 'Video', faq: 'FAQ', cta: 'Diventa early adopter', aria: 'Navigazione NutraIntel', sections: 'Sezioni', home: 'NutraIntel - torna all’inizio', skip: 'Vai al contenuto' },
     hero: { tag: 'Il follow-up, oltre la visita', title: 'La nutrizione evolve. La relazione con il paziente anche.', titleLine1: 'La nutrizione evolve.', titlePrefix: 'La', titleHighlight: 'relazione con il paziente', titleTail: 'anche.', subtitle: 'Fai crescere il tuo studio con un servizio che continua anche dopo la visita. Segui i progressi dei tuoi pazienti, anticipa le difficoltà e offri un supporto che li motivi a proseguire il percorso con te.', subtitleBefore: '', subtitleEmphasis: 'Fai crescere il tuo studio con un servizio che continua anche dopo la visita.', subtitleAfter: 'Segui i progressi dei tuoi pazienti, anticipa le difficoltà e offri un supporto che li motivi a proseguire il percorso con te.', subtitleBreak: true, cta: 'Diventa early adopter', discover: 'Scopri NutraIntel', scroll: 'Scorri per scoprire' },
     challenge: {

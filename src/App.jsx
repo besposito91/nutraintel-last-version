@@ -8,6 +8,7 @@ import SeeDeeper from './components/SeeDeeper.jsx';
 import ProblemStory from './components/ProblemStory.jsx';
 import Workflow from './components/Workflow.jsx';
 import Consequences from './components/Consequences.jsx';
+import ImpactSummary from './components/ImpactSummary.jsx';
 import Video from './components/Video.jsx';
 import Faq from './components/Faq.jsx';
 import Prelaunch from './components/Prelaunch.jsx';
@@ -120,6 +121,7 @@ export default function App() {
         <SeeDeeper />
         <Workflow />
         <Consequences />
+        <ImpactSummary />
         <Video />
         <Faq />
         <Prelaunch />
