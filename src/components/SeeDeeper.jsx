@@ -15,7 +15,7 @@ export default function SeeDeeper() {
     { key: 'app', label: stages[2].title, src: './images/ecosystem/app.webp?v=20261123' },
   ];
 
-  useSlideGestureSnap(ref, stages.length, 0);
+  useSlideGestureSnap(ref, stages.length, 0, { touchAxis: 'horizontal' });
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {

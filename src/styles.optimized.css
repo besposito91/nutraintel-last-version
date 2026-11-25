@@ -2694,6 +2694,13 @@ p strong {
 }
 
 @media (max-width: 720px) {
+  #ecosistema,
+  #use-case,
+  #impatto {
+    touch-action: none;
+    overscroll-behavior-x: contain;
+  }
+
   .consequences-summary {
     max-width: 34rem;
     font-size: clamp(14px, 4vw, 16px) !important;

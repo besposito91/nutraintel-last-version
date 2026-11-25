@@ -88,7 +88,7 @@ export default function Workflow() {
     images: caseImages[index],
   }));
 
-  useSlideGestureSnap(ref, cases.length, 64);
+  useSlideGestureSnap(ref, cases.length, 64, { touchAxis: 'horizontal' });
 
   // MODALITA INFINITE SCROLL: slide e progress seguono la sezione sticky.
   useLayoutEffect(() => {

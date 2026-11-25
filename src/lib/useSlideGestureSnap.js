@@ -6,7 +6,7 @@ export default function useSlideGestureSnap(
   ref,
   slideCount,
   startOffset = 0,
-  { snapPoints = null, mobileOnly = false } = {},
+  { snapPoints = null, mobileOnly = false, touchAxis = 'vertical' } = {},
 ) {
   useLayoutEffect(() => {
     const section = ref.current;
@@ -22,6 +22,11 @@ export default function useSlideGestureSnap(
     let touchStartY = 0;
     let touchConsumed = false;
     let touchCaptured = false;
+    let gestureAxis = null;
+    const effectiveTouchAxis = touchAxis === 'horizontal'
+      && window.matchMedia('(max-width: 720px)').matches
+      ? 'horizontal'
+      : 'vertical';
 
     const offset = () => (
       typeof startOffset === 'function' ? startOffset() : startOffset
@@ -84,6 +89,22 @@ export default function useSlideGestureSnap(
       return true;
     };
 
+    const leave = (direction) => {
+      const state = metrics();
+      if (!state.active) return false;
+
+      locked = true;
+      scheduleUnlock();
+      const target = direction > 0
+        ? state.end + window.innerHeight * .9
+        : state.start - window.innerHeight * .9;
+
+      window.dispatchEvent(new CustomEvent('nutraintel:scroll-to', {
+        detail: { target },
+      }));
+      return true;
+    };
+
     const blockGesture = (event) => {
       event.preventDefault();
       event.stopImmediatePropagation();
@@ -102,23 +123,57 @@ export default function useSlideGestureSnap(
       touchStartY = touch.clientY;
       touchConsumed = false;
       touchCaptured = metrics().active;
+      gestureAxis = null;
     };
 
     const onTouchMove = (event) => {
       const touch = event.touches[0];
       if (!touch || !touchCaptured) return;
 
-      // Blocchiamo il movimento nativo fin dal primo pixel. Su mobile questo
-      // impedisce all'inerzia di partire prima che lo swipe venga riconosciuto.
-      blockGesture(event);
+      const deltaX = touch.clientX - touchStartX;
+      const deltaY = touch.clientY - touchStartY;
+      const distanceX = Math.abs(deltaX);
+      const distanceY = Math.abs(deltaY);
 
-      if (touchConsumed) {
+      if (!gestureAxis && Math.max(distanceX, distanceY) >= 10) {
+        gestureAxis = distanceX > distanceY ? 'horizontal' : 'vertical';
+      }
+
+      if (effectiveTouchAxis === 'horizontal') {
+        // Nei caroselli mobile il gesto verticale non deve modificare la
+        // slide. Lo tratteniamo nella sezione e lo usiamo per uscire soltanto
+        // dalla prima o dall'ultima schermata.
+        blockGesture(event);
+        if (touchConsumed || !gestureAxis) return;
+
+        if (gestureAxis === 'horizontal') {
+          if (distanceX < 42 || distanceX <= distanceY * 1.12) return;
+          const direction = deltaX < 0 ? 1 : -1;
+          const state = metrics();
+          const next = state.step + direction;
+
+          // Ai bordi lo swipe orizzontale resta nel carosello: per proseguire
+          // nella pagina si usa uno swipe verticale.
+          if (next >= 0 && next < slideCount) move(direction);
+          touchConsumed = true;
+          return;
+        }
+
+        if (distanceY < 42 || distanceY <= distanceX * 1.12) return;
+        const direction = deltaY < 0 ? 1 : -1;
+        const state = metrics();
+        const canLeave = direction > 0
+          ? state.step === slideCount - 1
+          : state.step === 0;
+        if (canLeave) leave(direction);
+        touchConsumed = true;
         return;
       }
 
-      const deltaX = touch.clientX - touchStartX;
-      const deltaY = touch.clientY - touchStartY;
-      if (Math.abs(deltaY) < 42 || Math.abs(deltaY) <= Math.abs(deltaX) * 1.15) return;
+      // Comportamento verticale preesistente, conservato per gli altri usi.
+      blockGesture(event);
+      if (touchConsumed) return;
+      if (distanceY < 42 || distanceY <= distanceX * 1.15) return;
 
       // Il dito sale per avanzare, scende per tornare alla slide precedente.
       if (!move(deltaY < 0 ? 1 : -1)) return;
@@ -128,6 +183,7 @@ export default function useSlideGestureSnap(
     const onTouchEnd = () => {
       touchConsumed = false;
       touchCaptured = false;
+      gestureAxis = null;
       if (locked) scheduleUnlock();
     };
 
@@ -145,5 +201,5 @@ export default function useSlideGestureSnap(
       window.removeEventListener('touchend', onTouchEnd, true);
       window.removeEventListener('touchcancel', onTouchEnd, true);
     };
-  }, [ref, slideCount, startOffset, snapPoints, mobileOnly]);
+  }, [ref, slideCount, startOffset, snapPoints, mobileOnly, touchAxis]);
 }

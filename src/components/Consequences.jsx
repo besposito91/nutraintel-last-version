@@ -34,6 +34,7 @@ export default function Consequences() {
   useSlideGestureSnap(sectionRef, mobileImpactSnapPoints.length, 54, {
     snapPoints: mobileImpactSnapPoints,
     mobileOnly: true,
+    touchAxis: 'horizontal',
   });
 
   useLayoutEffect(() => {
