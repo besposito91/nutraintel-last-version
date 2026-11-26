@@ -14,7 +14,6 @@ export default function NarrativeEnergy() {
     const lastProblemCard = problems?.querySelector('.problem-card:last-child');
     const solution = get('.solution-triangle-section');
     const usecases = get('.usecases');
-    const usecaseScenes = usecases?.querySelector('.usecases-scenes');
     const consequences = get('.consequences');
     if (!root || !hero || !problems || !solution || !usecases || !consequences) return undefined;
 
@@ -622,21 +621,7 @@ export default function NarrativeEnergy() {
             autoAlpha: 0,
             duration: .14,
             ease: 'sine.out',
-          }, .90)
-          // Let the expansion be read first; the carousel then settles over
-          // the completed background instead of masking the whole gesture.
-          .fromTo(usecaseScenes, {
-            autoAlpha: 0,
-            y: 22,
-          }, {
-            autoAlpha: 1,
-            y: 0,
-            duration: .22,
-            ease: 'power2.out',
-            // Keep the carousel out of the way from the very first frame:
-            // the sphere/rings must remain readable until the fill is done.
-            immediateRender: true,
-          }, .82);
+          }, .90);
       } else {
         usecaseEntryTimeline.fromTo(
           core,
@@ -677,7 +662,6 @@ export default function NarrativeEnergy() {
           if (compactMotion) {
             gsap.set(core, { autoAlpha: 0, scale: expandedScale(), x: 0, y: 0, rotation: 332 });
             gsap.set(mobileBackdrop, { opacity: 1 });
-            gsap.set(usecaseScenes, { autoAlpha: 1, y: 0 });
             return;
           }
           const point = usecasePoint();
@@ -687,7 +671,6 @@ export default function NarrativeEnergy() {
           if (compactMotion) {
             gsap.set(core, { autoAlpha: 0, scale: expandedScale(), x: 0, y: 0, rotation: 332 });
             gsap.set(mobileBackdrop, { opacity: 1 });
-            gsap.set(usecaseScenes, { autoAlpha: 1, y: 0 });
             return;
           }
           const point = usecasePoint();
@@ -699,7 +682,6 @@ export default function NarrativeEnergy() {
           if (compactMotion) {
             gsap.set(core, { autoAlpha: 0, scale: expandedScale(), x: 0, y: 0, rotation: 332 });
             gsap.set(mobileBackdrop, { opacity: 1 });
-            gsap.set(usecaseScenes, { autoAlpha: 1, y: 0 });
             return;
           }
           const point = usecasePoint();
