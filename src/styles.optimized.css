@@ -1111,7 +1111,9 @@ main{position:relative;background:
     z-index: 0;
     inset: -2px;
     display: block;
-    background: radial-gradient(circle at 31% 27%,#f6fffc 0 3%,#58ddbd 11%,#1bc8a1 30%,#168fa2 68%,#075071 100%);
+    /* Match the mobile sphere exactly, so the final cross-fade cannot produce
+       a sudden darker/greener frame. */
+    background: radial-gradient(circle at 31% 27%,#f6fffc 0 3%,#58ddbd 11%,#1bc8a1 30%,#16a99e 72%,#149da5 100%);
     opacity: 0;
     pointer-events: none;
     will-change: opacity;
@@ -2748,7 +2750,7 @@ p strong {
   .consequences {
     height: 230svh !important;
     min-height: 0 !important;
-    margin-top: 6svh !important;
+    margin-top: 0 !important;
     padding: 0 !important;
     overflow: visible !important;
   }

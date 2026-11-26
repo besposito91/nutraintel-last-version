@@ -14,6 +14,7 @@ export default function NarrativeEnergy() {
     const lastProblemCard = problems?.querySelector('.problem-card:last-child');
     const solution = get('.solution-triangle-section');
     const usecases = get('.usecases');
+    const usecaseScenes = usecases?.querySelector('.usecases-scenes');
     const consequences = get('.consequences');
     if (!root || !hero || !problems || !solution || !usecases || !consequences) return undefined;
 
@@ -555,7 +556,9 @@ export default function NarrativeEnergy() {
           trigger: usecases,
           start: 'top bottom',
           end: 'top top',
-          scrub: storyScrub,
+          // A short catch-up keeps the expansion visible even when a phone
+          // advances almost a full viewport with one fast swipe.
+          scrub: compactMotion ? .85 : storyScrub,
           invalidateOnRefresh: true,
           onEnter: () => setUsecaseTransitionRendering(true),
           onEnterBack: () => setUsecaseTransitionRendering(true),
@@ -588,19 +591,52 @@ export default function NarrativeEnergy() {
             ease: 'power2.inOut',
             immediateRender: false,
           }, 0)
+          .fromTo(rings, {
+            autoAlpha: 0,
+            scale: .72,
+          }, {
+            autoAlpha: .42,
+            scale: 1.22,
+            duration: .24,
+            stagger: .025,
+            ease: 'power2.out',
+            immediateRender: false,
+          }, .18)
+          .to(rings, {
+            autoAlpha: 0,
+            scale: 1.72,
+            duration: .34,
+            ease: 'power2.in',
+          }, .42)
           .fromTo(mobileBackdrop, {
             opacity: 0,
           }, {
             opacity: 1,
             duration: .28,
             ease: 'sine.inOut',
-            immediateRender: false,
-          }, .70)
+            // Reset to transparent below this point as well, so reversing the
+            // scroll makes the full background recede with the sphere.
+            immediateRender: true,
+          }, .76)
           .to(core, {
             autoAlpha: 0,
             duration: .14,
             ease: 'sine.out',
-          }, .86);
+          }, .90)
+          // Let the expansion be read first; the carousel then settles over
+          // the completed background instead of masking the whole gesture.
+          .fromTo(usecaseScenes, {
+            autoAlpha: 0,
+            y: 22,
+          }, {
+            autoAlpha: 1,
+            y: 0,
+            duration: .22,
+            ease: 'power2.out',
+            // Keep the carousel out of the way from the very first frame:
+            // the sphere/rings must remain readable until the fill is done.
+            immediateRender: true,
+          }, .82);
       } else {
         usecaseEntryTimeline.fromTo(
           core,
@@ -641,6 +677,7 @@ export default function NarrativeEnergy() {
           if (compactMotion) {
             gsap.set(core, { autoAlpha: 0, scale: expandedScale(), x: 0, y: 0, rotation: 332 });
             gsap.set(mobileBackdrop, { opacity: 1 });
+            gsap.set(usecaseScenes, { autoAlpha: 1, y: 0 });
             return;
           }
           const point = usecasePoint();
@@ -650,6 +687,7 @@ export default function NarrativeEnergy() {
           if (compactMotion) {
             gsap.set(core, { autoAlpha: 0, scale: expandedScale(), x: 0, y: 0, rotation: 332 });
             gsap.set(mobileBackdrop, { opacity: 1 });
+            gsap.set(usecaseScenes, { autoAlpha: 1, y: 0 });
             return;
           }
           const point = usecasePoint();
@@ -661,6 +699,7 @@ export default function NarrativeEnergy() {
           if (compactMotion) {
             gsap.set(core, { autoAlpha: 0, scale: expandedScale(), x: 0, y: 0, rotation: 332 });
             gsap.set(mobileBackdrop, { opacity: 1 });
+            gsap.set(usecaseScenes, { autoAlpha: 1, y: 0 });
             return;
           }
           const point = usecasePoint();
