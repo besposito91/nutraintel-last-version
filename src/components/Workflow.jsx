@@ -31,8 +31,9 @@ function ActorPanel({ src, position, priority, onReady }) {
         className="usecase-composite"
         src={src}
         alt=""
-        loading={priority ? 'eager' : 'lazy'}
+        loading="eager"
         decoding="async"
+        style={{ objectFit: 'cover', overflow: 'visible' }}
         onLoad={handleLoad}
         onError={onReady}
       />
