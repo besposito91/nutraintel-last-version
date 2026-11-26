@@ -46,6 +46,8 @@ function UsecaseScene({ caseItem, index, step }) {
   const active = index === step;
   const ready = loaded[0] && loaded[1];
   const positionClass = active ? 'is-active' : index < step ? 'is-before' : 'is-after';
+  const distance = Math.abs(index - step);
+  const proximityClass = distance === 1 ? 'is-neighbor' : distance > 1 ? 'is-distant' : '';
 
   const markReady = (imageIndex) => {
     setLoaded((current) => {
@@ -58,9 +60,17 @@ function UsecaseScene({ caseItem, index, step }) {
 
   return (
     <div
-      className={`usecases-scene ${positionClass} ${ready ? 'is-ready' : 'is-loading'}`}
+      className={`usecases-scene ${positionClass} ${proximityClass} ${ready ? 'is-ready' : 'is-loading'}`}
       aria-hidden={!active}
     >
+      <header className="usecases-card-head" aria-hidden="true">
+        <h3>
+          {caseItem.titleBefore}
+          <strong>{caseItem.titleEmphasis}</strong>
+          {caseItem.titleAfter}
+        </h3>
+        <p>{caseItem.description}</p>
+      </header>
       <div className="usecases-stage">
         <ActorPanel
           src={caseItem.images[0]}
