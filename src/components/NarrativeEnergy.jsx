@@ -440,8 +440,9 @@ export default function NarrativeEnergy() {
             duration: .30,
             ease: 'power2.inOut',
           }, .26)
-          // Cross-fade nel punto di contatto: per alcuni frame si leggono
-          // ancora entrambe le bolle mentre nasce quella unica.
+          // Mobile hand-off: the side spheres finish disappearing before the
+          // common sphere becomes readable. This prevents three simultaneous
+          // spheres when the same sequence is played backwards.
           .fromTo(core, {
             autoAlpha: 0,
             scale: .08,
@@ -450,26 +451,26 @@ export default function NarrativeEnergy() {
             autoAlpha: .82,
             scale: .16,
             rotation: 176,
-            duration: .20,
+            duration: .16,
             ease: 'power2.out',
             immediateRender: false,
-          }, .48)
+          }, .64)
           .to(doctor, {
             x: 0,
             y: 0,
             scale: .34,
             autoAlpha: 0,
-            duration: .22,
+            duration: .12,
             ease: 'power2.in',
-          }, .50)
+          }, .54)
           .to(patient, {
             x: 0,
             y: 0,
             scale: .34,
             autoAlpha: 0,
-            duration: .22,
+            duration: .12,
             ease: 'power2.in',
-          }, .50)
+          }, .54)
           .fromTo(rings, {
             autoAlpha: 0,
             scale: .72,
@@ -480,13 +481,13 @@ export default function NarrativeEnergy() {
             stagger: .025,
             ease: 'power2.out',
             immediateRender: false,
-          }, .53)
+          }, .66)
           .to(rings, {
             autoAlpha: 0,
             scale: 1.55,
             duration: .18,
             ease: 'power2.in',
-          }, .67)
+          }, .80)
           // La bolla nata dalla fusione cresce senza scatti fino alla misura
           // usata come fondale dell'Ecosistema.
           .to(core, {
@@ -495,14 +496,14 @@ export default function NarrativeEnergy() {
             rotation: 232,
             duration: .36,
             ease: 'power2.inOut',
-          }, .66)
+          }, .78)
           .to(core, {
             scale: ecosystemScale,
             autoAlpha: .14,
             rotation: 246,
             duration: .12,
             ease: 'none',
-          }, 1.02);
+          }, 1.14);
       } else {
         solutionTimeline
           .to(particles, { x: 0, y: 0, scale: .68, duration: .09, ease: 'power2.inOut' }, 0)
@@ -725,6 +726,13 @@ export default function NarrativeEnergy() {
           },
       
           onLeaveBack: () => {
+            if (compactMotion) {
+              // Stop the numeric scrub chase at the boundary. Without this,
+              // a fast upward swipe can leave the large Consequences sphere
+              // on screen while the earlier pair animation has already begun.
+              consequenceTimeline.scrollTrigger?.getTween()?.kill();
+              consequenceTimeline.progress(0, true);
+            }
             root.classList.remove('is-closing');
             restoreUsecaseSphere();
           },
