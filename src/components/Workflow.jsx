@@ -69,7 +69,7 @@ function UsecaseScene({ caseItem, index, step }) {
           <strong>{caseItem.titleEmphasis}</strong>
           {caseItem.titleAfter}
         </h3>
-        <p>{caseItem.description}</p>
+        <p className="usecase-slide-description">{caseItem.description}</p>
       </header>
       <div className="usecases-stage">
         <ActorPanel

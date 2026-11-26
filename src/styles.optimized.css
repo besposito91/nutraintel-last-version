@@ -2960,6 +2960,11 @@ p strong {
     text-wrap: balance;
   }
 
+  .usecase-slide-description {
+    line-height: 1.1 !important;
+    font-size: 15px !important;
+  }
+
   .usecases-stage {
     height: calc(100% - clamp(126px, 19svh, 152px));
     gap: clamp(18px, 3svh, 28px);
