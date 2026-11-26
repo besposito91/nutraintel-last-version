@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { NUTRAINTEL_CONFIG } from '../config.js';
 import { useLanguage } from '../i18n.jsx';
+import useSectionAttentionPause from '../lib/useSectionAttentionPause.js';
 
 export default function Video() {
   const [playing, setPlaying] = useState(false);
+  const sectionRef = useRef(null);
   const { t } = useLanguage();
   const url = (NUTRAINTEL_CONFIG.videoUrl || '').trim();
   const isDirectVideo = /\.(mp4|webm|ogg)(?:[?#].*)?$/i.test(url);
+  useSectionAttentionPause(sectionRef);
 
   return (
-    <section className="vid" id="video" aria-labelledby="vid-title" data-section="5">
+    <section ref={sectionRef} className="vid" id="video" aria-labelledby="vid-title" data-section="5">
       <div className="vid-head">
         <h2 id="vid-title" data-blur className="t-display">
           {t('video.titleBefore')}
