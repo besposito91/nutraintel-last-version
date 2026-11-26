@@ -2707,7 +2707,7 @@ p strong {
 
   .consequences-summary {
     max-width: 34rem;
-    font-size: clamp(16px, 4.5vw, 18px) !important;
+    font-size: clamp(18px, 6.5vw, 21px) !important;
     line-height: 1.4;
   }
 
