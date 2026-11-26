@@ -2842,10 +2842,10 @@ p strong {
     box-sizing: border-box;
     border: 0;
     border-radius: 0;
-    /* The expanding sphere and this full panel share the same palette. Once
-       the carousel enters, there is no pale strip or residual small circle. */
-    background:
-      radial-gradient(circle at 31% 27%, rgba(246,255,252,.98) 0 3%, rgba(88,221,189,.96) 13%, rgba(27,200,161,.96) 35%, rgba(22,169,158,.97) 72%, rgba(20,157,165,.98) 100%);
+    /* The colour is supplied by the expanding narrative sphere. Keeping this
+       layer transparent prevents an early horizontal colour seam and avoids
+       showing a second, smaller circle during the hand-off. */
+    background: transparent;
     box-shadow: none;
     overflow: hidden !important;
   }
