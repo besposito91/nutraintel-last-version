@@ -2657,7 +2657,7 @@ p strong {
     width: 100%;
     height: 48px;
     padding-inline: 22px;
-    font-size: 10px;
+    font-size: 12px;
   }
 }
 
@@ -2691,6 +2691,10 @@ p strong {
 /* Il blocco precedente conserva una coda di scroll per concludere
    l'animazione: compensiamola qui per avvicinare il testo alle immagini. */
 @media (min-width: 721px) {
+  .consequences-summary {
+    font-size: clamp(21px, 1.55vw, 26px) !important;
+  }
+
   .impact-summary {
     margin-top: clamp(-110px, 17vh, -120px);
     padding-top: 0;
