@@ -525,14 +525,15 @@ export default function NarrativeEnergy() {
       // Mobile: the travelling sphere dissolves completely once it reaches
       // the centre of the use-case carousel. Desktop keeps its current marker.
       const usecaseSphereOpacity = compactMotion ? 0 : .36;
-      const usecaseEntryOpacity = (progress) => {
-        if (!compactMotion) return gsap.utils.interpolate(.14, usecaseSphereOpacity, progress);
-        const fadeProgress = gsap.utils.clamp(0, 1, (progress - .62) / .38);
-        const easedFade = gsap.parseEase('sine.inOut')(fadeProgress);
-        return gsap.utils.interpolate(.14, 0, easedFade);
-      };
+      const usecaseEntryOpacity = (progress) => (
+        gsap.utils.interpolate(.14, usecaseSphereOpacity, progress)
+      );
 
       const placeUsecaseEntry = (progress) => {
+        if (compactMotion) {
+          usecaseEntryTimeline.invalidate().progress(progress, true);
+          return;
+        }
         const end = usecasePoint();
         const eased = gsap.parseEase('sine.inOut')(progress);
         gsap.set(core, { force3D: false });
@@ -561,35 +562,68 @@ export default function NarrativeEnergy() {
           onLeave: () => setUsecaseTransitionRendering(false),
           onLeaveBack: () => setUsecaseTransitionRendering(false),
         },
-      }).fromTo(
-        core,
-        {
-          x: 0,
-          y: 0,
-          scale: ecosystemScale,
-          autoAlpha: .14,
-          rotation: 246,
-          force3D: false,
-        },
-        {
-          x: 0,
-          y: () => usecasePoint().y,
-          scale: usecaseSphereScale,
-          autoAlpha: compactMotion ? .14 : usecaseSphereOpacity,
-          rotation: 305,
-          force3D: false,
-          duration: 1,
-          ease: 'sine.inOut',
-          immediateRender: false,
-        },
-      );
+      });
 
       if (compactMotion) {
-        usecaseEntryTimeline.to(core, {
-          autoAlpha: 0,
-          duration: .38,
-          ease: 'sine.inOut',
-        }, .62);
+        // Between Ecosystem and Use cases the same sphere opens until it
+        // covers the viewport.  The flat backdrop is cross-faded only once
+        // the expanding edge is already outside the screen, so no circle or
+        // colour seam remains behind the first card.
+        usecaseEntryTimeline
+          .fromTo(core, {
+            x: 0,
+            y: 0,
+            scale: ecosystemScale,
+            autoAlpha: .14,
+            rotation: 246,
+            force3D: false,
+          }, {
+            x: 0,
+            y: 0,
+            scale: expandedScale,
+            autoAlpha: 1,
+            rotation: 332,
+            force3D: false,
+            duration: .86,
+            ease: 'power2.inOut',
+            immediateRender: false,
+          }, 0)
+          .fromTo(mobileBackdrop, {
+            opacity: 0,
+          }, {
+            opacity: 1,
+            duration: .28,
+            ease: 'sine.inOut',
+            immediateRender: false,
+          }, .70)
+          .to(core, {
+            autoAlpha: 0,
+            duration: .14,
+            ease: 'sine.out',
+          }, .86);
+      } else {
+        usecaseEntryTimeline.fromTo(
+          core,
+          {
+            x: 0,
+            y: 0,
+            scale: ecosystemScale,
+            autoAlpha: .14,
+            rotation: 246,
+            force3D: false,
+          },
+          {
+            x: 0,
+            y: () => usecasePoint().y,
+            scale: usecaseSphereScale,
+            autoAlpha: usecaseSphereOpacity,
+            rotation: 305,
+            force3D: false,
+            duration: 1,
+            ease: 'sine.inOut',
+            immediateRender: false,
+          },
+        );
       }
       const usecaseEntryTrigger = usecaseEntryTimeline.scrollTrigger;
 
@@ -604,16 +638,31 @@ export default function NarrativeEnergy() {
         end: 'bottom 50%',
         invalidateOnRefresh: true,
         onEnter: () => {
+          if (compactMotion) {
+            gsap.set(core, { autoAlpha: 0, scale: expandedScale(), x: 0, y: 0, rotation: 332 });
+            gsap.set(mobileBackdrop, { opacity: 1 });
+            return;
+          }
           const point = usecasePoint();
           gsap.set(core, { autoAlpha: usecaseSphereOpacity, scale: usecaseSphereScale(), x: point.x, y: point.y, rotation: 305 });
         },
         onEnterBack: () => {
+          if (compactMotion) {
+            gsap.set(core, { autoAlpha: 0, scale: expandedScale(), x: 0, y: 0, rotation: 332 });
+            gsap.set(mobileBackdrop, { opacity: 1 });
+            return;
+          }
           const point = usecasePoint();
           gsap.set(core, { autoAlpha: usecaseSphereOpacity, scale: usecaseSphereScale(), x: point.x, y: point.y, rotation: 305 });
         },
         onRefresh: ({ isActive }) => {
           const rect = usecases.getBoundingClientRect();
           if (!isActive && !(rect.top <= 1 && rect.bottom > 0)) return;
+          if (compactMotion) {
+            gsap.set(core, { autoAlpha: 0, scale: expandedScale(), x: 0, y: 0, rotation: 332 });
+            gsap.set(mobileBackdrop, { opacity: 1 });
+            return;
+          }
           const point = usecasePoint();
           setX(point.x); setY(point.y); setRotation(305);
           setScale(usecaseSphereScale()); setOpacity(usecaseSphereOpacity); core.style.visibility = 'inherit';
@@ -646,6 +695,13 @@ export default function NarrativeEnergy() {
       });
 
       const restoreUsecaseSphere = () => {
+        if (compactMotion) {
+          gsap.set([logo, fracture], { autoAlpha: 0 });
+          gsap.set(particles, { autoAlpha: 0 });
+          gsap.set(core, { x: 0, y: 0, scale: expandedScale(), autoAlpha: 0, rotation: 332 });
+          gsap.set(mobileBackdrop, { opacity: 1 });
+          return;
+        }
         const point = usecasePoint();
         gsap.set([logo, fracture], { autoAlpha: 0 });
         gsap.set(particles, { autoAlpha: 0 });
@@ -702,6 +758,13 @@ export default function NarrativeEnergy() {
           },
           0
         );
+      if (compactMotion) {
+        consequenceTimeline.to(mobileBackdrop, {
+          opacity: 0,
+          duration: .34,
+          ease: 'sine.inOut',
+        }, 0);
+      }
       if (!compactMotion) {
         consequenceTimeline
           .to(shade, { autoAlpha: .05, duration: .68, ease: 'power2.inOut' }, .18)
