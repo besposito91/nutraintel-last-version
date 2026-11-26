@@ -669,9 +669,8 @@ export default function NarrativeEnergy() {
         },
       });
 
-      // Su mobile la sfera narrativa non deve apparire sopra le immagini del
-      // carosello. Rimane nascosta per tutta la permanenza negli use case e
-      // torna disponibile soltanto nel raccordo con consequences.
+      // Su mobile la sfera narrativa non deve riapparire sopra le immagini del
+      // carosello: dopo l'espansione resta un unico fondale continuo.
       if (compactMotion) {
         ScrollTrigger.create({
           trigger: usecases,
@@ -736,8 +735,30 @@ export default function NarrativeEnergy() {
             restoreUsecaseSphere();
           },
         },
-      })
-        .fromTo(
+      });
+
+      if (compactMotion) {
+        // The mobile sphere has already filled the viewport before Use cases.
+        // Keep that exact state through the following chapter: the old
+        // small-to-large consequence tween caused a second bubble to appear.
+        consequenceTimeline
+          .set(core, {
+            x: 0,
+            y: 0,
+            scale: expandedScale,
+            autoAlpha: 0,
+            rotation: 332,
+          }, 0)
+          .fromTo(mobileBackdrop, {
+            opacity: 1,
+          }, {
+            opacity: 1,
+            duration: 1,
+            ease: 'none',
+            immediateRender: false,
+          }, 0);
+      } else {
+        consequenceTimeline.fromTo(
           core,
           {
             x: () => usecasePoint().x,
@@ -750,27 +771,20 @@ export default function NarrativeEnergy() {
             x: 0,
             y: 0,
             scale: expandedScale,
-            autoAlpha: compactMotion ? 1 : 0.9,
+            autoAlpha: 0.9,
             rotation: 382,
             duration: 0.78,
             ease: 'sine.inOut',
             immediateRender: false,
           },
-          0
+          0,
         );
-      if (compactMotion) {
-        consequenceTimeline.to(mobileBackdrop, {
-          opacity: 0,
-          duration: .34,
-          ease: 'sine.inOut',
-        }, 0);
-      }
-      if (!compactMotion) {
+
         consequenceTimeline
           .to(shade, { autoAlpha: .05, duration: .68, ease: 'power2.inOut' }, .18)
-          .to(rings, { autoAlpha: 0, scale: 1.12, stagger: .04, duration: .46, ease: 'power2.out' }, .22);
+          .to(rings, { autoAlpha: 0, scale: 1.12, stagger: .04, duration: .46, ease: 'power2.out' }, .22)
+          .to(core, { rotation: 405, duration: .22, ease: 'none' }, .78);
       }
-      consequenceTimeline.to(core, { rotation: 405, duration: .22, ease: 'none' }, .78);
 
       /*
        * A browser refresh can restore the scroll position before images,
