@@ -2707,8 +2707,8 @@ p strong {
 
   .consequences-summary {
     max-width: 34rem;
-    font-size: clamp(14px, 4vw, 16px) !important;
-    line-height: 1.35;
+    font-size: clamp(16px, 4.5vw, 18px) !important;
+    line-height: 1.4;
   }
 
   .impact-summary {
@@ -2988,14 +2988,48 @@ p strong {
     object-fit: contain;
   }
 
+  /* Un solo indicatore per carosello: il pallino attivo si espande e sostituisce
+     sia le vecchie barre laterali sia il badge testuale dello swipe. */
+  .solution-progress,
   .usecases-sticky .usecases-progress {
-    z-index: 8;
-    left: 5px;
+    position: absolute;
+    z-index: 15;
+    top: auto;
+    right: auto;
+    bottom: 14px;
+    left: 50%;
+    width: auto;
+    height: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    translate: -50% 0;
+    pointer-events: none;
   }
 
-  .usecases-sticky .mobile-swipe-hint {
-    z-index: 9;
-    bottom: 8px;
+  .solution-progress i,
+  .usecases-sticky .usecases-progress i {
+    flex: 0 0 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(5, 44, 67, .28);
+    box-shadow: none;
+    transition:
+      width .36s cubic-bezier(.16, 1, .3, 1),
+      flex-basis .36s cubic-bezier(.16, 1, .3, 1),
+      background .28s ease,
+      box-shadow .28s ease;
+  }
+
+  .solution-progress i.on,
+  .usecases-sticky .usecases-progress i.on {
+    flex-basis: 28px;
+    width: 28px;
+    background: linear-gradient(90deg, var(--green), var(--sky));
+    box-shadow: 0 4px 12px rgba(5, 83, 108, .2);
   }
 }
 

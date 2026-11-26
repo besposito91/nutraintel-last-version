@@ -4,7 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../i18n.jsx';
 import useSlideGestureSnap from '../lib/useSlideGestureSnap.js';
 import useHorizontalSwipe from '../lib/useHorizontalSwipe.js';
-import MobileSwipeHint from './MobileSwipeHint.jsx';
 
 const caseImages = [
   ['./images/usecases/slide-1-left.webp', './images/usecases/slide-1-right.webp'],
@@ -220,12 +219,6 @@ export default function Workflow() {
           ))}
 
         </div>
-        <MobileSwipeHint
-          visible
-          label={step === cases.length - 1 ? t('carousel.back') : t('carousel.swipe')}
-          current={step + 1}
-          total={cases.length}
-        />
       </div>
     </section>
   );

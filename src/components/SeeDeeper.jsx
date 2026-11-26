@@ -4,7 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../i18n.jsx';
 import useSlideGestureSnap from '../lib/useSlideGestureSnap.js';
 import useHorizontalSwipe from '../lib/useHorizontalSwipe.js';
-import MobileSwipeHint from './MobileSwipeHint.jsx';
 
 export default function SeeDeeper() {
   const ref = useRef(null);
@@ -125,12 +124,6 @@ export default function SeeDeeper() {
 </nav>
         */}
         <div className="solution-progress" aria-hidden="true">{stages.map((item, index) => <i key={item.n} className={index === step ? 'on' : ''} />)}</div>
-        <MobileSwipeHint
-          visible
-          label={step === stages.length - 1 ? t('carousel.back') : t('carousel.swipe')}
-          current={step + 1}
-          total={stages.length}
-        />
       </div>
     </section>
   );
