@@ -550,6 +550,20 @@ export default function NarrativeEnergy() {
         gsap.set(core, { force3D: !active });
       };
 
+      // Mobile keeps one restrained sphere behind both Ecosystem and every
+      // Use-case card.  The full-viewport fill belongs only to Consequences.
+      const setMobileIntermediateSphere = () => {
+        gsap.set(core, {
+          x: 0,
+          y: 0,
+          scale: ecosystemScale(),
+          autoAlpha: .14,
+          rotation: 246,
+          force3D: false,
+        });
+        gsap.set(mobileBackdrop, { opacity: 0 });
+      };
+
       const usecaseEntryTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: usecases,
@@ -567,11 +581,161 @@ export default function NarrativeEnergy() {
       });
 
       if (compactMotion) {
-        // Between Ecosystem and Use cases the same sphere opens until it
-        // covers the viewport.  The flat backdrop is cross-faded only once
-        // the expanding edge is already outside the screen, so no circle or
-        // colour seam remains behind the first card.
+        // Preserve the Ecosystem state while Use cases enters.  There is no
+        // expansion here: cards stay readable over the large, faint sphere.
         usecaseEntryTimeline
+          .fromTo(core, {
+            x: 0,
+            y: 0,
+            scale: ecosystemScale,
+            autoAlpha: .14,
+            rotation: 246,
+            force3D: false,
+          }, {
+            x: 0,
+            y: 0,
+            scale: ecosystemScale,
+            autoAlpha: .14,
+            rotation: 246,
+            force3D: false,
+            duration: 1,
+            ease: 'none',
+            immediateRender: false,
+          }, 0)
+          .fromTo(mobileBackdrop, {
+            opacity: 0,
+          }, {
+            opacity: 0,
+            duration: 1,
+            ease: 'none',
+            immediateRender: true,
+          }, 0);
+      } else {
+        usecaseEntryTimeline.fromTo(
+          core,
+          {
+            x: 0,
+            y: 0,
+            scale: ecosystemScale,
+            autoAlpha: .14,
+            rotation: 246,
+            force3D: false,
+          },
+          {
+            x: 0,
+            y: () => usecasePoint().y,
+            scale: usecaseSphereScale,
+            autoAlpha: usecaseSphereOpacity,
+            rotation: 305,
+            force3D: false,
+            duration: 1,
+            ease: 'sine.inOut',
+            immediateRender: false,
+          },
+        );
+      }
+      const usecaseEntryTrigger = usecaseEntryTimeline.scrollTrigger;
+
+      const usecaseTrigger = ScrollTrigger.create({
+        trigger: usecases,
+        // The sphere is already animated continuously by usecaseEntryTrigger
+        // while the use-case section crosses the viewport.  Activate the
+        // steady slide state only after that transition has fully completed;
+        // otherwise this trigger would force the final small scale halfway
+        // through the movement and create a visible jump in both directions.
+        start: 'top top',
+        end: compactMotion ? 'bottom bottom' : 'bottom 50%',
+        invalidateOnRefresh: true,
+        onEnter: () => {
+          if (compactMotion) {
+            setMobileIntermediateSphere();
+            return;
+          }
+          const point = usecasePoint();
+          gsap.set(core, { autoAlpha: usecaseSphereOpacity, scale: usecaseSphereScale(), x: point.x, y: point.y, rotation: 305 });
+        },
+        onEnterBack: () => {
+          if (compactMotion) {
+            setMobileIntermediateSphere();
+            return;
+          }
+          const point = usecasePoint();
+          gsap.set(core, { autoAlpha: usecaseSphereOpacity, scale: usecaseSphereScale(), x: point.x, y: point.y, rotation: 305 });
+        },
+        onRefresh: ({ isActive }) => {
+          const rect = usecases.getBoundingClientRect();
+          if (!isActive && !(rect.top <= 1 && rect.bottom > 0)) return;
+          if (compactMotion) {
+            setMobileIntermediateSphere();
+            return;
+          }
+          const point = usecasePoint();
+          setX(point.x); setY(point.y); setRotation(305);
+          setScale(usecaseSphereScale()); setOpacity(usecaseSphereOpacity); core.style.visibility = 'inherit';
+        },
+      });
+
+      const initialMarkerCall = gsap.delayedCall(.2, () => {
+        const rect = usecases.getBoundingClientRect();
+        if (!usecaseTrigger.isActive && !(rect.top <= 1 && rect.bottom > 0)) return;
+        if (compactMotion) {
+          setMobileIntermediateSphere();
+          return;
+        }
+        const point = usecasePoint();
+        gsap.set(core, { autoAlpha: usecaseSphereOpacity, scale: usecaseSphereScale(), x: point.x, y: point.y, rotation: 305 });
+      });
+
+      const restoreUsecaseSphere = () => {
+        if (compactMotion) {
+          gsap.set([logo, fracture], { autoAlpha: 0 });
+          gsap.set(particles, { autoAlpha: 0 });
+          setMobileIntermediateSphere();
+          return;
+        }
+        const point = usecasePoint();
+        gsap.set([logo, fracture], { autoAlpha: 0 });
+        gsap.set(particles, { autoAlpha: 0 });
+        gsap.set(core, {
+          x: point.x,
+          y: point.y,
+          scale: usecaseSphereScale(),
+          autoAlpha: usecaseSphereOpacity,
+          rotation: 305,
+        });
+      };
+      
+      const consequenceTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: consequences,
+          start: 'top bottom',
+          end: compactMotion ? 'top 10%' : 'top 12%',
+          // A short catch-up preserves the burst on fast mobile swipes while
+          // desktop keeps its established wheel-locked behaviour.
+          scrub: compactMotion ? .85 : consequenceScrub,
+          invalidateOnRefresh: true,
+      
+          onEnter: () => {
+            root.classList.add('is-closing');
+            consequenceTimeline.invalidate();
+          },
+      
+          onEnterBack: () => {
+            root.classList.add('is-closing');
+          },
+      
+          onLeaveBack: () => {
+            root.classList.remove('is-closing');
+            restoreUsecaseSphere();
+          },
+        },
+      });
+
+      if (compactMotion) {
+        // Only now, after the final Use-case card, does the restrained sphere
+        // open into the full Consequences background.  The flat layer fades
+        // in once the circular edge is already outside the viewport.
+        consequenceTimeline
           .fromTo(core, {
             x: 0,
             y: 0,
@@ -613,8 +777,6 @@ export default function NarrativeEnergy() {
             opacity: 1,
             duration: .28,
             ease: 'sine.inOut',
-            // Reset to transparent below this point as well, so reversing the
-            // scroll makes the full background recede with the sphere.
             immediateRender: true,
           }, .76)
           .to(core, {
@@ -622,162 +784,6 @@ export default function NarrativeEnergy() {
             duration: .14,
             ease: 'sine.out',
           }, .90);
-      } else {
-        usecaseEntryTimeline.fromTo(
-          core,
-          {
-            x: 0,
-            y: 0,
-            scale: ecosystemScale,
-            autoAlpha: .14,
-            rotation: 246,
-            force3D: false,
-          },
-          {
-            x: 0,
-            y: () => usecasePoint().y,
-            scale: usecaseSphereScale,
-            autoAlpha: usecaseSphereOpacity,
-            rotation: 305,
-            force3D: false,
-            duration: 1,
-            ease: 'sine.inOut',
-            immediateRender: false,
-          },
-        );
-      }
-      const usecaseEntryTrigger = usecaseEntryTimeline.scrollTrigger;
-
-      const usecaseTrigger = ScrollTrigger.create({
-        trigger: usecases,
-        // The sphere is already animated continuously by usecaseEntryTrigger
-        // while the use-case section crosses the viewport.  Activate the
-        // steady slide state only after that transition has fully completed;
-        // otherwise this trigger would force the final small scale halfway
-        // through the movement and create a visible jump in both directions.
-        start: 'top top',
-        end: 'bottom 50%',
-        invalidateOnRefresh: true,
-        onEnter: () => {
-          if (compactMotion) {
-            gsap.set(core, { autoAlpha: 0, scale: expandedScale(), x: 0, y: 0, rotation: 332 });
-            gsap.set(mobileBackdrop, { opacity: 1 });
-            return;
-          }
-          const point = usecasePoint();
-          gsap.set(core, { autoAlpha: usecaseSphereOpacity, scale: usecaseSphereScale(), x: point.x, y: point.y, rotation: 305 });
-        },
-        onEnterBack: () => {
-          if (compactMotion) {
-            gsap.set(core, { autoAlpha: 0, scale: expandedScale(), x: 0, y: 0, rotation: 332 });
-            gsap.set(mobileBackdrop, { opacity: 1 });
-            return;
-          }
-          const point = usecasePoint();
-          gsap.set(core, { autoAlpha: usecaseSphereOpacity, scale: usecaseSphereScale(), x: point.x, y: point.y, rotation: 305 });
-        },
-        onRefresh: ({ isActive }) => {
-          const rect = usecases.getBoundingClientRect();
-          if (!isActive && !(rect.top <= 1 && rect.bottom > 0)) return;
-          if (compactMotion) {
-            gsap.set(core, { autoAlpha: 0, scale: expandedScale(), x: 0, y: 0, rotation: 332 });
-            gsap.set(mobileBackdrop, { opacity: 1 });
-            return;
-          }
-          const point = usecasePoint();
-          setX(point.x); setY(point.y); setRotation(305);
-          setScale(usecaseSphereScale()); setOpacity(usecaseSphereOpacity); core.style.visibility = 'inherit';
-        },
-      });
-
-      // Su mobile la sfera narrativa non deve riapparire sopra le immagini del
-      // carosello: dopo l'espansione resta un unico fondale continuo.
-      if (compactMotion) {
-        ScrollTrigger.create({
-          trigger: usecases,
-          // La classe di sicurezza entra soltanto quando la sfera ha gia'
-          // concluso il raccordo. Prima di questo punto la timeline deve
-          // poterla rimpicciolire e dissolvere in modo continuo, anche al
-          // contrario quando si risale la pagina.
-          start: 'top -25%',
-          end: 'bottom bottom',
-          onToggle: ({ isActive }) => {
-            root.classList.toggle('is-mobile-usecase', isActive);
-          },
-        });
-      }
-
-      const initialMarkerCall = gsap.delayedCall(.2, () => {
-        const rect = usecases.getBoundingClientRect();
-        if (!usecaseTrigger.isActive && !(rect.top <= 1 && rect.bottom > 0)) return;
-        const point = usecasePoint();
-        gsap.set(core, { autoAlpha: usecaseSphereOpacity, scale: usecaseSphereScale(), x: point.x, y: point.y, rotation: 305 });
-      });
-
-      const restoreUsecaseSphere = () => {
-        if (compactMotion) {
-          gsap.set([logo, fracture], { autoAlpha: 0 });
-          gsap.set(particles, { autoAlpha: 0 });
-          gsap.set(core, { x: 0, y: 0, scale: expandedScale(), autoAlpha: 0, rotation: 332 });
-          gsap.set(mobileBackdrop, { opacity: 1 });
-          return;
-        }
-        const point = usecasePoint();
-        gsap.set([logo, fracture], { autoAlpha: 0 });
-        gsap.set(particles, { autoAlpha: 0 });
-        gsap.set(core, {
-          x: point.x,
-          y: point.y,
-          scale: usecaseSphereScale(),
-          autoAlpha: usecaseSphereOpacity,
-          rotation: 305,
-        });
-      };
-      
-      const consequenceTimeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: consequences,
-          start: 'top bottom',
-          end: compactMotion ? 'top 10%' : 'top 12%',
-          scrub: consequenceScrub,
-          invalidateOnRefresh: true,
-      
-          onEnter: () => {
-            root.classList.add('is-closing');
-            consequenceTimeline.invalidate();
-          },
-      
-          onEnterBack: () => {
-            root.classList.add('is-closing');
-          },
-      
-          onLeaveBack: () => {
-            root.classList.remove('is-closing');
-            restoreUsecaseSphere();
-          },
-        },
-      });
-
-      if (compactMotion) {
-        // The mobile sphere has already filled the viewport before Use cases.
-        // Keep that exact state through the following chapter: the old
-        // small-to-large consequence tween caused a second bubble to appear.
-        consequenceTimeline
-          .set(core, {
-            x: 0,
-            y: 0,
-            scale: expandedScale,
-            autoAlpha: 0,
-            rotation: 332,
-          }, 0)
-          .fromTo(mobileBackdrop, {
-            opacity: 1,
-          }, {
-            opacity: 1,
-            duration: 1,
-            ease: 'none',
-            immediateRender: false,
-          }, 0);
       } else {
         consequenceTimeline.fromTo(
           core,

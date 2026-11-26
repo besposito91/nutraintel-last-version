@@ -502,7 +502,7 @@ main{position:relative;background:
 .narrative-pair{z-index:5}
 @media(max-width:720px){.narrative-logo{width:clamp(170px,52vw,230px);top:48%}.narrative-core::before,.narrative-core>i:nth-child(2){display:none}.narrative-energy{contain:strict}}
 @media(max-width:720px){.narrative-pair{top:48%}}
-@media(max-width:720px){.narrative-energy.is-closing .narrative-core{box-shadow:inset -1vmax -.8vmax 1.8vmax rgba(5,59,92,.15)}.narrative-energy.is-closing .narrative-shade,.narrative-energy.is-closing .narrative-ring{display:none}}
+@media(max-width:720px){.narrative-energy.is-closing .narrative-core{box-shadow:inset -1vmax -.8vmax 1.8vmax rgba(5,59,92,.15)}.narrative-energy.is-closing .narrative-shade{display:none}}
 @media(prefers-reduced-motion:reduce){.narrative-logo{opacity:1!important;transform:translate(-50%,-50%)!important}}
 
 /* Direct navigation for the ecosystem and exact use-case progress timing. */
@@ -1676,15 +1676,6 @@ p strong {
 }
 
 @media (max-width: 720px) {
-
-  .narrative-energy.is-mobile-usecase .narrative-core {
-    opacity: 0 !important;
-    visibility: hidden !important;
-  }
-
-  .narrative-energy.is-mobile-usecase .narrative-mobile-backdrop {
-    opacity: 1 !important;
-  }
 
   .usecases-sticky .usecases-progress {
     top: 50%;
