@@ -3138,6 +3138,6 @@ p strong {
    responsive precedenti dell'hero. */
 @media (max-width: 720px) and (max-height: 820px) {
   .hero-story-side {
-    gap: 10px;
+    gap: 30px;
   }
 }
