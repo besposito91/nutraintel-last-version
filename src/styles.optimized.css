@@ -3140,4 +3140,8 @@ p strong {
   .hero-story-side {
     gap: 30px;
   }
+
+  .hero-story-side .btns {
+    gap: 30px;
+  }
 }
