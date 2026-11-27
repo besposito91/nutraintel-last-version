@@ -11,6 +11,7 @@ export default function Hero() {
 
   useLayoutEffect(() => {
     let mobileFrame = 0;
+    let cleanupMobileListeners = () => {};
     const ctx = gsap.context(() => {
       const compactIntro = matchMedia('(max-width: 720px), (pointer: coarse)').matches;
       const timing = compactIntro ? {
@@ -180,12 +181,10 @@ export default function Hero() {
         window.addEventListener('nutraintel:scroll-settled', reconcileMobileHero);
         window.addEventListener('pageshow', reconcileMobileHero);
 
-        // This branch returns before the outer cleanup, so register its own
-        // context cleanup for the listeners above.
-        ctx.add(() => () => {
+        cleanupMobileListeners = () => {
           window.removeEventListener('nutraintel:scroll-settled', reconcileMobileHero);
           window.removeEventListener('pageshow', reconcileMobileHero);
-        });
+        };
         return;
       }
 
@@ -215,6 +214,7 @@ export default function Hero() {
     }, ref);
     return () => {
       if (mobileFrame) cancelAnimationFrame(mobileFrame);
+      cleanupMobileListeners();
       ctx.revert();
     };
   }, []);

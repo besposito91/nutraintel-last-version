@@ -842,9 +842,10 @@ export default function NarrativeEnergy() {
         // stopping their catch-up tween here prevents a stale lower chapter
         // from repainting the large sphere behind the opening logo.
         if (window.scrollY <= 2) {
-          consequenceTimeline.scrollTrigger?.getTween()?.kill();
-          solutionTimeline.scrollTrigger?.getTween()?.kill();
-          splitTimeline.scrollTrigger?.getTween()?.kill();
+          [consequenceTimeline, solutionTimeline, splitTimeline].forEach((timeline) => {
+            const scrubTween = timeline.scrollTrigger?.getTween?.();
+            if (typeof scrubTween?.kill === 'function') scrubTween.kill();
+          });
           root.classList.remove('is-closing', 'is-mobile-usecase');
           orbit.pause();
           gsap.set(pair, { rotation: 0, autoAlpha: 1 });
