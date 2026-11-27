@@ -24,6 +24,7 @@ export default function useSectionAttentionPause(ref) {
     let touchStartX = 0;
     let touchStartY = 0;
     let touchTracking = false;
+    let bypassUntil = 0;
 
     const sectionTarget = () => {
       const rect = section.getBoundingClientRect();
@@ -90,12 +91,35 @@ export default function useSectionAttentionPause(ref) {
       event.stopImmediatePropagation();
     };
 
+    const onAnchorNavigation = (event) => {
+      const link = event.target.closest?.('a[href="#prelancio"]');
+      if (!link) return;
+
+      // Una CTA verso il form attraversa necessariamente il centro del video.
+      // Quel passaggio e' programmatico e non deve attivare la pausa pensata
+      // per lo scroll manuale dell'utente.
+      bypassUntil = performance.now() + 2600;
+      if (!locked) return;
+
+      locked = false;
+      readyForRelease = false;
+      touchTracking = false;
+      window.clearTimeout(armTimer);
+      delete section.dataset.attentionPaused;
+    };
+
     const onScroll = () => {
       const rect = section.getBoundingClientRect();
       const center = rect.top + rect.height / 2;
       const viewportCenter = window.innerHeight / 2;
       const currentScrollY = window.scrollY;
       const direction = Math.sign(currentScrollY - previousScrollY);
+
+      if (performance.now() < bypassUntil) {
+        previousCenter = center;
+        previousScrollY = currentScrollY;
+        return;
+      }
 
       if (!hasPaused) {
         const crossedGoingDown = direction > 0
@@ -166,6 +190,7 @@ export default function useSectionAttentionPause(ref) {
     });
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('click', onAnchorNavigation, true);
     window.addEventListener('wheel', onWheel, { passive: false, capture: true });
     window.addEventListener('touchstart', onTouchStart, { passive: true, capture: true });
     window.addEventListener('touchmove', onTouchMove, { passive: false, capture: true });
@@ -177,6 +202,7 @@ export default function useSectionAttentionPause(ref) {
       window.clearTimeout(armTimer);
       delete section.dataset.attentionPaused;
       window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('click', onAnchorNavigation, true);
       window.removeEventListener('wheel', onWheel, true);
       window.removeEventListener('touchstart', onTouchStart, true);
       window.removeEventListener('touchmove', onTouchMove, true);

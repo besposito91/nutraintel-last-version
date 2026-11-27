@@ -3133,3 +3133,11 @@ p strong {
     bottom: 15%;
   }
 }
+
+/* Override finale per i telefoni compatti: deve prevalere sulle regole
+   responsive precedenti dell'hero. */
+@media (max-width: 720px) and (max-height: 820px) {
+  .hero-story-side {
+    gap: 10px;
+  }
+}
