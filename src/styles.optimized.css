@@ -3097,9 +3097,9 @@ p strong {
 
 @media (max-width: 420px) {
   .nav > .nav-logo {
-    width: 108px;
-    height: 36px;
-    flex-basis: 108px;
+    width: 106px;
+    height: 47px;
+    flex-basis: 140px;
   }
 }
 
