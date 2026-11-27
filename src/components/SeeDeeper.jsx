@@ -11,9 +11,9 @@ export default function SeeDeeper() {
   const { t } = useLanguage();
   const stages = t('ecosystem.stages').map((item, index) => ({ ...item, n: `0${index + 1}` }));
   const nodes = [
-    { key: 'scale', label: stages[0].title, src: './images/ecosystem/scale.png' },
-    { key: 'portal', label: stages[1].title, src: './images/ecosystem/portal.webp' },
-    { key: 'app', label: stages[2].title, src: './images/ecosystem/app.webp?v=20261123' },
+    { key: 'scale', label: stages[0].title, src: './images/ecosystem/scale.webp', width: 1000, height: 667 },
+    { key: 'portal', label: stages[1].title, src: './images/ecosystem/portal.webp', width: 1600, height: 1600 },
+    { key: 'app', label: stages[2].title, src: './images/ecosystem/app.webp?v=20261123', width: 1600, height: 1600 },
   ];
 
   useSlideGestureSnap(ref, stages.length, 0, { desktopOnly: true });
@@ -96,7 +96,15 @@ export default function SeeDeeper() {
             {nodes.map((node, index) => (
               <figure key={node.key} aria-label={node.label} className={`solution-node solution-node-${index} orbit-pos-${(index - step + nodes.length) % nodes.length} ${step === index ? 'active' : ''}`}>
                 <div className="solution-node-inner">
-                  <img className={`ecosystem-product ecosystem-${node.key}`} src={node.src} alt="" decoding="async" />
+                  <img
+                    className={`ecosystem-product ecosystem-${node.key}`}
+                    src={node.src}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    width={node.width}
+                    height={node.height}
+                  />
                 </div>
               </figure>
             ))}

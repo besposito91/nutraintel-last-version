@@ -1,7 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '../i18n.jsx';
 
 export default function Prelaunch() {
+  const sectionRef = useRef(null);
+  const [formReady, setFormReady] = useState(false);
   const { t, language } = useLanguage();
   const titleParts = t('pre.title').match(/^(.*?)(,\s|\s–\s)([^,–]+)$/);
   const titleBefore = titleParts ? `${titleParts[1]}${titleParts[2].trim()}` : t('pre.title');
@@ -17,6 +19,28 @@ export default function Prelaunch() {
     : cardTitle;
 
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || !('IntersectionObserver' in window)) {
+      setFormReady(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setFormReady(true);
+        observer.disconnect();
+      },
+      { rootMargin: '900px 0px' },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!formReady) return undefined;
+
     const src = 'https://api.digitisuite.io/js/form_embed.js';
     if (document.querySelector(`script[src="${src}"]`)) return;
 
@@ -24,10 +48,11 @@ export default function Prelaunch() {
     script.src = src;
     script.async = true;
     document.body.appendChild(script);
-  }, []);
+    return undefined;
+  }, [formReady]);
 
   return (
-    <section className="pre" id="prelancio" aria-labelledby="pre-title" data-section="7">
+    <section ref={sectionRef} className="pre" id="prelancio" aria-labelledby="pre-title" data-section="7">
       <div className="pre-head">
         <h2 id="pre-title" data-blur className="t-display">
           {titleBefore}
@@ -45,20 +70,25 @@ export default function Prelaunch() {
           
         </div>
         <div className="pcard pform pform-embed" data-fade>
-          <iframe
-            className="digitisuite-form-embed"
-            src="https://api.digitisuite.io/widget/form/feIEsg9uiZD6VjWi0cv4"
-            style={{ width: '100%', height: '708px', border: 'none', borderRadius: '8px' }}
-            id="inline-form-feIEsg9uiZD6VjWi0cv4"
-            data-layout="{'id':'INLINE'}"
-            data-form-name="Optin Landing NutraIntel"
-            data-height="708"
-            data-layout-iframe-id="inline-form-feIEsg9uiZD6VjWi0cv4"
-            data-form-id="feIEsg9uiZD6VjWi0cv4"
-            data-cookie-consent="true"
-            data-cookie-consent-provider="auto"
-            title="Optin Landing NutraIntel"
-          />
+          {formReady ? (
+            <iframe
+              className="digitisuite-form-embed"
+              src="https://api.digitisuite.io/widget/form/feIEsg9uiZD6VjWi0cv4"
+              loading="lazy"
+              style={{ width: '100%', height: '708px', border: 'none', borderRadius: '8px' }}
+              id="inline-form-feIEsg9uiZD6VjWi0cv4"
+              data-layout="{'id':'INLINE'}"
+              data-form-name="Optin Landing NutraIntel"
+              data-height="708"
+              data-layout-iframe-id="inline-form-feIEsg9uiZD6VjWi0cv4"
+              data-form-id="feIEsg9uiZD6VjWi0cv4"
+              data-cookie-consent="true"
+              data-cookie-consent-provider="auto"
+              title="Optin Landing NutraIntel"
+            />
+          ) : (
+            <div className="digitisuite-form-placeholder" style={{ minHeight: '708px' }} aria-hidden="true" />
+          )}
         </div>
       </div>
     </section>

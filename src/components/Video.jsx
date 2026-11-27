@@ -29,9 +29,12 @@ export default function Video() {
           >
             <img
               className="vid-poster-image"
-              src="./images/video/nutraintel-video-cover.png"
+              src="./images/video/nutraintel-video-cover.webp"
               alt=""
+              loading="lazy"
               decoding="async"
+              width="1600"
+              height="827"
             />
             <span className="vid-play" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
@@ -45,7 +48,7 @@ export default function Video() {
             autoPlay
             playsInline
             preload="metadata"
-            poster="./images/video/nutraintel-video-cover.png"
+            poster="./images/video/nutraintel-video-cover.webp"
           >
             <source src={url} type="video/mp4" />
             {t('video.missing')}

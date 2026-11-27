@@ -936,7 +936,7 @@ export default function NarrativeEnergy() {
   return (
     <div className="narrative-energy" ref={ref} aria-hidden="true">
       <div className="narrative-mobile-backdrop" />
-      <div className="narrative-logo"><img src="./images/brand/nutraintel-product-logo.svg" alt="" /></div>
+      <div className="narrative-logo"><img src="./images/brand/nutraintel-product-logo.svg" alt="" loading="eager" fetchPriority="high" /></div>
       <div className="narrative-core"><i /><i /><span className="narrative-shade" /><span className="narrative-ring narrative-ring-a" /><span className="narrative-ring narrative-ring-b" /></div>
       <div className="narrative-fracture"><i /><i /><i /><i /><b /></div>
       <div className="narrative-pair">

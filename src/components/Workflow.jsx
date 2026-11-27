@@ -14,7 +14,7 @@ const caseImages = [
   ['./images/usecases/slide-6-left.webp', './images/usecases/slide-6-right.webp'],
 ];
 
-function ActorPanel({ src, position, priority, onReady }) {
+function ActorPanel({ src, position, shouldLoad, onReady }) {
   const handleLoad = (event) => {
     const image = event.currentTarget;
     if (typeof image.decode !== 'function') {
@@ -27,16 +27,20 @@ function ActorPanel({ src, position, priority, onReady }) {
 
   return (
     <article className={`uc-actor-panel side-${position} usecase-composite-panel is-visible`}>
-      <img
-        className="usecase-composite"
-        src={src}
-        alt=""
-        loading="eager"
-        decoding="async"
-        style={{ objectFit: 'cover', overflow: 'visible' }}
-        onLoad={handleLoad}
-        onError={onReady}
-      />
+      {shouldLoad && (
+        <img
+          className="usecase-composite"
+          src={src}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          style={{ objectFit: 'cover', overflow: 'visible' }}
+          onLoad={handleLoad}
+          onError={onReady}
+          width="1600"
+          height="1600"
+        />
+      )}
     </article>
   );
 }
@@ -47,6 +51,7 @@ function UsecaseScene({ caseItem, index, step }) {
   const ready = loaded[0] && loaded[1];
   const positionClass = active ? 'is-active' : index < step ? 'is-before' : 'is-after';
   const distance = Math.abs(index - step);
+  const shouldLoad = distance <= 1;
   const proximityClass = distance === 1 ? 'is-neighbor' : distance > 1 ? 'is-distant' : '';
 
   const markReady = (imageIndex) => {
@@ -75,13 +80,13 @@ function UsecaseScene({ caseItem, index, step }) {
         <ActorPanel
           src={caseItem.images[0]}
           position="left"
-          priority={active}
+          shouldLoad={shouldLoad}
           onReady={() => markReady(0)}
         />
         <ActorPanel
           src={caseItem.images[1]}
           position="right"
-          priority={active}
+          shouldLoad={shouldLoad}
           onReady={() => markReady(1)}
         />
       </div>
