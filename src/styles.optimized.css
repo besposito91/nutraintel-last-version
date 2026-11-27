@@ -2698,7 +2698,7 @@ p strong {
 
   .impact-summary {
     margin-top: clamp(-110px, 17vh, -120px);
-    padding-top: 0;
+    padding-top: 10vh;
   }
 }
 
@@ -3076,7 +3076,7 @@ p strong {
 /* Logo orizzontale nella sola navbar; il footer mantiene il marchio compatto. */
 .nav > .nav-logo {
   width: 154px;
-  height: 48px;
+  height: 53px;
   flex-basis: 154px;
 }
 
