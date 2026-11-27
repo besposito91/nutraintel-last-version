@@ -20,22 +20,43 @@ export default function Prelaunch() {
 
   useEffect(() => {
     const section = sectionRef.current;
-    if (!section || !('IntersectionObserver' in window)) {
-      setFormReady(true);
-      return undefined;
-    }
+    if (!section) return undefined;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        setFormReady(true);
-        observer.disconnect();
-      },
-      { rootMargin: '900px 0px' },
-    );
+    const revealForm = () => setFormReady(true);
+    const checkProximity = () => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= window.innerHeight + 900 && rect.bottom >= -900) revealForm();
+    };
+    const onFormCta = (event) => {
+      if (event.target.closest?.('a[href="#prelancio"]')) revealForm();
+    };
 
-    observer.observe(section);
-    return () => observer.disconnect();
+    const observer = 'IntersectionObserver' in window
+      ? new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          revealForm();
+          observer.disconnect();
+        },
+        { rootMargin: '900px 0px' },
+      )
+      : null;
+
+    observer?.observe(section);
+    document.addEventListener('click', onFormCta, true);
+    window.addEventListener('scroll', checkProximity, { passive: true });
+    window.addEventListener('resize', checkProximity, { passive: true });
+    window.addEventListener('hashchange', checkProximity);
+    const initialCheck = window.requestAnimationFrame(checkProximity);
+
+    return () => {
+      window.cancelAnimationFrame(initialCheck);
+      observer?.disconnect();
+      document.removeEventListener('click', onFormCta, true);
+      window.removeEventListener('scroll', checkProximity);
+      window.removeEventListener('resize', checkProximity);
+      window.removeEventListener('hashchange', checkProximity);
+    };
   }, []);
 
   useEffect(() => {
