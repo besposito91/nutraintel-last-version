@@ -837,6 +837,23 @@ export default function NarrativeEnergy() {
       const reconcileNarrativeState = () => {
         measuredLogo = logoSize();
 
+        // Top is an absolute visual state. During a long reverse jump several
+        // scrubbed timelines may target the same fixed sphere in one frame;
+        // stopping their catch-up tween here prevents a stale lower chapter
+        // from repainting the large sphere behind the opening logo.
+        if (window.scrollY <= 2) {
+          consequenceTimeline.scrollTrigger?.getTween()?.kill();
+          solutionTimeline.scrollTrigger?.getTween()?.kill();
+          splitTimeline.scrollTrigger?.getTween()?.kill();
+          root.classList.remove('is-closing', 'is-mobile-usecase');
+          orbit.pause();
+          gsap.set(pair, { rotation: 0, autoAlpha: 1 });
+          gsap.set([rings, shade, fracture], { autoAlpha: 0 });
+          gsap.set(mobileBackdrop, { opacity: 0 });
+          renderHero(0);
+          return;
+        }
+
         const consequenceRect = consequences.getBoundingClientRect();
         const consequenceProgress = consequenceTimeline.scrollTrigger?.progress ?? 0;
         if (consequenceProgress > 0 || consequenceRect.top < innerHeight * .98) {
@@ -900,12 +917,17 @@ export default function NarrativeEnergy() {
       const reconcileWhenVisible = () => {
         if (document.visibilityState === 'visible') scheduleReconcile();
       };
+      const reconcileAfterScroll = () => {
+        ScrollTrigger.update();
+        scheduleReconcile();
+      };
 
       ScrollTrigger.addEventListener('refresh', scheduleReconcile);
       window.addEventListener('pageshow', scheduleReconcile);
       window.addEventListener('load', scheduleReconcile);
       window.addEventListener('hashchange', scheduleReconcile);
       window.addEventListener('popstate', scheduleReconcile);
+      window.addEventListener('nutraintel:scroll-settled', reconcileAfterScroll);
       document.addEventListener('visibilitychange', reconcileWhenVisible);
       scheduleReconcile();
 
@@ -922,6 +944,7 @@ export default function NarrativeEnergy() {
         window.removeEventListener('load', scheduleReconcile);
         window.removeEventListener('hashchange', scheduleReconcile);
         window.removeEventListener('popstate', scheduleReconcile);
+        window.removeEventListener('nutraintel:scroll-settled', reconcileAfterScroll);
         document.removeEventListener('visibilitychange', reconcileWhenVisible);
         root.classList.remove('is-closing');
       };

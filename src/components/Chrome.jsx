@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
 import { languageOptions, useLanguage } from '../i18n.jsx';
+
+function goToTop(event) {
+  event.preventDefault();
+  window.dispatchEvent(new CustomEvent('nutraintel:scroll-to', { detail: { target: 0 } }));
+}
  
 function LanguageMenu() {
   const { language, setLanguage } = useLanguage();
@@ -16,7 +21,7 @@ export function Nav() {
   const { t } = useLanguage();
   return (
     <header className="nav" aria-label={t('nav.aria')}>
-      <a className="nav-logo" href="#top" aria-label={t('nav.home')}>
+      <a className="nav-logo" href="#top" aria-label={t('nav.home')} onClick={goToTop}>
         <img src="./images/brand/nutraintel-logo-full-row.svg" alt="NutraIntel" />
       </a>
       <nav className="nav-links" aria-label={t('nav.sections')}>
@@ -60,7 +65,7 @@ export function Footer() {
     <footer className="foot">
       <div className="foot-top">
         <div className="foot-brand">
-          <a className="nav-logo" href="#top" aria-label={t('nav.home')}>
+          <a className="nav-logo" href="#top" aria-label={t('nav.home')} onClick={goToTop}>
             <img src="./images/brand/nutraintel-logo-white.svg" alt="NutraIntel" />
           </a>
           <span className="foot-powered">Powered by <a href="https://digiticompany.it/" target="_blank" rel="noreferrer"><strong>DiGiTi Company srl</strong></a></span>
@@ -80,7 +85,7 @@ export function Footer() {
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M8 10v7M8 7.5v.01M12 17v-7M12 13.5c0-2 1-3.5 3-3.5s3 1.5 3 4v3" /></svg>
             </a>
           </div>
-          <a className="foot-back" href="#top">
+          <a className="foot-back" href="#top" onClick={goToTop}>
   <span aria-hidden="true">↑</span>
   {t('footer.back')}
 </a>

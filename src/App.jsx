@@ -66,10 +66,33 @@ export default function App() {
     const navigateTo = (event) => {
       const target = event.detail?.target;
       if (!Number.isFinite(target)) return;
-      if (lenis) lenis.scrollTo(target, { duration: .9, easing: (value) => 1 - Math.pow(1 - value, 3) });
-      else window.scrollTo({ top: target, behavior: 'smooth' });
+      window.dispatchEvent(new CustomEvent('nutraintel:navigation-start', { detail: { target } }));
+      if (lenis) {
+        lenis.scrollTo(target, {
+          duration: .9,
+          easing: (value) => 1 - Math.pow(1 - value, 3),
+          onComplete: () => window.dispatchEvent(new CustomEvent('nutraintel:scroll-settled', { detail: { target } })),
+        });
+      } else {
+        window.scrollTo({ top: target, behavior: 'smooth' });
+      }
     };
     window.addEventListener('nutraintel:scroll-to', navigateTo);
+
+    // Native mobile scrolling has no portable completion callback. A short
+    // idle detector gives every shared ScrollTrigger scene one final,
+    // deterministic render after a fast swipe or a long in-page navigation.
+    let nativeSettleTimer = 0;
+    const announceNativeSettle = () => {
+      if (lenis) return;
+      if (nativeSettleTimer) clearTimeout(nativeSettleTimer);
+      nativeSettleTimer = window.setTimeout(() => {
+        nativeSettleTimer = 0;
+        ScrollTrigger.update();
+        window.dispatchEvent(new CustomEvent('nutraintel:scroll-settled', { detail: { target: window.scrollY } }));
+      }, 140);
+    };
+    if (!lenis) window.addEventListener('scroll', announceNativeSettle, { passive: true });
 
     const ctx = gsap.context(() => {
       if (!reduced) {
@@ -102,7 +125,9 @@ export default function App() {
       }
       gsap.ticker.lagSmoothing(500, 33);
       if (refreshFrame) cancelAnimationFrame(refreshFrame);
+      if (nativeSettleTimer) clearTimeout(nativeSettleTimer);
       window.removeEventListener('nutraintel:scroll-to', navigateTo);
+      if (!lenis) window.removeEventListener('scroll', announceNativeSettle);
       window.removeEventListener('load', refresh);
       window.removeEventListener('pageshow', refresh);
       window.removeEventListener('orientationchange', refresh);

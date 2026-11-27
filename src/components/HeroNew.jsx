@@ -159,6 +159,33 @@ export default function Hero() {
           onRefresh: ({ progress }) => queueMobileRender(progress),
         });
         renderMobile(mobileTrigger.progress);
+
+        // A long reverse jump (notably Footer -> top) can finish between two
+        // queued ScrollTrigger frames. Re-commit the real final progress once
+        // scrolling settles, with a hard canonical state at the top boundary.
+        const reconcileMobileHero = () => {
+          ScrollTrigger.update();
+          if (window.scrollY <= 2) {
+            mobileTrigger.getTween()?.kill();
+            pendingProgress = 0;
+            if (mobileFrame) {
+              cancelAnimationFrame(mobileFrame);
+              mobileFrame = 0;
+            }
+            renderMobile(0);
+            return;
+          }
+          queueMobileRender(mobileTrigger.progress);
+        };
+        window.addEventListener('nutraintel:scroll-settled', reconcileMobileHero);
+        window.addEventListener('pageshow', reconcileMobileHero);
+
+        // This branch returns before the outer cleanup, so register its own
+        // context cleanup for the listeners above.
+        ctx.add(() => () => {
+          window.removeEventListener('nutraintel:scroll-settled', reconcileMobileHero);
+          window.removeEventListener('pageshow', reconcileMobileHero);
+        });
         return;
       }
 
